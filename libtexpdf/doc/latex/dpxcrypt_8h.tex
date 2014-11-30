@@ -1,0 +1,63 @@
+\hypertarget{dpxcrypt_8h}{\section{dpxcrypt.\+h File Reference}
+\label{dpxcrypt_8h}\index{dpxcrypt.\+h@{dpxcrypt.\+h}}
+}
+
+
+M\+D5 functions borrowed from libgcrypt.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{dpxcrypt_8h_a816d044f3d1513076eb0c4e7d4463ae8}{texpdf\+\_\+\+M\+D5\+\_\+init} (M\+D5\+\_\+\+C\+O\+N\+T\+E\+X\+T $\ast$ctx)
+\begin{DoxyCompactList}\small\item\em Initialize M\+D5 state. \end{DoxyCompactList}\item 
+void \hyperlink{dpxcrypt_8h_a9ec35f991d2bd99d74d78da78ef8baa5}{texpdf\+\_\+\+M\+D5\+\_\+write} (M\+D5\+\_\+\+C\+O\+N\+T\+E\+X\+T $\ast$ctx, const unsigned char $\ast$inbuf, unsigned long inlen)
+\begin{DoxyCompactList}\small\item\em Add characters to M\+D5 digest. \end{DoxyCompactList}\item 
+void \hyperlink{dpxcrypt_8h_a8032a8f1ece2ab21ae8e0579dbfc2e1c}{texpdf\+\_\+\+M\+D5\+\_\+final} (unsigned char $\ast$outbuf, M\+D5\+\_\+\+C\+O\+N\+T\+E\+X\+T $\ast$ctx)
+\begin{DoxyCompactList}\small\item\em Terminate message digest computation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+M\+D5 functions borrowed from libgcrypt. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{dpxcrypt_8h_a8032a8f1ece2ab21ae8e0579dbfc2e1c}{\index{dpxcrypt.\+h@{dpxcrypt.\+h}!texpdf\+\_\+\+M\+D5\+\_\+final@{texpdf\+\_\+\+M\+D5\+\_\+final}}
+\index{texpdf\+\_\+\+M\+D5\+\_\+final@{texpdf\+\_\+\+M\+D5\+\_\+final}!dpxcrypt.\+h@{dpxcrypt.\+h}}
+\subsubsection[{texpdf\+\_\+\+M\+D5\+\_\+final}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+\+M\+D5\+\_\+final (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{outbuf, }
+\item[{M\+D5\+\_\+\+C\+O\+N\+T\+E\+X\+T $\ast$}]{ctx}
+\end{DoxyParamCaption}
+)}}\label{dpxcrypt_8h_a8032a8f1ece2ab21ae8e0579dbfc2e1c}
+
+
+Terminate message digest computation. 
+
+The routine final terminates the message-\/digest computation and ends with the desired message digest in {\ttfamily ctx-\/$>$digest\mbox{[}0...15\mbox{]}}. The handle is prepared for a new M\+D5 cycle. Returns 16 bytes representing the digest. \hypertarget{dpxcrypt_8h_a816d044f3d1513076eb0c4e7d4463ae8}{\index{dpxcrypt.\+h@{dpxcrypt.\+h}!texpdf\+\_\+\+M\+D5\+\_\+init@{texpdf\+\_\+\+M\+D5\+\_\+init}}
+\index{texpdf\+\_\+\+M\+D5\+\_\+init@{texpdf\+\_\+\+M\+D5\+\_\+init}!dpxcrypt.\+h@{dpxcrypt.\+h}}
+\subsubsection[{texpdf\+\_\+\+M\+D5\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+\+M\+D5\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{M\+D5\+\_\+\+C\+O\+N\+T\+E\+X\+T $\ast$}]{ctx}
+\end{DoxyParamCaption}
+)}}\label{dpxcrypt_8h_a816d044f3d1513076eb0c4e7d4463ae8}
+
+
+Initialize M\+D5 state. 
+
+Caller provides memory-\/allocated struct. \hypertarget{dpxcrypt_8h_a9ec35f991d2bd99d74d78da78ef8baa5}{\index{dpxcrypt.\+h@{dpxcrypt.\+h}!texpdf\+\_\+\+M\+D5\+\_\+write@{texpdf\+\_\+\+M\+D5\+\_\+write}}
+\index{texpdf\+\_\+\+M\+D5\+\_\+write@{texpdf\+\_\+\+M\+D5\+\_\+write}!dpxcrypt.\+h@{dpxcrypt.\+h}}
+\subsubsection[{texpdf\+\_\+\+M\+D5\+\_\+write}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+\+M\+D5\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{M\+D5\+\_\+\+C\+O\+N\+T\+E\+X\+T $\ast$}]{ctx, }
+\item[{const unsigned char $\ast$}]{inbuf, }
+\item[{unsigned long}]{inlen}
+\end{DoxyParamCaption}
+)}}\label{dpxcrypt_8h_a9ec35f991d2bd99d74d78da78ef8baa5}
+
+
+Add characters to M\+D5 digest. 
+
+The routine updates the message-\/digest context to account for the presence of each of the characters {\ttfamily in\+Buf\mbox{[}0..inlen-\/1\mbox{]}} in the message whose digest is being computed. 

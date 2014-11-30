@@ -1,0 +1,52 @@
+\hypertarget{bmpimage_8h}{\section{bmpimage.\+h File Reference}
+\label{bmpimage_8h}\index{bmpimage.\+h@{bmpimage.\+h}}
+}
+
+
+B\+M\+P file support.  
+
+
+{\ttfamily \#include \char`\"{}mfileio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdfximage.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{bmpimage_8h_a9d833be5d40d6e9b289bc1c76f54b341}{texpdf\+\_\+check\+\_\+for\+\_\+bmp} (F\+I\+L\+E $\ast$file)
+\begin{DoxyCompactList}\small\item\em Check that a file handler refers to a B\+M\+P. \end{DoxyCompactList}\item 
+int \hyperlink{bmpimage_8h_ab89e4b5bed98b6b6c5dc03e122d55c3c}{texpdf\+\_\+bmp\+\_\+get\+\_\+bbox} (F\+I\+L\+E $\ast$file, long $\ast$width, long $\ast$height, double $\ast$xdensity, double $\ast$ydensity)
+\begin{DoxyCompactList}\small\item\em Retrieve the bounding box of the B\+M\+P file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+B\+M\+P file support. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{bmpimage_8h_ab89e4b5bed98b6b6c5dc03e122d55c3c}{\index{bmpimage.\+h@{bmpimage.\+h}!texpdf\+\_\+bmp\+\_\+get\+\_\+bbox@{texpdf\+\_\+bmp\+\_\+get\+\_\+bbox}}
+\index{texpdf\+\_\+bmp\+\_\+get\+\_\+bbox@{texpdf\+\_\+bmp\+\_\+get\+\_\+bbox}!bmpimage.\+h@{bmpimage.\+h}}
+\subsubsection[{texpdf\+\_\+bmp\+\_\+get\+\_\+bbox}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+bmp\+\_\+get\+\_\+bbox (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{file, }
+\item[{long $\ast$}]{width, }
+\item[{long $\ast$}]{height, }
+\item[{double $\ast$}]{xdensity, }
+\item[{double $\ast$}]{ydensity}
+\end{DoxyParamCaption}
+)}}\label{bmpimage_8h_ab89e4b5bed98b6b6c5dc03e122d55c3c}
+
+
+Retrieve the bounding box of the B\+M\+P file. 
+
+Examines the file pointer for the size and density of the B\+M\+P file. \hypertarget{bmpimage_8h_a9d833be5d40d6e9b289bc1c76f54b341}{\index{bmpimage.\+h@{bmpimage.\+h}!texpdf\+\_\+check\+\_\+for\+\_\+bmp@{texpdf\+\_\+check\+\_\+for\+\_\+bmp}}
+\index{texpdf\+\_\+check\+\_\+for\+\_\+bmp@{texpdf\+\_\+check\+\_\+for\+\_\+bmp}!bmpimage.\+h@{bmpimage.\+h}}
+\subsubsection[{texpdf\+\_\+check\+\_\+for\+\_\+bmp}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+check\+\_\+for\+\_\+bmp (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{file}
+\end{DoxyParamCaption}
+)}}\label{bmpimage_8h_a9d833be5d40d6e9b289bc1c76f54b341}
+
+
+Check that a file handler refers to a B\+M\+P. 
+
+Examines the start of the file pointed to by the parameter and checks to see if the first bytes indicate B\+M\+P file format. 

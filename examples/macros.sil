@@ -1,0 +1,9 @@
+\begin{document}
+\define[command=center]{\noindent{\hss\process}}
+\define[command=em]{\font[style=italic]{\process}}
+\define[command=headline]{%
+\medskip%
+\font[family=Frutiger LT Std,weight=700,size=20pt]{\center{\process}}
+\bigskip%
+}
+\end{document}

@@ -1,0 +1,136 @@
+\hypertarget{pdfdev_8h}{\section{pdfdev.\+h File Reference}
+\label{pdfdev_8h}\index{pdfdev.\+h@{pdfdev.\+h}}
+}
+
+
+Main P\+D\+F manipulation functions.  
+
+
+{\ttfamily \#include \char`\"{}numbers.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdfobj.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdfcolor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdftypes.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdfdoc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fontmap.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{pdfdev_8h_ad04656e83bc17a61b548e40eb9b9cbb4}{void \hyperlink{pdfdev_8h_ad04656e83bc17a61b548e40eb9b9cbb4}{texpdf\+\_\+dev\+\_\+set\+\_\+verbose} (void)}\label{pdfdev_8h_ad04656e83bc17a61b548e40eb9b9cbb4}
+
+\begin{DoxyCompactList}\small\item\em Increase verbosity. \end{DoxyCompactList}\item 
+void \hyperlink{pdfdev_8h_a201581d7f3ab136d2a370e9e5ec1e722}{texpdf\+\_\+init\+\_\+device} (pdf\+\_\+doc $\ast$p, double unit\+\_\+conv, int precision, int is\+\_\+bw)
+\begin{DoxyCompactList}\small\item\em Initialise output. \end{DoxyCompactList}\item 
+void \hyperlink{pdfdev_8h_a8cbfacf40b44dbcb64099561d1126498}{texpdf\+\_\+close\+\_\+device} (void)
+\begin{DoxyCompactList}\small\item\em Close output. \end{DoxyCompactList}\item 
+void \hyperlink{pdfdev_8h_aace2440f114f9bea7659e62369701b0c}{texpdf\+\_\+dev\+\_\+set\+\_\+string} (pdf\+\_\+doc $\ast$p, spt\+\_\+t xpos, spt\+\_\+t ypos, const void $\ast$instr\+\_\+ptr, int instr\+\_\+len, spt\+\_\+t text\+\_\+width, int font\+\_\+id, int ctype)
+\begin{DoxyCompactList}\small\item\em Output a string of text to the page. \end{DoxyCompactList}\item 
+void \hyperlink{pdfdev_8h_a2743f0ae36269663c41de531ff266a48}{texpdf\+\_\+dev\+\_\+set\+\_\+rule} (pdf\+\_\+doc $\ast$p, spt\+\_\+t xpos, spt\+\_\+t ypos, spt\+\_\+t width, spt\+\_\+t height)
+\begin{DoxyCompactList}\small\item\em Output a line to the page. \end{DoxyCompactList}\item 
+int \hyperlink{pdfdev_8h_af6cf022d39029b58334ecd8502dc1da8}{texpdf\+\_\+dev\+\_\+put\+\_\+image} (pdf\+\_\+doc $\ast$doc, int xobj\+\_\+id, transform\+\_\+info $\ast$p, double ref\+\_\+x, double ref\+\_\+y, int track\+\_\+boxes)
+\begin{DoxyCompactList}\small\item\em Place an xobject (image) onto the page. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main P\+D\+F manipulation functions. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{pdfdev_8h_a8cbfacf40b44dbcb64099561d1126498}{\index{pdfdev.\+h@{pdfdev.\+h}!texpdf\+\_\+close\+\_\+device@{texpdf\+\_\+close\+\_\+device}}
+\index{texpdf\+\_\+close\+\_\+device@{texpdf\+\_\+close\+\_\+device}!pdfdev.\+h@{pdfdev.\+h}}
+\subsubsection[{texpdf\+\_\+close\+\_\+device}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+close\+\_\+device (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{pdfdev_8h_a8cbfacf40b44dbcb64099561d1126498}
+
+
+Close output. 
+
+This should be the last thing you do when writing the P\+D\+F file. \hypertarget{pdfdev_8h_af6cf022d39029b58334ecd8502dc1da8}{\index{pdfdev.\+h@{pdfdev.\+h}!texpdf\+\_\+dev\+\_\+put\+\_\+image@{texpdf\+\_\+dev\+\_\+put\+\_\+image}}
+\index{texpdf\+\_\+dev\+\_\+put\+\_\+image@{texpdf\+\_\+dev\+\_\+put\+\_\+image}!pdfdev.\+h@{pdfdev.\+h}}
+\subsubsection[{texpdf\+\_\+dev\+\_\+put\+\_\+image}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+dev\+\_\+put\+\_\+image (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{doc, }
+\item[{int}]{xobj\+\_\+id, }
+\item[{transform\+\_\+info $\ast$}]{p, }
+\item[{double}]{ref\+\_\+x, }
+\item[{double}]{ref\+\_\+y, }
+\item[{int}]{track\+\_\+boxes}
+\end{DoxyParamCaption}
+)}}\label{pdfdev_8h_af6cf022d39029b58334ecd8502dc1da8}
+
+
+Place an xobject (image) onto the page. 
+
+This is the code you will use for putting an image to the page; the image must first be loaded into the P\+D\+F catalogue as an xobject using the texpdf\+\_\+ximage\+\_\+findresource() function. The value returned from texpdf\+\_\+ximage\+\_\+findresource() should be supplied as the {\ttfamily xobj\+\_\+id}.
+
+The {\ttfamily transform\+\_\+info} object should contain the image's width and height, as well as any other transformations to be applied; {\ttfamily track\+\_\+boxes} should be zero unless you happen to be dvipdfm. \hypertarget{pdfdev_8h_a2743f0ae36269663c41de531ff266a48}{\index{pdfdev.\+h@{pdfdev.\+h}!texpdf\+\_\+dev\+\_\+set\+\_\+rule@{texpdf\+\_\+dev\+\_\+set\+\_\+rule}}
+\index{texpdf\+\_\+dev\+\_\+set\+\_\+rule@{texpdf\+\_\+dev\+\_\+set\+\_\+rule}!pdfdev.\+h@{pdfdev.\+h}}
+\subsubsection[{texpdf\+\_\+dev\+\_\+set\+\_\+rule}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+dev\+\_\+set\+\_\+rule (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{p, }
+\item[{spt\+\_\+t}]{xpos, }
+\item[{spt\+\_\+t}]{ypos, }
+\item[{spt\+\_\+t}]{width, }
+\item[{spt\+\_\+t}]{height}
+\end{DoxyParamCaption}
+)}}\label{pdfdev_8h_a2743f0ae36269663c41de531ff266a48}
+
+
+Output a line to the page. 
+
+This outputs a line in the current stoke and fill colors (see \hyperlink{pdfcolor_8h}{pdfcolor.\+h}). The X and Y positions, as well as the width and height, are expected to be in scaled units. \hypertarget{pdfdev_8h_aace2440f114f9bea7659e62369701b0c}{\index{pdfdev.\+h@{pdfdev.\+h}!texpdf\+\_\+dev\+\_\+set\+\_\+string@{texpdf\+\_\+dev\+\_\+set\+\_\+string}}
+\index{texpdf\+\_\+dev\+\_\+set\+\_\+string@{texpdf\+\_\+dev\+\_\+set\+\_\+string}!pdfdev.\+h@{pdfdev.\+h}}
+\subsubsection[{texpdf\+\_\+dev\+\_\+set\+\_\+string}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+dev\+\_\+set\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{p, }
+\item[{spt\+\_\+t}]{xpos, }
+\item[{spt\+\_\+t}]{ypos, }
+\item[{const void $\ast$}]{instr\+\_\+ptr, }
+\item[{int}]{instr\+\_\+len, }
+\item[{spt\+\_\+t}]{text\+\_\+width, }
+\item[{int}]{font\+\_\+id, }
+\item[{int}]{ctype}
+\end{DoxyParamCaption}
+)}}\label{pdfdev_8h_aace2440f114f9bea7659e62369701b0c}
+
+
+Output a string of text to the page. 
+
+As mentioned above, the {\ttfamily xpos} and {\ttfamily ypos} coordinates to the drawing functions are expected to be scaled by the {\ttfamily unit\+\_\+conv} setting. {\ttfamily instr\+\_\+ptr} is a pointer to the byte string to be written and {\ttfamily instr\+\_\+len} to its byte length.
+
+{\ttfamily text\+\_\+width} is not only expected to be scaled by {\ttfamily unit\+\_\+conv}, but it is also expected to be multiplied by the {\ttfamily extend} value of the font face. In other words, if you are setting unstretched text with a Te\+X-\/style {\ttfamily unit\+\_\+conv} scale factor of 65536, then the {\ttfamily text\+\_\+width} should be {\ttfamily width\+\_\+in\+\_\+pts $\ast$ 65536 $\ast$ 65536}.
+
+{\ttfamily font\+\_\+id} is an I\+D returned by {\ttfamily texpdf\+\_\+dev\+\_\+load\+\_\+native\+\_\+font} below.
+
+Values of {\ttfamily ctype}\+: \begin{DoxyVerb} 0 - input string is in multi-byte encoding.
+ 1 - input string is in 8-bit encoding.
+ 2 - input string is in 16-bit encoding.
+-1 - input buffer is a stream of two-byte glyph indices\end{DoxyVerb}
+ \hypertarget{pdfdev_8h_a201581d7f3ab136d2a370e9e5ec1e722}{\index{pdfdev.\+h@{pdfdev.\+h}!texpdf\+\_\+init\+\_\+device@{texpdf\+\_\+init\+\_\+device}}
+\index{texpdf\+\_\+init\+\_\+device@{texpdf\+\_\+init\+\_\+device}!pdfdev.\+h@{pdfdev.\+h}}
+\subsubsection[{texpdf\+\_\+init\+\_\+device}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+init\+\_\+device (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{p, }
+\item[{double}]{unit\+\_\+conv, }
+\item[{int}]{precision, }
+\item[{int}]{is\+\_\+bw}
+\end{DoxyParamCaption}
+)}}\label{pdfdev_8h_a201581d7f3ab136d2a370e9e5ec1e722}
+
+
+Initialise output. 
+
+This sets output-\/related parameters for the supplied P\+D\+F document.
+
+{\ttfamily unit\+\_\+conv} is the scale multiplier for converting between scaled points ({\ttfamily spt\+\_\+t}, the unit used as input to many of the manipulation functions) and physical \char`\"{}big points\char`\"{} (1/72in). As {\ttfamily spt\+\_\+t} is an integer type and manipulations are done on an integer basis of {\ttfamily spt\+\_\+t}s, the effect of this parameter is to set the granularity of measurements. Setting this to 1, for instance, means that all measurements are interpreted to an integer number of points; setting it to 100 means that that all measurements are interpreted as a hundredth of a point.
+
+As an example, this library has its genesis in Te\+X, which uses integer math for everything. Te\+X's internal calculations were done on the basis of 65536 \char`\"{}scaled 
+points\char`\"{} to one printer's point; therefore, when interpreting Te\+X's output, you would set {\ttfamily unit\+\_\+conv} to 65536.
+
+Remember this multiplier when you come to provide coordinates and sizes to drawing functions!
+
+{\ttfamily precision}, on the other hand` is the number of decimal places preserved in the P\+D\+F output. The maximum value is 8.
+
+{\ttfamily is\+\_\+bw} is a flag which, if set to true, will cause all color-\/related commands to be ignored. 

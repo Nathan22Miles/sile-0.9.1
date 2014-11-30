@@ -1,0 +1,293 @@
+\hypertarget{pdfcolor_8h}{\section{pdfcolor.\+h File Reference}
+\label{pdfcolor_8h}\index{pdfcolor.\+h@{pdfcolor.\+h}}
+}
+
+
+P\+D\+F Color handling functions.  
+
+
+{\ttfamily \#include \char`\"{}pdfobj.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdftypes.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pdfdoc.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{pdfcolor_8h_af465c26856084a080912a40f30a74aa0}{\#define \hyperlink{pdfcolor_8h_af465c26856084a080912a40f30a74aa0}{P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+M\+Y\+K}~P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+D\+E\+V\+I\+C\+E\+C\+M\+Y\+K}\label{pdfcolor_8h_af465c26856084a080912a40f30a74aa0}
+
+\begin{DoxyCompactList}\small\item\em Type macro for C\+M\+Y\+K color. \end{DoxyCompactList}\item 
+\hypertarget{pdfcolor_8h_a7c01a7f8deb93427ddb897738a5bd84c}{\#define \hyperlink{pdfcolor_8h_a7c01a7f8deb93427ddb897738a5bd84c}{P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+R\+G\+B}~P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+D\+E\+V\+I\+C\+E\+R\+G\+B}\label{pdfcolor_8h_a7c01a7f8deb93427ddb897738a5bd84c}
+
+\begin{DoxyCompactList}\small\item\em Type macro for R\+G\+B color. \end{DoxyCompactList}\item 
+\hypertarget{pdfcolor_8h_a6c45c5b52165d6866e310ebdcf11f956}{\#define \hyperlink{pdfcolor_8h_a6c45c5b52165d6866e310ebdcf11f956}{P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+G\+R\+A\+Y}~P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+D\+E\+V\+I\+C\+E\+G\+R\+A\+Y}\label{pdfcolor_8h_a6c45c5b52165d6866e310ebdcf11f956}
+
+\begin{DoxyCompactList}\small\item\em Type macro for gray color. \end{DoxyCompactList}\item 
+\#define \hyperlink{pdfcolor_8h_a217824a718b4c50e875403d0738b087a}{texpdf\+\_\+color\+\_\+black}(c)~\hyperlink{pdfcolor_8h_a3b79c3fab88019689bd05c84d947e7e8}{texpdf\+\_\+color\+\_\+graycolor}(c, 0.\+0);
+\begin{DoxyCompactList}\small\item\em Set color to black. \end{DoxyCompactList}\item 
+\#define \hyperlink{pdfcolor_8h_af0a50dde7698e4a0fed95cf3a35f9fc4}{texpdf\+\_\+color\+\_\+white}(c)~\hyperlink{pdfcolor_8h_a3b79c3fab88019689bd05c84d947e7e8}{texpdf\+\_\+color\+\_\+graycolor}(c, 1.\+0);
+\begin{DoxyCompactList}\small\item\em Set color to white. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{pdfcolor_8h_a1b3d4f78a171770af605bb39aefd894c}{texpdf\+\_\+color\+\_\+rgbcolor} (pdf\+\_\+color $\ast$color, double r, double g, double b)
+\begin{DoxyCompactList}\small\item\em Initialize an R\+G\+B color. \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a8fe71214a1dc8852c908ecca094a60e9}{texpdf\+\_\+color\+\_\+cmykcolor} (pdf\+\_\+color $\ast$color, double c, double m, double y, double k)
+\begin{DoxyCompactList}\small\item\em Initialize an C\+M\+Y\+K color. \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a3b79c3fab88019689bd05c84d947e7e8}{texpdf\+\_\+color\+\_\+graycolor} (pdf\+\_\+color $\ast$color, double g)
+\begin{DoxyCompactList}\small\item\em Initialize a gray. \end{DoxyCompactList}\item 
+void \hyperlink{pdfcolor_8h_a857d8285a819164a03b563ba1c837f82}{texpdf\+\_\+color\+\_\+copycolor} (pdf\+\_\+color $\ast$color1, const pdf\+\_\+color $\ast$color2)
+\begin{DoxyCompactList}\small\item\em Copy color objects. \end{DoxyCompactList}\item 
+void \hyperlink{pdfcolor_8h_ad6dcce37c1dca46089538bc4bfb1f05b}{texpdf\+\_\+color\+\_\+brighten\+\_\+color} (pdf\+\_\+color $\ast$dst, const pdf\+\_\+color $\ast$src, double f)
+\begin{DoxyCompactList}\small\item\em Brighten a color. \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a8ea4085fe581b89a810042a4cae4abdc}{texpdf\+\_\+color\+\_\+type} (const pdf\+\_\+color $\ast$color)
+\begin{DoxyCompactList}\small\item\em Return type of color. \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a7942e7d26e619ae660ee6d652f2aae13}{texpdf\+\_\+color\+\_\+compare} (const pdf\+\_\+color $\ast$color1, const pdf\+\_\+color $\ast$color2)
+\begin{DoxyCompactList}\small\item\em Compares two colors (badly). \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a0e30434d73a01be71e8ff70084d44414}{texpdf\+\_\+color\+\_\+to\+\_\+string} (const pdf\+\_\+color $\ast$color, char $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Convert color to a (P\+D\+F) color string. \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a2db6fb961ae19c634a8a4e0a9930a854}{texpdf\+\_\+color\+\_\+is\+\_\+white} (const pdf\+\_\+color $\ast$color)
+\begin{DoxyCompactList}\small\item\em Compares colors against white, in whatever color space. \end{DoxyCompactList}\item 
+int \hyperlink{pdfcolor_8h_a6749003e989ea1efece458b4fd677076}{texpdf\+\_\+color\+\_\+is\+\_\+valid} (const pdf\+\_\+color $\ast$color)
+\begin{DoxyCompactList}\small\item\em Checks all color values are within the range 0-\/1. \end{DoxyCompactList}\item 
+pdf\+\_\+obj $\ast$ \hyperlink{pdfcolor_8h_a649efce1c557bccd3f6b578f68aa38cb}{texpdf\+\_\+get\+\_\+colorspace\+\_\+reference} (int cspc\+\_\+id)
+\begin{DoxyCompactList}\small\item\em X\+X\+X I don't know. \end{DoxyCompactList}\item 
+void \hyperlink{pdfcolor_8h_a47b6e03d63e6d64577b42aaf1ea98a18}{texpdf\+\_\+color\+\_\+set} (pdf\+\_\+doc $\ast$p, pdf\+\_\+color $\ast$sc, pdf\+\_\+color $\ast$fc)
+\begin{DoxyCompactList}\small\item\em Set current stroke and fill color. \end{DoxyCompactList}\item 
+void \hyperlink{pdfcolor_8h_ae8c84c55f422545c4f987f3cfab3b820}{texpdf\+\_\+color\+\_\+push} (pdf\+\_\+doc $\ast$p, pdf\+\_\+color $\ast$sc, pdf\+\_\+color $\ast$fc)
+\begin{DoxyCompactList}\small\item\em Push stroke and fill colors onto the color stack. \end{DoxyCompactList}\item 
+void \hyperlink{pdfcolor_8h_a7a90ec947c3087e21dcd25371f915fca}{texpdf\+\_\+color\+\_\+pop} (pdf\+\_\+doc $\ast$p)
+\begin{DoxyCompactList}\small\item\em Pop the top color off the color stack. \end{DoxyCompactList}\item 
+\hypertarget{pdfcolor_8h_a266fbe1f1ea5925ce3fdef1b91904259}{void \hyperlink{pdfcolor_8h_a266fbe1f1ea5925ce3fdef1b91904259}{texpdf\+\_\+color\+\_\+clear\+\_\+stack} (void)}\label{pdfcolor_8h_a266fbe1f1ea5925ce3fdef1b91904259}
+
+\begin{DoxyCompactList}\small\item\em Empties the color stack. \end{DoxyCompactList}\item 
+void \hyperlink{pdfcolor_8h_a6a6357b8648b57adafea2f300a41f567}{texpdf\+\_\+color\+\_\+get\+\_\+current} (pdf\+\_\+color $\ast$$\ast$sc, pdf\+\_\+color $\ast$$\ast$fc)
+\begin{DoxyCompactList}\small\item\em Copy current top of color stack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\+D\+F Color handling functions. 
+
+{\ttfamily libtexpdf} provides functionality for setting various colors within the generated P\+D\+F. Most typically when generating P\+D\+Fs, you will want to create a color object using one of the initializing functions like so\+: \begin{DoxyVerb}pdf_color white, black, grey;
+texpdf_color_rgbcolor(&white, 1.0, 1.0, 1.0);
+texpdf_color_rgbcolor(&black, 0,   0,   0);
+texpdf_color_rgbcolor(&grey,  0.5, 0.5, 0.5)
+\end{DoxyVerb}
+
+
+You will then probably want to either set the drawing pens for stroke and fill to your chosen color permanently\+: \begin{DoxyVerb}texpdf_color_set(pdf, black, grey); // Black stroke, grey fill
+\end{DoxyVerb}
+
+
+Or temporarily\+: \begin{DoxyVerb}texpdf_color_push(pdf, black, grey);
+... Do some work here ...
+texpdf_color_pop(pdf);\end{DoxyVerb}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{pdfcolor_8h_a217824a718b4c50e875403d0738b087a}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+black@{texpdf\+\_\+color\+\_\+black}}
+\index{texpdf\+\_\+color\+\_\+black@{texpdf\+\_\+color\+\_\+black}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+black}]{\setlength{\rightskip}{0pt plus 5cm}\#define texpdf\+\_\+color\+\_\+black(
+\begin{DoxyParamCaption}
+\item[{}]{c}
+\end{DoxyParamCaption}
+)~{\bf texpdf\+\_\+color\+\_\+graycolor}(c, 0.\+0);}}\label{pdfcolor_8h_a217824a718b4c50e875403d0738b087a}
+
+
+Set color to black. 
+
+\hypertarget{pdfcolor_8h_af0a50dde7698e4a0fed95cf3a35f9fc4}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+white@{texpdf\+\_\+color\+\_\+white}}
+\index{texpdf\+\_\+color\+\_\+white@{texpdf\+\_\+color\+\_\+white}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+white}]{\setlength{\rightskip}{0pt plus 5cm}\#define texpdf\+\_\+color\+\_\+white(
+\begin{DoxyParamCaption}
+\item[{}]{c}
+\end{DoxyParamCaption}
+)~{\bf texpdf\+\_\+color\+\_\+graycolor}(c, 1.\+0);}}\label{pdfcolor_8h_af0a50dde7698e4a0fed95cf3a35f9fc4}
+
+
+Set color to white. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{pdfcolor_8h_ad6dcce37c1dca46089538bc4bfb1f05b}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+brighten\+\_\+color@{texpdf\+\_\+color\+\_\+brighten\+\_\+color}}
+\index{texpdf\+\_\+color\+\_\+brighten\+\_\+color@{texpdf\+\_\+color\+\_\+brighten\+\_\+color}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+brighten\+\_\+color}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+color\+\_\+brighten\+\_\+color (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+color $\ast$}]{dst, }
+\item[{const pdf\+\_\+color $\ast$}]{src, }
+\item[{double}]{f}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_ad6dcce37c1dca46089538bc4bfb1f05b}
+
+
+Brighten a color. 
+
+Increases the luminosity of the color value by {\ttfamily f}, where 0 means no change and 1 means white. \hypertarget{pdfcolor_8h_a8fe71214a1dc8852c908ecca094a60e9}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+cmykcolor@{texpdf\+\_\+color\+\_\+cmykcolor}}
+\index{texpdf\+\_\+color\+\_\+cmykcolor@{texpdf\+\_\+color\+\_\+cmykcolor}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+cmykcolor}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+cmykcolor (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+color $\ast$}]{color, }
+\item[{double}]{c, }
+\item[{double}]{m, }
+\item[{double}]{y, }
+\item[{double}]{k}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a8fe71214a1dc8852c908ecca094a60e9}
+
+
+Initialize an C\+M\+Y\+K color. 
+
+Initialize a color from C\+M\+Y\+K values. Caller provides allocated struct. \hypertarget{pdfcolor_8h_a7942e7d26e619ae660ee6d652f2aae13}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+compare@{texpdf\+\_\+color\+\_\+compare}}
+\index{texpdf\+\_\+color\+\_\+compare@{texpdf\+\_\+color\+\_\+compare}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+compare}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+compare (
+\begin{DoxyParamCaption}
+\item[{const pdf\+\_\+color $\ast$}]{color1, }
+\item[{const pdf\+\_\+color $\ast$}]{color2}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a7942e7d26e619ae660ee6d652f2aae13}
+
+
+Compares two colors (badly). 
+
+Returns -\/1 if two colors differ, 0 if they have the same color space and values. Note that checking for same color space means that C\+M\+Y\+K red (0,1,1,0) and R\+G\+B red (1,0,0) will not compare as equal. \hypertarget{pdfcolor_8h_a857d8285a819164a03b563ba1c837f82}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+copycolor@{texpdf\+\_\+color\+\_\+copycolor}}
+\index{texpdf\+\_\+color\+\_\+copycolor@{texpdf\+\_\+color\+\_\+copycolor}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+copycolor}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+color\+\_\+copycolor (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+color $\ast$}]{color1, }
+\item[{const pdf\+\_\+color $\ast$}]{color2}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a857d8285a819164a03b563ba1c837f82}
+
+
+Copy color objects. 
+
+Copies color information from source to destination, assuming both structs are allocated. \hypertarget{pdfcolor_8h_a6a6357b8648b57adafea2f300a41f567}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+get\+\_\+current@{texpdf\+\_\+color\+\_\+get\+\_\+current}}
+\index{texpdf\+\_\+color\+\_\+get\+\_\+current@{texpdf\+\_\+color\+\_\+get\+\_\+current}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+get\+\_\+current}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+color\+\_\+get\+\_\+current (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+color $\ast$$\ast$}]{sc, }
+\item[{pdf\+\_\+color $\ast$$\ast$}]{fc}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a6a6357b8648b57adafea2f300a41f567}
+
+
+Copy current top of color stack. 
+
+Fills the (already allocated) {\ttfamily sc} and {\ttfamily fc} colors with the stroke and fill color at the top of the color stack. \hypertarget{pdfcolor_8h_a3b79c3fab88019689bd05c84d947e7e8}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+graycolor@{texpdf\+\_\+color\+\_\+graycolor}}
+\index{texpdf\+\_\+color\+\_\+graycolor@{texpdf\+\_\+color\+\_\+graycolor}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+graycolor}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+graycolor (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+color $\ast$}]{color, }
+\item[{double}]{g}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a3b79c3fab88019689bd05c84d947e7e8}
+
+
+Initialize a gray. 
+
+Initialize a color from a single gray value. Caller provides allocated struct. \hypertarget{pdfcolor_8h_a6749003e989ea1efece458b4fd677076}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+is\+\_\+valid@{texpdf\+\_\+color\+\_\+is\+\_\+valid}}
+\index{texpdf\+\_\+color\+\_\+is\+\_\+valid@{texpdf\+\_\+color\+\_\+is\+\_\+valid}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+is\+\_\+valid}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+is\+\_\+valid (
+\begin{DoxyParamCaption}
+\item[{const pdf\+\_\+color $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a6749003e989ea1efece458b4fd677076}
+
+
+Checks all color values are within the range 0-\/1. 
+
+\hypertarget{pdfcolor_8h_a2db6fb961ae19c634a8a4e0a9930a854}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+is\+\_\+white@{texpdf\+\_\+color\+\_\+is\+\_\+white}}
+\index{texpdf\+\_\+color\+\_\+is\+\_\+white@{texpdf\+\_\+color\+\_\+is\+\_\+white}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+is\+\_\+white}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+is\+\_\+white (
+\begin{DoxyParamCaption}
+\item[{const pdf\+\_\+color $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a2db6fb961ae19c634a8a4e0a9930a854}
+
+
+Compares colors against white, in whatever color space. 
+
+\hypertarget{pdfcolor_8h_a7a90ec947c3087e21dcd25371f915fca}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+pop@{texpdf\+\_\+color\+\_\+pop}}
+\index{texpdf\+\_\+color\+\_\+pop@{texpdf\+\_\+color\+\_\+pop}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+pop}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+color\+\_\+pop (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{p}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a7a90ec947c3087e21dcd25371f915fca}
+
+
+Pop the top color off the color stack. 
+
+Restores the current drawing color to the previously used color. \hypertarget{pdfcolor_8h_ae8c84c55f422545c4f987f3cfab3b820}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+push@{texpdf\+\_\+color\+\_\+push}}
+\index{texpdf\+\_\+color\+\_\+push@{texpdf\+\_\+color\+\_\+push}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+push}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+color\+\_\+push (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{p, }
+\item[{pdf\+\_\+color $\ast$}]{sc, }
+\item[{pdf\+\_\+color $\ast$}]{fc}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_ae8c84c55f422545c4f987f3cfab3b820}
+
+
+Push stroke and fill colors onto the color stack. 
+
+Sets the current stroke color to {\ttfamily sc} and fill color to {\ttfamily fc} while maintaining the stack of previously used colors. \hypertarget{pdfcolor_8h_a1b3d4f78a171770af605bb39aefd894c}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+rgbcolor@{texpdf\+\_\+color\+\_\+rgbcolor}}
+\index{texpdf\+\_\+color\+\_\+rgbcolor@{texpdf\+\_\+color\+\_\+rgbcolor}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+rgbcolor}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+rgbcolor (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+color $\ast$}]{color, }
+\item[{double}]{r, }
+\item[{double}]{g, }
+\item[{double}]{b}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a1b3d4f78a171770af605bb39aefd894c}
+
+
+Initialize an R\+G\+B color. 
+
+Initialize a color from red, green and blue values. Caller provides allocated struct. \hypertarget{pdfcolor_8h_a47b6e03d63e6d64577b42aaf1ea98a18}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+set@{texpdf\+\_\+color\+\_\+set}}
+\index{texpdf\+\_\+color\+\_\+set@{texpdf\+\_\+color\+\_\+set}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+set}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+color\+\_\+set (
+\begin{DoxyParamCaption}
+\item[{pdf\+\_\+doc $\ast$}]{p, }
+\item[{pdf\+\_\+color $\ast$}]{sc, }
+\item[{pdf\+\_\+color $\ast$}]{fc}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a47b6e03d63e6d64577b42aaf1ea98a18}
+
+
+Set current stroke and fill color. 
+
+\hypertarget{pdfcolor_8h_a0e30434d73a01be71e8ff70084d44414}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+to\+\_\+string@{texpdf\+\_\+color\+\_\+to\+\_\+string}}
+\index{texpdf\+\_\+color\+\_\+to\+\_\+string@{texpdf\+\_\+color\+\_\+to\+\_\+string}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+to\+\_\+string}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+to\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{const pdf\+\_\+color $\ast$}]{color, }
+\item[{char $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a0e30434d73a01be71e8ff70084d44414}
+
+
+Convert color to a (P\+D\+F) color string. 
+
+In practice this means rounding each component and joining them together with spaces. Caller is responsible for providing a long-\/enough buffer. \hypertarget{pdfcolor_8h_a8ea4085fe581b89a810042a4cae4abdc}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+color\+\_\+type@{texpdf\+\_\+color\+\_\+type}}
+\index{texpdf\+\_\+color\+\_\+type@{texpdf\+\_\+color\+\_\+type}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+color\+\_\+type}]{\setlength{\rightskip}{0pt plus 5cm}int texpdf\+\_\+color\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{const pdf\+\_\+color $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a8ea4085fe581b89a810042a4cae4abdc}
+
+
+Return type of color. 
+
+Returns either {\ttfamily P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+G\+R\+A\+Y}, {\ttfamily P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+R\+G\+B} or {\ttfamily P\+D\+F\+\_\+\+C\+O\+L\+O\+R\+S\+P\+A\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+M\+Y\+K}. \hypertarget{pdfcolor_8h_a649efce1c557bccd3f6b578f68aa38cb}{\index{pdfcolor.\+h@{pdfcolor.\+h}!texpdf\+\_\+get\+\_\+colorspace\+\_\+reference@{texpdf\+\_\+get\+\_\+colorspace\+\_\+reference}}
+\index{texpdf\+\_\+get\+\_\+colorspace\+\_\+reference@{texpdf\+\_\+get\+\_\+colorspace\+\_\+reference}!pdfcolor.\+h@{pdfcolor.\+h}}
+\subsubsection[{texpdf\+\_\+get\+\_\+colorspace\+\_\+reference}]{\setlength{\rightskip}{0pt plus 5cm}pdf\+\_\+obj$\ast$ texpdf\+\_\+get\+\_\+colorspace\+\_\+reference (
+\begin{DoxyParamCaption}
+\item[{int}]{cspc\+\_\+id}
+\end{DoxyParamCaption}
+)}}\label{pdfcolor_8h_a649efce1c557bccd3f6b578f68aa38cb}
+
+
+X\+X\+X I don't know. 
+

@@ -1,0 +1,77 @@
+\hypertarget{cid_8h}{\section{cid.\+h File Reference}
+\label{cid_8h}\index{cid.\+h@{cid.\+h}}
+}
+
+
+Support for C\+I\+D-\/encoded fonts.  
+
+
+{\ttfamily \#include \char`\"{}pdfobj.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}type0.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fontmap.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{cid_8h_ae0fe4315b66f32bfc6fcd8d11a3bd3be}{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H}~(1 $<$$<$ 1)
+\begin{DoxyCompactList}\small\item\em Treat all C\+I\+D\+Font as fixed-\/pitch font. \end{DoxyCompactList}\item 
+\#define \hyperlink{cid_8h_abdcf16069af72ba656b6c58ca1c0958f}{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1}~(1 $<$$<$ 8)
+\begin{DoxyCompactList}\small\item\em Treat all C\+I\+D\+Font as Type1 fonts. \end{DoxyCompactList}\item 
+\#define \hyperlink{cid_8h_a8940d81d3b9d97a09684f1d9ea3c1543}{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C}~(1 $<$$<$ 9)
+\begin{DoxyCompactList}\small\item\em Treat all C\+I\+D\+Font as Type1\+C fonts. \end{DoxyCompactList}\item 
+\#define \hyperlink{cid_8h_a0f1a5b49826c7212ece4775b95dc68c6}{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E}~(1 $<$$<$ 10)
+\begin{DoxyCompactList}\small\item\em Treat all C\+I\+D\+Font as Truetype fonts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{cid_8h_aec93c56d85f2069bb728b20337719acd}{texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags} (long flags)
+\begin{DoxyCompactList}\small\item\em Settings which affect the treatment of C\+I\+D fonts, using the flags definitions above. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Support for C\+I\+D-\/encoded fonts. 
+
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{cid_8h_a0f1a5b49826c7212ece4775b95dc68c6}{\index{cid.\+h@{cid.\+h}!C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E}}
+\index{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E}!cid.\+h@{cid.\+h}}
+\subsubsection[{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+R\+U\+E\+T\+Y\+P\+E~(1 $<$$<$ 10)}}\label{cid_8h_a0f1a5b49826c7212ece4775b95dc68c6}
+
+
+Treat all C\+I\+D\+Font as Truetype fonts. 
+
+\hypertarget{cid_8h_abdcf16069af72ba656b6c58ca1c0958f}{\index{cid.\+h@{cid.\+h}!C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1}}
+\index{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1}!cid.\+h@{cid.\+h}}
+\subsubsection[{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1~(1 $<$$<$ 8)}}\label{cid_8h_abdcf16069af72ba656b6c58ca1c0958f}
+
+
+Treat all C\+I\+D\+Font as Type1 fonts. 
+
+\hypertarget{cid_8h_a8940d81d3b9d97a09684f1d9ea3c1543}{\index{cid.\+h@{cid.\+h}!C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C}}
+\index{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C}!cid.\+h@{cid.\+h}}
+\subsubsection[{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+L\+A\+G\+\_\+\+T\+Y\+P\+E1\+C~(1 $<$$<$ 9)}}\label{cid_8h_a8940d81d3b9d97a09684f1d9ea3c1543}
+
+
+Treat all C\+I\+D\+Font as Type1\+C fonts. 
+
+\hypertarget{cid_8h_ae0fe4315b66f32bfc6fcd8d11a3bd3be}{\index{cid.\+h@{cid.\+h}!C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H}}
+\index{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H@{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H}!cid.\+h@{cid.\+h}}
+\subsubsection[{C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+I\+D\+F\+O\+N\+T\+\_\+\+F\+O\+R\+C\+E\+\_\+\+F\+I\+X\+E\+D\+P\+I\+T\+C\+H~(1 $<$$<$ 1)}}\label{cid_8h_ae0fe4315b66f32bfc6fcd8d11a3bd3be}
+
+
+Treat all C\+I\+D\+Font as fixed-\/pitch font. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{cid_8h_aec93c56d85f2069bb728b20337719acd}{\index{cid.\+h@{cid.\+h}!texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags@{texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags}}
+\index{texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags@{texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags}!cid.\+h@{cid.\+h}}
+\subsubsection[{texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags}]{\setlength{\rightskip}{0pt plus 5cm}void texpdf\+\_\+\+C\+I\+D\+Font\+\_\+set\+\_\+flags (
+\begin{DoxyParamCaption}
+\item[{long}]{flags}
+\end{DoxyParamCaption}
+)}}\label{cid_8h_aec93c56d85f2069bb728b20337719acd}
+
+
+Settings which affect the treatment of C\+I\+D fonts, using the flags definitions above. 
+
