@@ -437,7 +437,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/miles/Desktop/sile/sile-0.9.1/libtexpdf'
+ac_pwd='/home/miles/Desktop/sile-0.9.1/libtexpdf'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -892,12 +892,12 @@ S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="strip"
-S["install_sh"]="${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/install-sh"
-S["MAKEINFO"]="${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing automake-1.14"
-S["AUTOCONF"]="${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing aclocal-1.14"
+S["install_sh"]="${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/install-sh"
+S["MAKEINFO"]="${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing automake-1.14"
+S["AUTOCONF"]="${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing autoconf"
+S["ACLOCAL"]="${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing aclocal-1.14"
 S["VERSION"]="20140927"
 S["PACKAGE"]="libtexpdf"
 S["CYGPATH_W"]="echo"

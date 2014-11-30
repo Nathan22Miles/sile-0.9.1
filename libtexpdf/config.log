@@ -452,8 +452,8 @@ configure:12895: $? = 0
 configure:12895: result: yes
 configure:12895: checking for getwd
 configure:12895: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/cclrI4JF.o: In function `main':
-/home/miles/Desktop/sile/sile-0.9.1/libtexpdf/conftest.c:71: warning: the `getwd' function is dangerous and should not be used.
+/tmp/ccc7Rk9y.o: In function `main':
+/home/miles/Desktop/sile-0.9.1/libtexpdf/conftest.c:71: warning: the `getwd' function is dangerous and should not be used.
 configure:12895: $? = 0
 configure:12895: result: yes
 configure:12895: checking for memcmp
@@ -476,8 +476,8 @@ configure:12895: $? = 0
 configure:12895: result: yes
 configure:12895: checking for mktemp
 configure:12895: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccDQGJAY.o: In function `main':
-/home/miles/Desktop/sile/sile-0.9.1/libtexpdf/conftest.c:75: warning: the use of `mktemp' is dangerous, better use `mkstemp' or `mkdtemp'
+/tmp/ccgvsO7R.o: In function `main':
+/home/miles/Desktop/sile-0.9.1/libtexpdf/conftest.c:75: warning: the use of `mktemp' is dangerous, better use `mkstemp' or `mkdtemp'
 configure:12895: $? = 0
 configure:12895: result: yes
 configure:12895: checking for strchr
@@ -1167,8 +1167,8 @@ configure:13708: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:70:6: warning: conflicting types for built-in function 'pow' [enabled by default]
  char pow ();
       ^
-/tmp/cceP8fNk.o: In function `main':
-/home/miles/Desktop/sile/sile-0.9.1/libtexpdf/conftest.c:74: undefined reference to `pow'
+/tmp/ccdgsLSk.o: In function `main':
+/home/miles/Desktop/sile-0.9.1/libtexpdf/conftest.c:74: undefined reference to `pow'
 collect2: error: ld returned 1 exit status
 configure:13708: $? = 1
 configure: failed program was:
@@ -1297,6 +1297,7 @@ on miles-Latitude-E5500
 
 config.status:1139: creating Makefile
 config.status:1139: creating config.h
+config.status:1320: config.h is unchanged
 config.status:1368: executing depfiles commands
 config.status:1368: executing libtool commands
 
@@ -1452,7 +1453,7 @@ pkg_cv_FREETYPE_LIBS='-lfreetype  '
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing aclocal-1.14'
+ACLOCAL='${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing aclocal-1.14'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
@@ -1463,9 +1464,9 @@ AM_DEFAULT_VERBOSITY='1'
 AM_V='$(V)'
 AR='ar'
 AS='as'
-AUTOCONF='${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing autoconf'
-AUTOHEADER='${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing autoheader'
-AUTOMAKE='${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing automake-1.14'
+AUTOCONF='${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing autoconf'
+AUTOHEADER='${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing autoheader'
+AUTOMAKE='${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing automake-1.14'
 AWK='gawk'
 CC='gcc'
 CCDEPMODE='depmode=gcc3'
@@ -1502,7 +1503,7 @@ LTLIBOBJS=''
 MAINT='#'
 MAINTAINER_MODE_FALSE=''
 MAINTAINER_MODE_TRUE='#'
-MAKEINFO='${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/missing makeinfo'
+MAKEINFO='${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/missing makeinfo'
 MANIFEST_TOOL=':'
 MKDIR_P='/bin/mkdir -p'
 NM='/usr/bin/nm -B'
@@ -1565,7 +1566,7 @@ host_vendor='unknown'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/miles/Desktop/sile/sile-0.9.1/libtexpdf/build-aux/install-sh'
+install_sh='${SHELL} /home/miles/Desktop/sile-0.9.1/libtexpdf/build-aux/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'
