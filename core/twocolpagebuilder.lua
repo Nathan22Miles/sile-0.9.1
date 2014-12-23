@@ -1,4 +1,4 @@
-local overfull = 1073741823
+local overfull = 1073741823 
 local inf_bad = 10000
 local eject_penalty = -inf_bad
 local deplorable = 100000   --  worse than inifinitely bad!
@@ -7,123 +7,113 @@ local unusedLinePenalty = 100
 
 local tcpb = {}
 
--- Look for the best place to break oq. Start at first.
--- If found, return index of best break and its cost.
-function tcpb.findBestBreak(oq, first, last, targetHeight, usage)
-  SU.debug("pagebuilder", "findBestBreak " .. usage .. " " .. first .. "/" .. last .. "/" .. targetHeight)
+-- Look for the best place to break oq.
+-- Start at index 'first' in oq.
+-- Value returned must be <= limit.
+-- Total boxes selected must not have more than targetHeight total.
+-- Return the index in oq of the first box AFTER the break and
+-- the penalty for breaking at this point.
+-- Return nil, nil if not possisible break found.
+function tcpb.findBestBreak(oq, first, limit, targetHeight)
+  --print ("findBestBreak ", #oq, first, limit, targetHeight)
   local totalHeight = 0
-  local bestBreak = nil
+  local bestBreak = first
   local leastCost = inf_bad
-  local p = 0
 
   local i
-  for i = first,last do 
-    -- do I still need this???
-    if i == last then
-      SU.debug("pagebuilder", "    bestBreak(used all) " .. bestBreak .. "   " .. leastCost)
-      return bestBreak, leastCost
-    end
-    
+  for i = first,limit-1 do 
     local vbox = oq[i]
-    p = vbox:isPenalty() and vbox.penalty or 0
-  
     totalHeight = totalHeight + tcpb.boxHeight(vbox)
     local remainingHeight = (targetHeight - totalHeight).length
-    --SU.debug("pagebuilder", vbox .. "/remaining=" .. remainingHeight)
-    
-  
-    local nonInfinitePenalty = vbox:isPenalty() and vbox.penalty < inf_bad
-    local glueAfterNonDiscardableBox = vbox:isVglue() and i > 1 and not oq[i-1]:isDiscardable()
-    if  nonInfinitePenalty or glueAfterNonDiscardableBox then
-      local c = tcpb.calculateCost(remainingHeight, p)
-      --SU.debug("pagebuilder ", "c " .. c)
-      
+    if remainingHeight < 0 then break end
+
+    local p = tcpb.breakPenalty(oq, i)
+    if p <= eject_penalty then return p, i end
+    --print("totalHeight/remainingHeight/p ", totalHeight, remainingHeight, p)
+    if p < inf_bad then
+      local c = p + remainingHeight * remainingHeight * remainingHeight
       if c < leastCost then
-        --SU.debug("pagebuilder", "leastCost " .. c)
+        --print("bestBreak", bestBreak)
         leastCost = c
         bestBreak = i
       end
-
-      -- keep looking until we are overfull or see an eject
-      if c == overfull or p <= eject_penalty then
-        if not bestBreak then bestBreak = i-1 end
-        
-        SU.debug("pagebuilder", "    bestBreak " .. bestBreak .. "   " .. leastCost)
-        return bestBreak, leastCost
-      end
     end
   end
 
-  SU.debug("pagebuilder", "    No page break here")
-  return nil, nil
+  return leastCost, bestBreak
+end
+
+function tcpb.breakPenalty(oq, i)
+  local vbox = oq[i]
+  if vbox:isPenalty() then return vbox.penalty end
+  if vbox:isVglue() and i > 1 and not oq[i-1]:isDiscardable() then return 0 end
+  return deplorable
 end
 
 -- Look best places to break oq into two columns.
--- Return index of beginning of right column, last of right column, penalty for this break
--- Return nil, nil, nil if no way to break into two columns
+-- Two column material starts at oq index 'left'.
+-- Return nil, nil, nil if no way
+-- Return starting index of right column, limit of right column, penalty.
 function tcpb.findBestTwoColBreak(oq, left, targetHeight)
-  SU.debug("pagebuilder", "findBestTwoColBreak left=" .. left .. "  targetHeight=" .. targetHeight)
-  local right, rightLimit, cost, leftHeight, rightHeight, ignore
+  --print("#oq", #oq)
+  local bestRight = nil     -- proposed start index for right column.
+  local bestRightEnd = nil  -- proposed index for first box not in right column
+  local bestPenalty = overfull  -- penalty for this break
 
-  local dimen = tcpb.columnHeight(oq, left, #oq+1).length / 2 -- calc half the height of two col material
-
-  -- try to fit both columns on page
-  while dimen <= targetHeight.length do
-    right, cost = tcpb.findBestBreak(oq, left, #oq+1, dimen, "left col")
-    if right then
-      leftHeight = tcpb.columnHeight(oq, left, right)
-      rightHeight = tcpb.columnHeight(oq, right, #oq+1)
-      SU.debug("pagebuilder", "    searching "..dimen.."/"..right.."/"..leftHeight.."/"..rightHeight)
-
-      -- if left col at least as tall as right col, we are done
-      if leftHeight >= rightHeight then 
-        rightLimit = #oq+1
-        SU.debug("pagebuilder", "    fit on page "..left.."/"..right.."/"..rightLimit)
-        return right, rightLimit, cost 
-      end
+  local right
+  for right=left+1,#oq do
+    local penalty, rightEnd = tcpb.twoColBreakPenalty(oq, left, right, targetHeight)
+    if penalty == overfull then 
+      break 
     end
-    dimen = dimen + 1
+    if penalty < bestPenalty then
+      --print("newBestTwoColBreak", penalty, left, right, rightEnd)
+      bestPenalty, bestRight, bestRightEnd = penalty, right, rightEnd
+    end
   end
 
-  -- we can't fit everything on the page, fit as much as we can subject
-  -- to the restriction that the right column is no longer than the left
-  right, cost = tcpb.findBestBreak(oq, left, #oq+1, targetHeight, "full page left col")
-  if not right then 
-    SU.debug("pagebuilder", "failed to find left col break")
-    return nil, nil, nil 
+  print("bestTwoColBreak", bestPenalty, left, bestRight, bestRightEnd)
+  return bestPenalty, bestRight, bestRightEnd
+end
+
+-- Given the start position of left and right column, calculate the best rightEnd.
+-- Return total penalty, rightEnd
+function tcpb.twoColBreakPenalty(oq, left, right, remainingHeight)
+  local height = tcpb.columnHeight(oq, left, right)
+  if height > remainingHeight then 
+    return overfull, nil 
   end
 
-  leftHeight = tcpb.columnHeight(oq, left, right)
-  rightLimit, ignore = tcpb.findBestBreak(oq, right, #oq+1, leftHeight, "full page right col")
-  if not right then 
-    SU.debug("pagebuilder", "failed to find right col break")
-    return nil, nil, nil 
+  local leftPenalty = tcpb.breakPenalty(oq, right)
+  local rightPenalty, rightEnd = tcpb.findBestBreak(oq, right, #oq+1, height)
+  local extraPenalty = tcpb.remainingLinesPenalty(oq, rightEnd)
+  local penalty = leftPenalty + rightPenalty + extraPenalty
+  print("twoColBreakPenalty", left, right, rightEnd, penalty, leftPenalty, rightPenalty, extraPenalty)
+  return penalty, rightEnd
+end
+
+function tcpb.remainingLinesPenalty(oq, first)
+  local remainingLines = 0
+  for i=first,#oq do
+    if oq[i]:isVbox() then remainingLines = remainingLines + 1 end
   end
 
-  SU.debug("pagebuilder", "    partial fit on page "..left.."/"..right.."/"..rightLimit)
-  return right, rightLimit, cost
+  --if remainingLines > 0 and remainingLines < 5 then return inf_bad end
+  return unusedLinePenalty * remainingLines
 end
 
 function tcpb.columnHeight(oq, first, last)
   local h = SILE.length.new({})
   local i
-  for i=first,last-1 do
+  for i=first,last do
     h = h + oq[i].height + oq[i].depth
   end
   return h
 end
 
-function tcpb.calculateCost(remainingHeight, p)
-  if remainingHeight < 0 then return overfull end
-  local badness = remainingHeight * remainingHeight * remainingHeight
-
-  if p <= eject_penalty then return p end
-  if badness < inf_bad then return badness + p end
-  return deplorable
-end
-
 function tcpb.boxHeight(vbox)
   SU.debug("tcpb", "Dealing with VBox " .. vbox)
+  --print("Dealing with VBox " .. vbox)
   if (vbox:isVbox()) then
     return vbox.height + vbox.depth
   elseif vbox:isVglue() then
@@ -133,10 +123,9 @@ function tcpb.boxHeight(vbox)
 end 
 
 function tcpb.collateVboxes(oq, first, last)
+  local i
   local output = SILE.nodefactory.newVbox({nodes = {} })
   local h = SILE.length.new({})
-
-  local i
   for i=first,last-1 do
     table.insert(output.nodes, oq[i])
     h = h + oq[i].height + oq[i].depth
@@ -147,6 +136,6 @@ function tcpb.collateVboxes(oq, first, last)
   return output
 end
 
---SILE.pagebuilder = tcpb
+SILE.pagebuilder = tcpb
 
 return tcpb

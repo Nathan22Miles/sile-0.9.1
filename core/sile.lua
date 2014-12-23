@@ -39,7 +39,7 @@ SILE.init = function()
     elseif pcall(function() require("lgi") end) then
       SILE.backend = "pangocairo"
     else
-      SU.error("Neither libtexpdf nor pangocairo backends available!")
+      SU.error("xNeither libtexpdf nor pangocairo backends available!")
     end
   end
   if SILE.backend == "libtexpdf" then

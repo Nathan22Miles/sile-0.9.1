@@ -1,0 +1,34 @@
+zbstudio
+project > command line parameters: examples/twocol0.sil
+hit f5 twice to debug
+
+/usr/local/share/sile/ (?lua-libraries/)
+lua-libraries
+/usr/local/share/lua/5.1
+
+package.path
+
+?.lua
+/usr/local/share/sile/?.lua
+/usr/local/share/sile/lua-libraries/?.lua
+/usr/local/share/sile/lua-libraries/?/init.lua
+lua-libraries/?.lua
+lua-libraries/?/init.lua
+./?.lua
+/usr/local/share/luajit-2.0.2/?.lua
+/usr/local/share/lua/5.1/?.lua
+/usr/local/share/lua/5.1/?/init.lua
+/opt/zbstudio/lualibs/?/?.lua
+/opt/zbstudio/lualibs/?.lua
+
+package.cpath	
+
+/opt/zbstudio/bin/linux/x64/lib?.so
+/opt/zbstudio/bin/linux/x64/clibs/?.so
+./?.so
+/usr/local/lib/lua/5.1/?.so
+/usr/local/lib/lua/5.1/loadall.so
+/opt/zbstudio/bin/linux/x64/lib?.so
+/opt/zbstudio/bin/linux/x64/clibs/?.so
+core/?.so
+/usr/local/share/sile/core/?.so

@@ -1,7 +1,7 @@
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
-local pagebuilder2 = SILE.require("core/twocolpagebuilder")
+local pagebuilder = SILE.require("core/twocolpagebuilder")
 
 SILE.require("packages/counters");
 SILE.scratch.counters.folio = { value = 1, display = "arabic" };
@@ -14,8 +14,9 @@ local function twocol_func(options, content)
   SU.debug("typesetter", "   start twocols")
   typesetter:startTwoCol()
   SILE.process(content)
+  typesetter:leaveHmode()
   typesetter.allTwoColMaterialProcessed = true
-  while typesetter:pagebuilder2() do
+  while typesetter:pageBuilder() do
   end
   typesetter:endTwoCol()
 end
@@ -41,29 +42,19 @@ function typesetter:endTwoCol()
   self.left = 0
 end
 
-function typesetter:pagebuilder2(independent)
+function typesetter:pageBuilder(independent)
   -- process all two column material before attempting to build page
   if not self.allTwoColMaterialProcessed then return false end
-  
-  if self.left == 0 then
-    return SILE.defaultTypesetter.pageBuilder(self, independent)
-  end
 
   local oq = self.state.outputQueue
-  SU.debug("pagebuilder", "#oq = " .. #oq)
-  
   local targetHeight = SILE.length.new({ length = self.frame:height() }) -- XXX Floats
   targetHeight = targetHeight - self:totalHeight(1, self.left)
-  local totalTwoColHeight = self:totalHeight(self.left, #oq+1)
-  if targetHeight.length > .6*totalTwoColHeight.length then
-    targetHeight.length = .6*totalTwoColHeight.length
-  end
 
-  local right, rightEnd, p = pagebuilder2.findBestTwoColBreak(oq, self.left, targetHeight)
+  local p, right, rightEnd = pagebuilder.findBestTwoColBreak(oq, self.left, targetHeight)
 
   -- if can't put any two col content on page then
   if not right then
-    self:outputLinesToPage2(self.left)  -- output one column content, remove from outputQueue
+    self:outputLinesToPage(1, self.left)  -- output one column content, remove from outputQueue
     self.left = 1
     return true -- return true to try again on next page
   end
@@ -79,19 +70,20 @@ function typesetter:pagebuilder2(independent)
   local totalHeight = self:totalHeight(1, self.left+1)
   local glues, gTotal = self:accumulateGlues(1, self.left+1)
   self:adjustGlues(targetHeight, totalHeight, glues, gTotal)
-  self:outputLinesToPage2(self.left+1);
+  self:outputLinesToPage(1, self.left+1);
 
   self.left = 1
 
   return true
 end
 
-function typesetter:outputLinesToPage2(last)
+function typesetter:outputLinesToPage(first, last)
   SU.debug("pagebuilder", "OUTPUTTING frame "..self.frame.id);
   local oq = self.state.outputQueue
   local i
-  for i = 1,last-1 do 
+  for i = first,last-1 do 
     local line = oq[i]
+    print("output "..line)
     if not self.frame.state.totals.pastTop and not (line:isVglue() or line:isPenalty()) then
       self.frame.state.totals.pastTop = true
     end
@@ -100,7 +92,7 @@ function typesetter:outputLinesToPage2(last)
     end
   end
 
-  self:removeFromOutputQueue(1, last)
+  self.removeFromOutputQueue(first, last)
 end
 
 function typesetter:removeFromOutputQueue(first, last)
@@ -144,14 +136,12 @@ end
 -- build a vbox containing the left column, gap, right column
 function typesetter:buildTwoColVbox(left, right, rightEnd)
   local oq = self.state.outputQueue
-  local leftCol = pagebuilder2.collateVboxes(oq, left, right)
-  local rightCol = pagebuilder2.collateVboxes(oq, right, rightEnd)
-  local gapLength = SILE.length.new({ length = self.gapWidth })
-  local gap = SILE.nodefactory.newGlue({width = gapLength})
+  local leftCol = pagebuilder.collateVboxes(oq, left, right)
+  local rightCol = pagebuilder.collateVboxes(oq, right, rightEnd)
+  local gap = SILE.nodefactory.newGlue({width = self.gapWidth})
 
   local vbox = SILE.nodefactory.newVbox({
     height = leftCol.height,
-    --width = SILE.length.new({ length = self.frame:width() }),
     width = self.frame:width(),
     depth = 0,
     value = {leftCol, gap, rightCol},
