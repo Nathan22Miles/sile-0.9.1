@@ -3,7 +3,7 @@ local inf_bad = 10000
 local eject_penalty = -inf_bad
 local deplorable = 100000   --  worse than inifinitely bad!
 
-local unusedLinePenalty = 100
+local unusedLinePenalty = 500
 
 local tcpb = {}
 
@@ -14,8 +14,8 @@ local tcpb = {}
 -- Return the index in oq of the first box AFTER the break and
 -- the penalty for breaking at this point.
 -- Return nil, nil if not possisible break found.
-function tcpb.findBestBreak(oq, first, limit, targetHeight)
-  --print ("findBestBreak ", #oq, first, limit, targetHeight)
+function tcpb.findBestBreak2(oq, first, limit, targetHeight)
+  --print ("findBestBreak2 ", #oq, first, limit, targetHeight)
   local totalHeight = 0
   local bestBreak = first
   local leastCost = inf_bad
@@ -85,7 +85,8 @@ function tcpb.twoColBreakPenalty(oq, left, right, remainingHeight)
   end
 
   local leftPenalty = tcpb.breakPenalty(oq, right)
-  local rightPenalty, rightEnd = tcpb.findBestBreak(oq, right, #oq+1, height)
+  print("right", right)
+  local rightPenalty, rightEnd = tcpb.findBestBreak2(oq, right, #oq+1, height)
   local extraPenalty = tcpb.remainingLinesPenalty(oq, rightEnd)
   local penalty = leftPenalty + rightPenalty + extraPenalty
   print("twoColBreakPenalty", left, right, rightEnd, penalty, leftPenalty, rightPenalty, extraPenalty)
@@ -136,6 +137,6 @@ function tcpb.collateVboxes(oq, first, last)
   return output
 end
 
-SILE.pagebuilder = tcpb
+--SILE.pagebuilder = tcpb
 
 return tcpb
