@@ -44,7 +44,7 @@ end
 
 function typesetter:pageBuilder(independent)
   if self.left == 0 then
-    return SILE.defaultTypesetter(self, indenpendent)
+    return SILE.defaultTypesetter(self, independent)
   end
 
   -- process all two column material before attempting to build page
@@ -151,6 +151,7 @@ function typesetter:buildTwoColVbox(left, right, rightEnd)
   local vbox = SILE.nodefactory.newVbox({
     width = self.frame:width(),
     depth = 0,
+    idx = "bob",
     value = {leftCol, gap, rightCol},
     outputYourself = function (self, typesetter, line)
       local i

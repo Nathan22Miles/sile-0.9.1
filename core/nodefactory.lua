@@ -25,24 +25,36 @@ function _box:isDiscretionary ()  return self.type == "discretionary" end
 
 function _box:isKern ()  return self.type == "kern" end -- Which it never is
 
--- Hboxes
-
+--------------------
+-- hbox
+--------------------
 local _hbox = _box { 
   type = "hbox",
+  
   __tostring = function (this) return "H<" .. tostring(this.width) .. ">^" .. tostring(this.height) .. "-" .. tostring(this.depth) .. "v"; end,
+
   outputYourself = function(self,typesetter, line)
-  if not self.value.glyphString then return end
+    if not self.value.glyphString then return end
+    print("oy Hbox @",
+      typesetter.frame.state.cursorX,
+      typesetter.frame.state.cursorY,
+      "ht="..self.height,
+      self.value.glyphString)
+    
     local scaledWidth = self.width.length
     if line.ratio < 0 and self.width.shrink > 0 then
       scaledWidth = scaledWidth + self.width.shrink * line.ratio
     elseif line.ratio > 0 and self.width.stretch > 0 then
       scaledWidth = scaledWidth + self.width.stretch * line.ratio
     end
+    --print("scaledWidth: "..scaledWidth)
+    
     typesetter.frame:normalize()
     -- Yuck!
     if typesetter.frame.direction == "RTL" then
       typesetter.frame:moveX(scaledWidth)
     end
+
     SILE.outputter.moveTo(typesetter.frame.state.cursorX, typesetter.frame.state.cursorY)
 
     -- SILE.outputter.debugHbox(typesetter, self, scaledWidth)
@@ -58,31 +70,37 @@ local _hbox = _box {
   end
 }
 
+--------------------
 -- Native nodes (clever hboxes)
-
+--------------------------------------------
 local _nnode = _hbox {
   type = "nnode",
   text = "",
   language = "",
   pal = nil,
   nodes = {},
+
   __tostring = function (this) 
-  return "N<" .. tostring(this.width) .. ">^" .. this.height .. "-" .. this.depth .. "v(" .. this:toText() .. ")";
-end,
+    return "N<" .. tostring(this.width) .. ">^" .. this.height .. "-" .. this.depth .. "v(" .. this:toText() .. ")";
+  end,
+
   init = function(self)
     if 0 == self.depth then self.depth = math.max(0,unpack(SU.map(function (n) return n.depth end, self.nodes))) end
     if 0 == self.height then self.height = math.max(0,unpack(SU.map(function (n) return n.height end, self.nodes))) end
     if 0 == self.width then self.width = SU.sum(SU.map(function (n) return n.width end, self.nodes)) end
     return self
-    end,
+  end,
+
   outputYourself = function(self, typesetter, line)
     for i, n in ipairs(self.nodes) do n:outputYourself(typesetter, line) end
   end,
+
   toText = function (self) return self.text end
 }
 
+--------------------------------------------
 -- Discretionaries
-
+--------------------------------------------
 local _disc = _hbox {
   type = "discretionary",
   prebreak = {},
@@ -90,16 +108,20 @@ local _disc = _hbox {
   replacement = {},
   used = 0,
   pbw = nil,
+
   __tostring = function (this) 
       return "D(" .. SU.concat(this.prebreak,"") .. "|" .. SU.concat(this.postbreak, "") .. ")";
   end,
+  
   toText = function (self) return self.used==1 and "-" or "_" end,
+  
   outputYourself = function(self,typesetter, line)
     if self.used == 1 then
       -- XXX
       for i, n in ipairs(self.prebreak) do n:outputYourself(typesetter,line) end
     end
   end,
+  
   prebreakWidth = function(self)
     -- if self.pbw then return self.pbw end
     local l = 0
@@ -109,12 +131,17 @@ local _disc = _hbox {
   end
 }
 
+--------------------------------------------
 -- Glue
+--------------------------------------------
 local _glue = _box {
   _type = "Glue",
   type = "glue",
+
   __tostring = function (this) return "G<" .. tostring(this.width) .. ">"; end,
+
   toText = function () return " " end,
+
   outputYourself = function (self,typesetter, line)
     local scaledWidth = self.width.length
     if line.ratio and line.ratio < 0 and self.width.shrink > 0 then
@@ -126,62 +153,90 @@ local _glue = _box {
   end
 }
 
-
+--------------------------------------------
 -- VGlue
+--------------------------------------------
 local _vglue = _box {
   type = "vglue",
   _type = "VGlue",
+
   __tostring = function (this) 
       return "VG<" .. tostring(this.height) .. ">";
   end,
+
   setGlue = function (self,adjustment)  
     -- XXX
     self.height.length = self.height.length + adjustment
     self.height.stretch = 0
     -- self.shrink = 0
   end,
+
   outputYourself = function (self,typesetter, line)
     typesetter.frame:moveY(line.depth + line.height)
   end
 }
 
+--------------------------------------------
 -- Penalties
+--------------------------------------------
 local _penalty = _box {
   type = "penalty",
   width = SILE.length.new({}),
   flagged = 0,
   penalty = 0,
+
   __tostring = function (this) 
       return "P(" .. this.flagged .. "|" .. this.penalty .. ")";
   end,
+
   outputYourself = function() end,
+
   toText = function() return "(!)" end
 }
 
--- Vbox
+-------------------------------------------
+-- vbox
+-------------------------------------------
 local _vbox = _box {
   type = "vbox",
   nodes = {},
+
   __tostring = function (this) 
       return "VB<" .. tostring(this.height) .. "|" .. this:toText() .. "v"..tostring(this.depth)..")";
   end,
+
   init = function (self)
     self.depth = 0
     self.height = 0
-    for i=1,#(self.nodes) do local n = self.nodes[i]
+    
+    -- set height and depth to max from all nodes
+    for i=1,#(self.nodes) do 
+      local n = self.nodes[i]
       local h = type(n.height) == "table" and n.height.length or n.height
       local d = type(n.depth) == "table" and n.depth.length or n.depth
+      
       self.depth = (d > self.depth) and d or self.depth
       self.height = (h > self.height) and h or self.height
     end
+
     self.depth = SILE.length.new({length = self.depth })
     self.height = SILE.length.new({length = self.height })
+
+    --print("vbox init: ", self.height, self.depth)
     return self
   end,
+
   toText = function (self) 
     return "VB[" .. SU.concat(SU.map(function (n) return n:toText().."" end, self.nodes), "") .. "]" 
   end,
+
   outputYourself = function(self, typesetter, line)
+    print()
+    print("oy Vbox @",
+      typesetter.frame.state.cursorX,
+      typesetter.frame.state.cursorY,
+      "ht/dp="..self.height.." "..self.depth)
+
     typesetter.frame:moveY(self.height)  
     local initial = true
     for i,node in pairs(self.nodes) do
@@ -193,9 +248,12 @@ local _vbox = _box {
       end
     end
     typesetter.frame:moveY(self.depth)
-    typesetter.frame:newLine()
+    typesetter.frame:newLine()   -- reset X to margin
   end  
 }
+
+-------------------------------------------
+-------------------------------------------
 
 SILE.nodefactory = {}
 

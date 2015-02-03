@@ -1,4 +1,4 @@
-local overfull = 1073741823 
+local overfull = 1073741823
 local inf_bad = 10000
 local eject_penalty = -inf_bad
 local deplorable = 100000   --  worse than inifinitely bad!
@@ -33,9 +33,9 @@ function tcpb.findBestBreak2(oq, first, limit, targetHeight)
     if p < inf_bad then
       local c = p + remainingHeight * remainingHeight * remainingHeight
       if c < leastCost then
-        --print("bestBreak", bestBreak)
         leastCost = c
         bestBreak = i
+        --print("bestBreak", bestBreak, leastCost)
       end
     end
   end
@@ -72,7 +72,7 @@ function tcpb.findBestTwoColBreak(oq, left, targetHeight)
     end
   end
 
-  print("bestTwoColBreak", bestPenalty, left, bestRight, bestRightEnd)
+  print("bestTwoColBreak", left, bestRight, bestRightEnd, #oq, "("..bestPenalty..")")
   return bestPenalty, bestRight, bestRightEnd
 end
 
@@ -85,11 +85,11 @@ function tcpb.twoColBreakPenalty(oq, left, right, remainingHeight)
   end
 
   local leftPenalty = tcpb.breakPenalty(oq, right)
-  print("right", right)
+  --print("right", right)
   local rightPenalty, rightEnd = tcpb.findBestBreak2(oq, right, #oq+1, height)
   local extraPenalty = tcpb.remainingLinesPenalty(oq, rightEnd)
   local penalty = leftPenalty + rightPenalty + extraPenalty
-  print("twoColBreakPenalty", left, right, rightEnd, penalty, leftPenalty, rightPenalty, extraPenalty)
+  --print("twoColBreakPenalty", left, right, rightEnd, penalty, leftPenalty, rightPenalty, extraPenalty)
   return penalty, rightEnd
 end
 

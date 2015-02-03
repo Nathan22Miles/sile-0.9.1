@@ -50,6 +50,7 @@ SILE.defaultTypesetter = std.object {
     self:initState();
     return self
   end,
+  
   initState = function(self)
     self.state = {
       nodes = {},
@@ -58,18 +59,22 @@ SILE.defaultTypesetter = std.object {
     };
     self:initline()
   end,
+  
   initFrame = function(self, frame)
     self.frame = frame
     self.frame:init()
   end,
+  
   pushState = function(self)
     table.insert(self.stateQueue, self.state);
     self:initState();
   end,
+  
   popState = function(self)
     self.state = table.remove(self.stateQueue)
     if not self.state then SU.error("Typesetter state queue empty") end
   end,
+  
   vmode = function(self)
     return #self.state.nodes == 0
   end,
@@ -250,6 +255,7 @@ SILE.defaultTypesetter = std.object {
     end
     self:leaveHmode();
   end,
+  
   outputLinesToPage = function (self, lines)
     SU.debug("pagebuilder", "OUTPUTTING frame "..self.frame.id);
     local i
@@ -262,6 +268,7 @@ SILE.defaultTypesetter = std.object {
       end
     end
   end,
+  
   leaveHmode = function(self, independent)
     SU.debug("typesetter", "Leaving hmode");
     local vboxlist = self:boxUpNodes()
@@ -274,6 +281,7 @@ SILE.defaultTypesetter = std.object {
       self:initNextFrame()
     end
   end,
+  
   leadingFor = function(self, v, previous)
     -- Insert leading
     SU.debug("typesetter", "   Considering leading between self two lines");
@@ -292,6 +300,7 @@ SILE.defaultTypesetter = std.object {
       return SILE.nodefactory.newVglue(SILE.settings.get("document.lineskip"));
     end
   end,
+  
   addrlskip = function (self, slice)
     local rskip = SILE.settings.get("document.rskip")
     if rskip and not (rskip.width.length == 0) then
@@ -306,6 +315,7 @@ SILE.defaultTypesetter = std.object {
       table.insert(slice, 1, SILE.nodefactory.zeroHbox) 
     end
   end,
+  
   breakpointsToLines = function(self, bp)
     local linestart = 0;
     local lines = {};
@@ -365,6 +375,7 @@ SILE.defaultTypesetter = std.object {
     --self.state.nodes = nodes.slice(linestart+1,nodes.length);
     return lines;
   end,
+  
   chuck = function(self) -- emergency shipout everything
     self:leaveHmode(1);
     self:outputLinesToPage(self.state.outputQueue)
