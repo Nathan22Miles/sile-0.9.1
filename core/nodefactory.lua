@@ -84,14 +84,19 @@ local _nnode = _hbox {
     return "N<" .. tostring(this.width) .. ">^" .. this.height .. "-" .. this.depth .. "v(" .. this:toText() .. ")";
   end,
 
+  -- set height, depth, width
   init = function(self)
-    if 0 == self.depth then self.depth = math.max(0,unpack(SU.map(function (n) return n.depth end, self.nodes))) end
-    if 0 == self.height then self.height = math.max(0,unpack(SU.map(function (n) return n.height end, self.nodes))) end
-    if 0 == self.width then self.width = SU.sum(SU.map(function (n) return n.width end, self.nodes)) end
+    if 0 == self.depth then self.depth = math.max(0,unpack(
+      SU.map(function (n) return n.depth end, self.nodes))) end
+    if 0 == self.height then self.height = math.max(0,unpack(
+      SU.map(function (n) return n.height end, self.nodes))) end
+    if 0 == self.width then self.width = SU.sum(
+      SU.map(function (n) return n.width end, self.nodes)) end
     return self
   end,
 
   outputYourself = function(self, typesetter, line)
+    print("oy nnode")
     for i, n in ipairs(self.nodes) do n:outputYourself(typesetter, line) end
   end,
 
@@ -116,6 +121,7 @@ local _disc = _hbox {
   toText = function (self) return self.used==1 and "-" or "_" end,
   
   outputYourself = function(self,typesetter, line)
+    print("oy discreationary")
     if self.used == 1 then
       -- XXX
       for i, n in ipairs(self.prebreak) do n:outputYourself(typesetter,line) end
@@ -143,6 +149,7 @@ local _glue = _box {
   toText = function () return " " end,
 
   outputYourself = function (self,typesetter, line)
+    print("oy hglue")
     local scaledWidth = self.width.length
     if line.ratio and line.ratio < 0 and self.width.shrink > 0 then
       scaledWidth = scaledWidth + self.width.shrink * line.ratio
@@ -172,6 +179,7 @@ local _vglue = _box {
   end,
 
   outputYourself = function (self,typesetter, line)
+    print("oy vglue")
     typesetter.frame:moveY(line.depth + line.height)
   end
 }
@@ -189,7 +197,9 @@ local _penalty = _box {
       return "P(" .. this.flagged .. "|" .. this.penalty .. ")";
   end,
 
-  outputYourself = function() end,
+  outputYourself = function() 
+    print("oy penalty")
+  end,
 
   toText = function() return "(!)" end
 }
@@ -232,9 +242,8 @@ local _vbox = _box {
 
   outputYourself = function(self, typesetter, line)
     print()
-    print("oy Vbox @",
-      typesetter.frame.state.cursorX,
-      typesetter.frame.state.cursorY,
+    print("oy Vbox("..#self.nodes..")",
+      "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY,
       "ht/dp="..self.height.." "..self.depth)
 
     typesetter.frame:moveY(self.height)  

@@ -15,7 +15,7 @@ local tcpb = {}
 -- the penalty for breaking at this point.
 -- Return nil, nil if not possisible break found.
 function tcpb.findBestBreak2(oq, first, limit, targetHeight)
-  --print ("findBestBreak2 ", #oq, first, limit, targetHeight)
+  --print ("findBestBreak2 ", first, limit, targetHeight, "("..#oq..")")
   local totalHeight = 0
   local bestBreak = first
   local leastCost = inf_bad
@@ -39,7 +39,8 @@ function tcpb.findBestBreak2(oq, first, limit, targetHeight)
       end
     end
   end
-
+  
+  --print("bestBreak", bestBreak)
   return leastCost, bestBreak
 end
 
@@ -55,7 +56,7 @@ end
 -- Return nil, nil, nil if no way
 -- Return starting index of right column, limit of right column, penalty.
 function tcpb.findBestTwoColBreak(oq, left, targetHeight)
-  --print("#oq", #oq)
+  print("bestTwoColBreak", left, targetHeight, "("..#oq..")")
   local bestRight = nil     -- proposed start index for right column.
   local bestRightEnd = nil  -- proposed index for first box not in right column
   local bestPenalty = overfull  -- penalty for this break
@@ -72,7 +73,7 @@ function tcpb.findBestTwoColBreak(oq, left, targetHeight)
     end
   end
 
-  print("bestTwoColBreak", left, bestRight, bestRightEnd, #oq, "("..bestPenalty..")")
+  print("bestTwoColBreak result", left, bestRight, bestRightEnd, "("..#oq..")")
   return bestPenalty, bestRight, bestRightEnd
 end
 
