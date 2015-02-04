@@ -69,8 +69,7 @@ function typesetter:outputTwoColMaterial()
   local targetHeight = SILE.length.new({ length = self.frame:height() }) 
   targetHeight = targetHeight - self:totalHeight(1, self.left)
 
-  local p, right, rightEnd = 
-           tcpb.findBestTwoColBreak(oq, self.left, targetHeight)
+  local p, right, rightEnd = tcpb.findBestTwoColBreak(oq, self.left, targetHeight)
 
   -- if can't put any two col content on page then
   if not right then
