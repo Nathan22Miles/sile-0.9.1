@@ -67,14 +67,28 @@ function typesetter:outputTwoColMaterial()
   print("outputTwoColMaterial left="..self.left.." "..(#oq))
   assert(self.left <= #oq, "left! "..self.left..", "..(#oq))
 
+  typesetter:removeDiscardable(self.left)
+  if #oq == 0 then return end
+
+  typesetter:dumpOq()
+
   local currentHeight = typesetter:totalHeight(1, self.left)
   local targetHeight = SILE.length.new({ length = self.frame:height() }) 
   targetHeight = targetHeight - currentHeight
 
   local right, rightEnd, p = tcpb.findBestTwoColBreak(
          oq, self.left, targetHeight)
-  assert(right > self.left  and  rightEnd >= right  and  rightEnd <= #oq+1)
 
+  print("after findBestTwoColBreak", "left="..self.left, "right="..right, "rightEnd="..rightEnd)
+  typesetter:dumpOq()
+
+  if right then
+    assert(right > self.left) 
+    assert(rightEnd) 
+    assert(rightEnd >= right)
+    assert(rightEnd <= #oq+1)
+  end
+  
   -- if can't put any two col content on page then
   if not right then
     assert(self.left >= 1)
@@ -98,6 +112,13 @@ function typesetter:outputTwoColMaterial()
   self.left = 1
 end
 
+function typesetter:dumpOq()
+  local oq = self.state.outputQueue
+  for i=1,#oq do
+    print(i, oq[i])
+  end
+end
+
 function typesetter:adjustRightColumn(left, right, rightEnd)
   local oq = self.state.outputQueue
   print("adjustRightColumn", "left="..left, "right="..right, "rightEnd="..rightEnd, "("..#oq..")")
@@ -115,8 +136,14 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
     end
   end
 
-  right, rightEnd = typesetter:removeDiscardable(left, right, rightEnd)
+  local count = typesetter:removeDiscardableFromEnd(rightEnd)
+  rightEnd = rightEnd - count
+  if rightEnd < right then right = rightEnd end
 
+  count = typesetter:removeDiscardableFromEnd(right)
+  right = right - count
+  rightEnd = rightEnd - count
+  
   -- add negative glue to make right column start at same height as left column
   -- add positive glue to make right column as long as left column
   local leftColumnHeight = typesetter:totalHeight(left, right).length
@@ -128,29 +155,34 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   table.insert(oq, rightEnd, positiveVglue)
   table.insert(oq, right, negativeVglue)
 
+  print("after adjustRightColumn right="..right, "rightEnd="..rightEnd)
+  typesetter:dumpOq()
   return right, rightEnd
 end
 
-functiontypesetter:removeDiscardable(right, rightEnd)
+function typesetter:removeDiscardable(first)
   local oq = self.state.outputQueue
-
-  while rightEnd <= #oq and oq[rightEnd:isDiscardable() do
-    table.remove(oq, rightEnd)
+  local discarded = 0
+  while first > 0 and first <= #oq and (oq[first]:isPenalty() or oq[first]:isVglue()) do
+    table.remove(oq, first)
+    print("        discard")
+    discarded = discarded+1
   end
 
-  while right > 1 and oq[right-1]:isDiscardable() do
-    right = right-1
-    table.remove(oq, right)
-    rightEnd = rightEnd-1
+  return discarded
+end
+
+function typesetter:removeDiscardableFromEnd(last)
+  local oq = self.state.outputQueue
+  local discarded = 0
+  last = last-1
+  while last > 0 and last <= #oq and (oq[last]:isPenalty() or oq[last]:isVglue()) do
+    table.remove(oq, last)
+    print("        discardFromEnd")
+    discarded = discarded+1
   end
 
-  while self.left <= #oq and oq[self.left]:isDiscardable() do
-    table.remove(oq, self.left)
-    right = right-1
-    rightEnd = rightEnd-1
-  end
-  
-  return right, rightEnd
+  return discarded
 end
 
 function typesetter:totalHeight(left, right)
@@ -160,8 +192,10 @@ end
 -- first = first oq item to output
 -- last = first oq item to not output
 function typesetter:outputLinesToPage2(first, last)
+  if last <= first then return end
+
   local oq = self.state.outputQueue
-  print("outputLinesToPage2 ", first, last,"("..#oq..")")
+  print("outputLinesToPage2 ", "first="..first, "last="..last,"("..#oq..")")
   assert(last > first)
   assert(last-1 <= #oq)
 

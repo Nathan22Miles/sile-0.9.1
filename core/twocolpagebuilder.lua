@@ -15,25 +15,22 @@ function tcpb.findBestTwoColBreak(oq, left, targetHeight)
   assert(left >= 1 and left <= #oq)
   print("findBestTwoColBreak left="..left, "targetHeight="..targetHeight, 
               "("..#oq..")")
-  for i=left,#oq do
-    print(i, oq[i])
-  end
 
   local right, rightEnd, penalty = nil, nil, overfull  -- outputs
-  local _right, _rightEnd, _penalty, _height, 
+  local _right, _rightEnd, _penalty, _height 
 
   for _right=left+1,#oq+1 do
     if _right == #oq+1 or oq[_right]:isVbox() then
       local _rightEnd, _penalty, _height = tcpb.findBestTwoColBreak2(
                                      oq, left, _right, targetHeight)
       if _height > targetHeight then break end
-      if _penalty <= penalty then 
+      if _rightEnd and _penalty <= penalty then 
         right, rightEnd, penalty = _right, _rightEnd, _penalty
       end
     end
   end
   
-  print("***right="..right, "rightEnd="..rightEnd, "penalty="..penalty)
+  print("   ****** right="..right, "rightEnd="..rightEnd, "penalty="..penalty)
   return right, rightEnd, penalty
 end
 
@@ -51,21 +48,24 @@ function tcpb.findBestTwoColBreak2(oq, left, right, targetHeight)
   for _rightEnd=right,#oq+1 do
     if _rightEnd == #oq+1 or oq[_rightEnd]:isVbox() then
       local rightHeight = tcpb.columnHeight(oq, right, _rightEnd)
-      if rightHeight > leftHeight then break end
+      if rightHeight > leftHeight then 
+        print("         rightHeight > leftHeight")
+        break 
+      end
 
       local rightPenalty = tcpb.columnPenalty(oq, _rightEnd)
       local pageBottomGap = targetHeight - leftHeight
       local interColumnGap = leftHeight - rightHeight
       local _penalty = tcpb.calculatePenalty(leftPenalty, rightPenalty,    
                          pageBottomGap, interColumnGap)
-      if _penalty <= penalty then 
+      print("         ***", _penalty, right.."/".._rightEnd)
+      if _rightEnd and _penalty <= penalty then 
         rightEnd, penalty = _rightEnd, _penalty 
       end 
     end
   end
 
-  print("   *** rightEnd="..rightEnd, "penalty="..penalty, 
-                            "leftHeight="..leftHeight)
+  print("      ***", penalty, right.."/"..rightEnd, "h="..leftHeight)
   return rightEnd, penalty, leftHeight
 end
 
@@ -75,12 +75,10 @@ function tcpb.calculatePenalty(leftPenalty, rightPenalty, pageBottomGap, interCo
   if leftPenalty > 100 or rightPenalty > 100 then 
     penalty = overfull 
   else
-    penalty = pageBottomGap.length + 2*interColumnGap.length
+    penalty = pageBottomGap.length + interColumnGap.length
   end
 
-  print("      *** penalty="..penalty, 
-    "    leftPenalty="..leftPenalty, "rightPenalty="..rightPenalty, 
-    "pageBottomGap="..pageBottomGap, "interColumnGap="..interColumnGap)
+  --print("      *** penalty="..penalty, leftPenalty, rightPenalty, pageBottomGap, interColumnGap)
   return penalty 
 end
 
@@ -88,22 +86,24 @@ function tcpb.columnHeight(oq, first, last)
   local h = SILE.length.new({})
 
   local i
-  for i=first,last do
+  for i=first,last-1 do
+    assert(i <= #oq, first.."/"..last)
+    assert(oq[i])
     h = h + oq[i].height + oq[i].depth
   end
 
-  print("      *** columnHeight="..h)
+  --print("      *** columnHeight="..h)
   return h
 end
 
 -- return height, penalty
 function tcpb.columnPenalty(oq, last)
   local p = 0
-  last = last+1
-  while last <= #oq and oq[last]:isVglue() do last = last+1 end
-  if last <= #oq and oq[last]:isPenalty() then p = oq[last].penalty end
+  last = last-1
+  while last >= 1 and oq[last]:isVglue() do last = last-1 end
+  if last >= 1 and oq[last]:isPenalty() then p = oq[last].penalty end
 
-  print("      *** columnPenalty="..p)
+  --print("      *** columnPenalty="..p)
   return p
 end
 
