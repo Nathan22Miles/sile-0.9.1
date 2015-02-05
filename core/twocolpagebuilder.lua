@@ -5,22 +5,22 @@ local deplorable = 100000   --  worse than inifinitely bad!
 
 local tcpb = {}
 
---! trim leading and trailing Vg from two column material first
+--! is something special needed for eject penalty?
 
--- Look best places to break oq into two columns.
--- Two column material starts at oq index 'left'.
--- Return starting index of right column, limit of right column, penalty.
--- Penalty will be ovefull if there is no way to do this.
+-- Look at all the material left..#oq.
+-- Find 'best' place into two columns that fit on current page.
+-- Return right, rightEnd, penalty.
+-- Penalty will be ovefull if there is no way to fit anything on page.
 function tcpb.findBestTwoColBreak(oq, left, targetHeight)
   assert(left >= 1 and left <= #oq)
-  print("bestTwoColBreak left="..left, "targetHeight="..targetHeight, 
+  print("findBestTwoColBreak left="..left, "targetHeight="..targetHeight, 
               "("..#oq..")")
   for i=left,#oq do
     print(i, oq[i])
   end
 
-  local penalty = overfull
-  local _right, _penalty, _height, right, rightEnd
+  local right, rightEnd, penalty = nil, nil, overfull  -- outputs
+  local _right, _rightEnd, _penalty, _height, 
 
   for _right=left+1,#oq+1 do
     if _right == #oq+1 or oq[_right]:isVbox() then
@@ -33,6 +33,7 @@ function tcpb.findBestTwoColBreak(oq, left, targetHeight)
     end
   end
   
+  print("***right="..right, "rightEnd="..rightEnd, "penalty="..penalty)
   return right, rightEnd, penalty
 end
 
@@ -41,18 +42,18 @@ end
 function tcpb.findBestTwoColBreak2(oq, left, right, targetHeight)
   print("   findBestTwoColBreak2 left="..left, "right="..right, 
                        "targetHeight="..targetHeight)
-  local leftHeight = tcpb.columnHeight(oq, left, right)
-  if leftHeight > targetHeight then return nil, nil, leftHeight end
-  local leftPenalty = tcpb.columnPenalty(oq, right)
+  local rightEnd, penalty, leftHeight = nil, overfull, nil   -- outputs
 
-  local rightEnd, penalty = nil, overfull
+  leftHeight = tcpb.columnHeight(oq, left, right)
+  if leftHeight > targetHeight then return rightEnd, penalty, leftHeight end
+  local leftPenalty = tcpb.columnPenalty(oq, right)
 
   for _rightEnd=right,#oq+1 do
     if _rightEnd == #oq+1 or oq[_rightEnd]:isVbox() then
       local rightHeight = tcpb.columnHeight(oq, right, _rightEnd)
       if rightHeight > leftHeight then break end
-      local rightPenalty = tcpb.columnPenalty(oq, _rightEnd)
 
+      local rightPenalty = tcpb.columnPenalty(oq, _rightEnd)
       local pageBottomGap = targetHeight - leftHeight
       local interColumnGap = leftHeight - rightHeight
       local _penalty = tcpb.calculatePenalty(leftPenalty, rightPenalty,    
@@ -68,6 +69,7 @@ function tcpb.findBestTwoColBreak2(oq, left, right, targetHeight)
   return rightEnd, penalty, leftHeight
 end
 
+-- return penalty
 function tcpb.calculatePenalty(leftPenalty, rightPenalty, pageBottomGap, interColumnGap)
   local penalty
   if leftPenalty > 100 or rightPenalty > 100 then 
@@ -76,7 +78,7 @@ function tcpb.calculatePenalty(leftPenalty, rightPenalty, pageBottomGap, interCo
     penalty = pageBottomGap.length + 2*interColumnGap.length
   end
 
-  print("      penalty="..penalty, 
+  print("      *** penalty="..penalty, 
     "    leftPenalty="..leftPenalty, "rightPenalty="..rightPenalty, 
     "pageBottomGap="..pageBottomGap, "interColumnGap="..interColumnGap)
   return penalty 
@@ -90,7 +92,7 @@ function tcpb.columnHeight(oq, first, last)
     h = h + oq[i].height + oq[i].depth
   end
 
-  print("      ***columnHeight="..h)
+  print("      *** columnHeight="..h)
   return h
 end
 
@@ -101,7 +103,7 @@ function tcpb.columnPenalty(oq, last)
   while last <= #oq and oq[last]:isVglue() do last = last+1 end
   if last <= #oq and oq[last]:isPenalty() then p = oq[last].penalty end
 
-  print("      ***penalty="..p)
+  print("      *** columnPenalty="..p)
   return p
 end
 

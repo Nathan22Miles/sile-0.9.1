@@ -1,4 +1,5 @@
--- delete code to build side by side vboxes
+--! delete code to build side by side vboxes
+--! delete leading and trailing Vg
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
@@ -58,7 +59,7 @@ function typesetter:pageBuilder(independent)
   end
 
   self:endTwoCol()
-  return true
+  return false
 end
 
 function typesetter:outputTwoColMaterial()
@@ -66,56 +67,55 @@ function typesetter:outputTwoColMaterial()
   print("outputTwoColMaterial left="..self.left.." "..(#oq))
   assert(self.left <= #oq, "left! "..self.left..", "..(#oq))
 
+  local currentHeight = typesetter:totalHeight(1, self.left)
   local targetHeight = SILE.length.new({ length = self.frame:height() }) 
-  targetHeight = targetHeight - self:totalHeight(1, self.left)
+  targetHeight = targetHeight - currentHeight
 
-  local p, right, rightEnd = tcpb.findBestTwoColBreak(oq, self.left, targetHeight)
+  local right, rightEnd, p = tcpb.findBestTwoColBreak(
+         oq, self.left, targetHeight)
+  assert(right > self.left  and  rightEnd >= right  and  rightEnd <= #oq+1)
 
   -- if can't put any two col content on page then
   if not right then
-    assert(self.left > 1)
+    assert(self.left >= 1)
     self:outputLinesToPage2(1, self.left)  
-           -- output one column content, remove from outputQueue
+           -- output single column content, remove from outputQueue
     self.left = 1
     return
   end
 
-  assert(right > self.left)
-  assert(rightEnd >= right)
-  assert(rightEnd-1 <= #oq)
+  right, rightEnd = self:adjustRightColumn(self.left, right, rightEnd)
 
-  self:adjustRightColumn(self.left, right, rightEnd)
-  rightEnd = rightEnd + 2
-
-  if tcpb.remainingLinesPenalty(oq, self.left+1) == 0 then
-    self.left = rightEnd
-    return
+  -- page is full, output it.
+  -- stay in two col mode to output the rest
+  if rightEnd < #oq+1 then
+    local totalHeight = typesetter:totalHeight(1, rightEnd)
+    local glues, gTotal = self:accumulateGlues(1, rightEnd)
+    self:adjustGlues(targetHeight, totalHeight, glues, gTotal)
+    self:outputLinesToPage2(1, rightEnd);
   end
-
-  -- page is full, stay in two col mode to output the rest
-  local totalHeight = self:totalHeight(1, rightEnd)
-  local glues, gTotal = self:accumulateGlues(1, rightEnd)
-  self:adjustGlues(targetHeight, totalHeight, glues, gTotal)
-  self:outputLinesToPage2(1, rightEnd);
 
   self.left = 1
 end
 
 function typesetter:adjustRightColumn(left, right, rightEnd)
   local oq = self.state.outputQueue
-  print("adjustRightColumn", left, right, rightEnd, #oq)
+  print("adjustRightColumn", "left="..left, "right="..right, "rightEnd="..rightEnd, "("..#oq..")")
 
   local rightColumnOffset = self.columnWidth + self.gapWidth
   local offsetGlue = SILE.nodefactory.newGlue(
                  {width = SILE.length.new({ length = rightColumnOffset })})
 
   -- shift right column right
+  local i
   for i = right,rightEnd-1 do
     local box = oq[i]
     if box:isVbox() then
       table.insert(box.nodes, 1, offsetGlue)
     end
   end
+
+  right, rightEnd = typesetter:removeDiscardable(left, right, rightEnd)
 
   -- add negative glue to make right column start at same height as left column
   -- add positive glue to make right column as long as left column
@@ -127,6 +127,34 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
                  {height = SILE.length.new({ length = leftColumnHeight-rightColumnHeight })})
   table.insert(oq, rightEnd, positiveVglue)
   table.insert(oq, right, negativeVglue)
+
+  return right, rightEnd
+end
+
+functiontypesetter:removeDiscardable(right, rightEnd)
+  local oq = self.state.outputQueue
+
+  while rightEnd <= #oq and oq[rightEnd:isDiscardable() do
+    table.remove(oq, rightEnd)
+  end
+
+  while right > 1 and oq[right-1]:isDiscardable() do
+    right = right-1
+    table.remove(oq, right)
+    rightEnd = rightEnd-1
+  end
+
+  while self.left <= #oq and oq[self.left]:isDiscardable() do
+    table.remove(oq, self.left)
+    right = right-1
+    rightEnd = rightEnd-1
+  end
+  
+  return right, rightEnd
+end
+
+function typesetter:totalHeight(left, right)
+  return tcpb.columnHeight(self.state.outputQueue, left, right)
 end
 
 -- first = first oq item to output
@@ -191,49 +219,6 @@ function typesetter:adjustGlues(targetHeight, totalHeight, glues, gTotal)
   end
 
   SU.debug("pagebuilder", "Glues for self page adjusted by "..(adjustment/gTotal.stretch) )
-end
-
--- build a vbox containing the left column, gap, right column
-function typesetter:buildTwoColVbox(left, right, rightEnd)
-  local oq = self.state.outputQueue
-  local leftCol = tcpb.collateVboxes(oq, left, right)
-  local rightCol = tcpb.collateVboxes(oq, right, rightEnd)
-  local gap = SILE.nodefactory.newGlue({width = SILE.length.new({ length = self.gapWidth })})
-
-  local vbox = SILE.nodefactory.newVbox({
-    width = self.frame:width(),
-    depth = 0,
-    idx = "bob",
-    value = {leftCol, gap, rightCol},
-    outputYourself = function (self, typesetter, line)
-      local i
-      for i = 1, #(self.value) do 
-        local node = self.value[i]
-        node:outputYourself(typesetter, line)
-      end
-    end
-  })
-  vbox.height = leftCol.height
-
-  return vbox
-end
-
--- total up the height of the node list
-function typesetter:totalHeight(first, last)
-  local oq = self.state.outputQueue
-  if first >= last then
-    return SILE.length.new( {length = 0} )
-  end
-
-  local totalHeight = 0
-  local i
-  for i=first,last-1 do
-    if oq[i] then   -- why necessary?????
-      totalHeight = totalHeight + oq[i].height + oq[i].depth
-    end
-  end
-  print("th", totalHeight)
-  return totalHeight
 end
 
 return twocol
