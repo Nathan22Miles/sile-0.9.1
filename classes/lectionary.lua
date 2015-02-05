@@ -48,7 +48,9 @@ end
 function typesetter:pageBuilder(independent)
   -- if not two column material present, use default typesetter
   if self.left == 0 then
-    return SILE.defaultTypesetter(self, independent)
+    local result = SILE.defaultTypesetter.pageBuilder(self, independent)
+    print("defaultTypesetter result="..result)
+    return result
   end
 
   -- process all two column material before attempting to build page
