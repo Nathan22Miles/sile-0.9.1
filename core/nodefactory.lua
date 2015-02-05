@@ -35,7 +35,9 @@ local _hbox = _box {
 
   outputYourself = function(self,typesetter, line)
     if not self.value.glyphString then return end
-    print("   oy Hbox @"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY,
+    SU.debug("oy", 
+      "   oy Hbox @"..
+      typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY..", "..
       self.value.glyphString)
     
     local scaledWidth = self.width.length
@@ -44,7 +46,6 @@ local _hbox = _box {
     elseif line.ratio > 0 and self.width.stretch > 0 then
       scaledWidth = scaledWidth + self.width.stretch * line.ratio
     end
-    --print("scaledWidth: "..scaledWidth)
     
     typesetter.frame:normalize()
     -- Yuck!
@@ -93,7 +94,6 @@ local _nnode = _hbox {
   end,
 
   outputYourself = function(self, typesetter, line)
-    --print("oy nnode")
     for i, n in ipairs(self.nodes) do n:outputYourself(typesetter, line) end
   end,
 
@@ -118,7 +118,6 @@ local _disc = _hbox {
   toText = function (self) return self.used==1 and "-" or "_" end,
   
   outputYourself = function(self,typesetter, line)
-    print("oy discreationary")
     if self.used == 1 then
       -- XXX
       for i, n in ipairs(self.prebreak) do n:outputYourself(typesetter,line) end
@@ -152,7 +151,7 @@ local _glue = _box {
     elseif line.ratio and line.ratio > 0 and self.width.stretch > 0 then
       scaledWidth = scaledWidth + self.width.stretch * line.ratio
     end
-    print("   oy hglue="..scaledWidth)
+    SU.debug("oy", "   oy hglue="..scaledWidth)
     typesetter.frame:moveX(scaledWidth)
   end
 }
@@ -176,7 +175,7 @@ local _vglue = _box {
   end,
 
   outputYourself = function (self,typesetter, line)
-    print("oy vglue")
+    SU.debug("oy", "oy vglue="..(line.depth + line.height))
     typesetter.frame:moveY(line.depth + line.height)
   end
 }
@@ -195,7 +194,6 @@ local _penalty = _box {
   end,
 
   outputYourself = function() 
-    print("oy penalty")
   end,
 
   toText = function() return "(!)" end
@@ -229,7 +227,6 @@ local _vbox = _box {
     self.depth = SILE.length.new({length = self.depth })
     self.height = SILE.length.new({length = self.height })
 
-    --print("vbox init: ", self.height, self.depth)
     return self
   end,
 
@@ -238,10 +235,9 @@ local _vbox = _box {
   end,
 
   outputYourself = function(self, typesetter, line)
-    print()
-    print("oy Vbox("..#self.nodes..")",
-      "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY,
-      "ht/dp="..self.height.." "..self.depth)
+    SU.debug("oy", "oy Vbox("..#self.nodes..") "..
+      "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY.. 
+      ", ht/dp="..self.height.."/"..self.depth)
 
     typesetter.frame:moveY(self.height)  
     local initial = true
