@@ -13,8 +13,8 @@
 -- port to windows
 
 -- SILE.debugFlags.oy = true
-SILE.debugFlags.twocol = true
--- SILE.debugFlags["lectionary"] = true
+-- SILE.debugFlags.twocol = true
+SILE.debugFlags["lectionary"] = true
 -- SILE.debugFlags["lectionary+"] = true
 
 
