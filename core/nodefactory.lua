@@ -35,10 +35,7 @@ local _hbox = _box {
 
   outputYourself = function(self,typesetter, line)
     if not self.value.glyphString then return end
-    print("oy Hbox @",
-      typesetter.frame.state.cursorX,
-      typesetter.frame.state.cursorY,
-      "ht="..self.height,
+    print("   oy Hbox @"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY,
       self.value.glyphString)
     
     local scaledWidth = self.width.length
@@ -96,7 +93,7 @@ local _nnode = _hbox {
   end,
 
   outputYourself = function(self, typesetter, line)
-    print("oy nnode")
+    --print("oy nnode")
     for i, n in ipairs(self.nodes) do n:outputYourself(typesetter, line) end
   end,
 
@@ -149,13 +146,13 @@ local _glue = _box {
   toText = function () return " " end,
 
   outputYourself = function (self,typesetter, line)
-    print("oy hglue")
     local scaledWidth = self.width.length
     if line.ratio and line.ratio < 0 and self.width.shrink > 0 then
       scaledWidth = scaledWidth + self.width.shrink * line.ratio
     elseif line.ratio and line.ratio > 0 and self.width.stretch > 0 then
       scaledWidth = scaledWidth + self.width.stretch * line.ratio
     end
+    print("   oy hglue="..scaledWidth)
     typesetter.frame:moveX(scaledWidth)
   end
 }

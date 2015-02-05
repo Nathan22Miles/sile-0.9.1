@@ -126,6 +126,14 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   local rightColumnOffset = self.columnWidth + self.gapWidth
   local offsetGlue = SILE.nodefactory.newGlue(
                  {width = SILE.length.new({ length = rightColumnOffset })})
+  
+  -- we need an empty hbox because leading glue is ignored
+  local emptyHbox = SILE.nodefactory.newHbox({
+    height = 0,
+    width = 0,
+    depth = 0,
+    value = {glyphString = nil}
+  })
 
   -- shift right column right
   local i
@@ -133,6 +141,11 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
     local box = oq[i]
     if box:isVbox() then
       table.insert(box.nodes, 1, offsetGlue)
+      table.insert(box.nodes, 1, emptyHbox)
+      --print("RC")
+      --for j, node in ipairs(box.nodes) do
+      --  print (j, node)
+      --end
     end
   end
 
