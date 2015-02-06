@@ -1,12 +1,12 @@
 
--- correct margins
+-- why is twocol0 generating second page?
 -- setup test files
 -- figure out what really needs done with parskip
 
 -- get lectionary test data
 -- create basic formatting
 -- add twocol
--- keep together
+-- keep together/dont start new section near bottom of page
 -- page headers
 -- table of contents
 

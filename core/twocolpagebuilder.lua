@@ -13,9 +13,13 @@ local tcpb = {}
 -- Penalty will be ovefull if there is no way to fit anything on page.
 function tcpb.findBestTwoColBreak(oq, left, targetHeight)
   assert(left >= 1 and left <= #oq)
-  SU.debug("twocol",
-    "findBestTwoColBreak left="..left..","..
-    "targetHeight="..targetHeight..", ("..#oq..")")
+  if SILE.debugFlags.twocol then
+    print("findBestTwoColBreak left="..left..","..
+      "targetHeight="..targetHeight..", ("..#oq..")")
+    for i=left,#oq do
+      print(i, oq[i])
+    end
+  end
 
   local right, rightEnd, penalty = nil, nil, overfull  -- outputs
   local _right, _rightEnd, _penalty, _height 
@@ -59,8 +63,9 @@ function tcpb.findBestTwoColBreak2(oq, left, right, targetHeight)
       local rightPenalty = tcpb.columnPenalty(oq, _rightEnd)
       local pageBottomGap = targetHeight - leftHeight
       local interColumnGap = leftHeight - rightHeight
+      local remainingLines = tcpb.countLines(oq, _rightEnd)
       local _penalty = tcpb.calculatePenalty(leftPenalty, rightPenalty,    
-                         pageBottomGap, interColumnGap)
+                         pageBottomGap, interColumnGap, remainingLines)
 
       SU.debug("twocol", "         *** ".._penalty.." "..right.."/".._rightEnd)
       if _rightEnd and _penalty <= penalty then 
@@ -73,13 +78,21 @@ function tcpb.findBestTwoColBreak2(oq, left, right, targetHeight)
   return rightEnd, penalty, leftHeight
 end
 
+function tcpb.countLines(oq, first)
+  local count = 0
+  for i=first,#oq do
+    if oq[i]:isVbox() then count = count+1 end
+  end
+  return count
+end
+
 -- return penalty
-function tcpb.calculatePenalty(leftPenalty, rightPenalty, pageBottomGap, interColumnGap)
+function tcpb.calculatePenalty(leftPenalty, rightPenalty, pageBottomGap, interColumnGap, remainingLines)
   local penalty
   if leftPenalty > 100 or rightPenalty > 100 then 
     penalty = overfull 
   else
-    penalty = pageBottomGap.length + interColumnGap.length
+    penalty = pageBottomGap.length + interColumnGap.length + 1000*remainingLines
   end
 
   return penalty 
