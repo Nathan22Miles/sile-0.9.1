@@ -270,7 +270,8 @@ SILE.defaultTypesetter = std.object {
   end,
   
   leaveHmode = function(self, independent)
-    SU.debug("typesetter", "Leaving hmode");
+    SU.debug("typesetter", "Leaving hmode "..independent);
+    print("Leaving hmode "..independent);
     local vboxlist = self:boxUpNodes()
     self.state.nodes = {};
     -- Push output lines into boxes and ship them to the page builder

@@ -16,11 +16,17 @@
 -- SILE.debugFlags.twocol = true
 SILE.debugFlags["lectionary"] = true
 -- SILE.debugFlags["lectionary+"] = true
+-- SILE.debugFlags.typesetter = true
 
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
 local tcpb = SILE.require("core/twocolpagebuilder")
+
+function twocol:endPage()
+  print("twocol endPage")
+  plain:endPage()
+end
 
 SILE.require("packages/counters");
 SILE.scratch.counters.folio = { value = 1, display = "arabic" };
@@ -35,8 +41,11 @@ local function twocol_func(options, content)
   SILE.process(content)
   typesetter:leaveHmode()
   typesetter.allTwoColMaterialProcessed = true
+
   while typesetter:pageBuilder() do
+    typesetter:initNextFrame()
   end
+
   typesetter:endTwoCol()
 end
 
@@ -74,8 +83,11 @@ function typesetter:pageBuilder(independent)
   if not self.allTwoColMaterialProcessed then return false end
 
   local oq = self.state.outputQueue
+  SU.debug("lectionary", "pageBuilder left="..self.left..", #oq="..#oq)
+
   typesetter:removeDiscardable(self.left)
   if #oq == 0 then 
+    SU.debug("lectionary", "   pageBuilder RETURN empty oq / false")
     self:endTwoCol()
     return false 
   end
@@ -100,6 +112,8 @@ function typesetter:pageBuilder(independent)
     assert(self.left > 1)
     self:outputLinesToPage2(1, self.left)  
     self.left = 1
+    SU.debug("lectionary", 
+       "   pageBuilder RETURN can't fit 2c material on page / true")
     return true
   end
 
@@ -109,6 +123,8 @@ function typesetter:pageBuilder(independent)
   -- exit two column mode but do not output page because more
   -- material may still fit.
   if rightEnd == #oq+1 then 
+    SU.debug("lectionary", 
+       "   pageBuilder RETURN end 2c, page not full / false")
     self:endTwoCol()
     return false 
   end
@@ -121,6 +137,8 @@ function typesetter:pageBuilder(independent)
   self:outputLinesToPage2(1, rightEnd);
   
   self.left = 1
+  SU.debug("lectionary", 
+     "pageBuilder RETURN produced 2c page, more 2c material to process / true")
   return true
 end
 
@@ -135,8 +153,8 @@ end
 
 function typesetter:adjustRightColumn(left, right, rightEnd)
   local oq = self.state.outputQueue
-  SU.debug("lectionary", 
-    "adjustRightColumn left="..left.. 
+  SU.debug("lectionary+", 
+    "   adjustRightColumn left="..left.. 
     ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
 
   local rightColumnOffset = self.columnWidth + self.gapWidth
@@ -180,8 +198,8 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   table.insert(oq, rightEnd, positiveVglue)
   table.insert(oq, right, negativeVglue)
 
-  SU.debug("lectionary", 
-    "after adjustRightColumn right="..right..", rightEnd="..rightEnd)
+  SU.debug("lectionary+", 
+    "      after adjustRightColumn right="..right..", rightEnd="..rightEnd)
   typesetter:dumpOq()
   return right, rightEnd
 end
@@ -220,7 +238,7 @@ function typesetter:outputLinesToPage2(first, last)
 
   local oq = self.state.outputQueue
   SU.debug("lectionary", 
-    "outputLinesToPage2 first="..first..", last="..last.." ("..#oq..")")
+    "   outputLinesToPage2 first="..first..", last="..last.." ("..#oq..")")
   assert(last > first)
   assert(last-1 <= #oq)
 

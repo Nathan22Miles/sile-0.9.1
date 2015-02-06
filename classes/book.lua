@@ -1,13 +1,19 @@
 local plain = SILE.require("classes/plain");
 local book = plain { id = "book" };
+
+-- SILE.debugFlags.typesetter = true
+
 book:loadPackage("masters")
+
 book:defineMaster({ id = "right", firstContentFrame = "content", frames = {
   content = {left = "8.3%", right = "86%", top = "11.6%", bottom = "top(footnotes)" },
   folio = {left = "left(content)", right = "right(content)", top = "bottom(footnotes)+3%",bottom = "bottom(footnotes)+5%" },
   runningHead = {left = "left(content)", right = "right(content)", top = "top(content) - 8%", bottom = "top(content)-3%" },
   footnotes = { left="left(content)", right = "right(content)", height = "0", bottom="83.3%"}
 }})
+
 book:loadPackage("twoside", { oddPageMaster = "right", evenPageMaster = "left" });
+
 book:mirrorMaster("right", "left")
 
 book:loadPackage("tableofcontents")
@@ -15,6 +21,7 @@ book:loadPackage("tableofcontents")
 if not(SILE.scratch.headers) then SILE.scratch.headers = {}; end
 
 book.pageTemplate = SILE.scratch.masters["right"]
+
 book.init = function(self)
   book:loadPackage("footnotes", { insertInto = "footnotes", stealFrom = {"content"} } )
   return plain.init(self)
@@ -135,6 +142,7 @@ SILE.registerCommand("book:chapterfont", function (options, content)
     SILE.Commands["font"]({weight=800, size="22pt"}, content)
   end)
 end)
+
 SILE.registerCommand("book:sectionfont", function (options, content)
   SILE.settings.temporarily(function()
     SILE.Commands["font"]({weight=800, size="15pt"}, content)
@@ -146,6 +154,7 @@ SILE.registerCommand("book:subsectionfont", function (options, content)
     SILE.Commands["font"]({weight=800, size="12pt"}, content)
   end)
 end)
+
 SILE.registerCommand("open-double-page", function() 
   SILE.typesetter:leaveHmode();
   SILE.Commands["supereject"]();

@@ -18,7 +18,7 @@ return {
         SILE.scratch.counters.folio.value = SILE.scratch.counters.folio.value + 1
         return 
       end
-      io.write("["..SILE.formatCounter(SILE.scratch.counters.folio).."] ");
+      io.write("[---"..SILE.formatCounter(SILE.scratch.counters.folio).."] ");
       local f = SILE.getFrame("folio");
       if (f) then
         SILE.typesetNaturally(f, function()
