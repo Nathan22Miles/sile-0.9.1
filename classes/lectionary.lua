@@ -1,6 +1,7 @@
--- remove extra? leading / align column tops
--- correct margins and gap
+
+-- correct margins
 -- setup test files
+-- figure out what really needs done with parskip
 
 -- get lectionary test data
 -- create basic formatting
@@ -13,8 +14,8 @@
 
 -- SILE.debugFlags.oy = true
 -- SILE.debugFlags.twocol = true
-SILE.debugFlags["lectionary"] = true
-SILE.debugFlags["lectionary+"] = true
+-- SILE.debugFlags["lectionary"] = true
+-- SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
 
@@ -54,12 +55,11 @@ function typesetter:init()
   self.frame = SILE.frames["a"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
   self.gapWidth = .03 * self.frame:width()
-  self.marginWidth = .06 * self.frame:width()  --!!!
   return ret
 end
 
 function typesetter:startTwoCol()
-  self.columnWidth = (self.frame:width() - self.gapWidth - 2*self.marginWidth)  / 2
+  self.columnWidth = (self.frame:width() - self.gapWidth)  / 2
   SILE.settings.set("typesetter.breakwidth", SILE.length.new({ length = self.columnWidth }))
   self.left = #self.state.outputQueue + 1
   self.allTwoColMaterialProcessed = false
@@ -196,9 +196,9 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   right = right - count
   rightEnd = rightEnd - count
  
-  print()
-  print("after remove from right right="..right..", rightEnd="..rightEnd)
-  typesetter:dumpOq()
+  --print()
+  --print("after remove from right right="..right..", rightEnd="..rightEnd)
+  --typesetter:dumpOq()
  
   -- add negative glue to make right column start at same height as left column
   -- add positive glue to make right column as long as left column
