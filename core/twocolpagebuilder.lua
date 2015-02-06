@@ -90,8 +90,6 @@ function tcpb.columnHeight(oq, first, last)
 
   local i
   for i=first,last-1 do
-    assert(i <= #oq, first.."/"..last)
-    assert(oq[i])
     h = h + oq[i].height + oq[i].depth
   end
 

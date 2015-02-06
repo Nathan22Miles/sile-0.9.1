@@ -84,6 +84,15 @@ function typesetter:pageBuilder(independent)
   local oq = self.state.outputQueue
   SU.debug("lectionary", "pageBuilder left="..self.left..", #oq="..#oq)
 
+  -- remove all variability from 2col material
+  for i=self.left,#oq do
+    local box = oq[i]
+    if box:isVglue() then
+      box.height.shrink = 0
+      box.height.stretch = 0
+    end
+  end
+
   typesetter:removeDiscardable(self.left)
   if #oq == 0 then 
     SU.debug("lectionary", "   pageBuilder RETURN empty oq / false")
@@ -187,13 +196,14 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   right = right - count
   rightEnd = rightEnd - count
  
-  --print()
-  --print("after remove from right right="..right..", rightEnd="..rightEnd)
-  --typesetter:dumpOq()
+  print()
+  print("after remove from right right="..right..", rightEnd="..rightEnd)
+  typesetter:dumpOq()
  
   -- add negative glue to make right column start at same height as left column
   -- add positive glue to make right column as long as left column
   local leftColumnHeight = typesetter:totalHeight(left, right).length
+  SU.debug("lectionary+", "leftColumnHeight="..leftColumnHeight)
   local rightColumnHeight = typesetter:totalHeight(right, rightEnd).length
   local negativeVglue = SILE.nodefactory.newVglue(
                  {height = SILE.length.new({ length = -leftColumnHeight })})
