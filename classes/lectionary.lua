@@ -1,11 +1,10 @@
--- generate 2nd page
+-- remove extra? leading / align column tops
 -- correct margins and gap
--- remove extra? leading
--- align column tops
 -- setup test files
 
 -- get lectionary test data
 -- create basic formatting
+-- add twocol
 -- keep together
 -- page headers
 -- table of contents
@@ -15,18 +14,18 @@
 -- SILE.debugFlags.oy = true
 -- SILE.debugFlags.twocol = true
 SILE.debugFlags["lectionary"] = true
--- SILE.debugFlags["lectionary+"] = true
+SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.typesetter = true
-
+-- SILE.debugFlags.outputLinesToPage2 = true
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
 local tcpb = SILE.require("core/twocolpagebuilder")
 
-function twocol:endPage()
-  print("twocol endPage")
-  plain:endPage()
-end
+--function twocol:endPage()
+--  print("twocol endPage")
+--  plain:endPage()
+--end
 
 SILE.require("packages/counters");
 SILE.scratch.counters.folio = { value = 1, display = "arabic" };
@@ -55,7 +54,7 @@ function typesetter:init()
   self.frame = SILE.frames["a"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
   self.gapWidth = .03 * self.frame:width()
-  self.marginWidth = .06 * self.frame:width()
+  self.marginWidth = .06 * self.frame:width()  --!!!
   return ret
 end
 
@@ -156,18 +155,15 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   SU.debug("lectionary+", 
     "   adjustRightColumn left="..left.. 
     ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
+  typesetter:dumpOq()
 
   local rightColumnOffset = self.columnWidth + self.gapWidth
   local offsetGlue = SILE.nodefactory.newGlue(
                  {width = SILE.length.new({ length = rightColumnOffset })})
   
   -- we need an empty hbox because leading glue is ignored
-  local emptyHbox = SILE.nodefactory.newHbox({
-    height = 0,
-    width = 0,
-    depth = 0,
-    value = {glyphString = nil}
-  })
+  local emptyHbox = SILE.nodefactory.newHbox(
+    {height = 0, width = 0, depth = 0, value = {glyphString = nil} })
 
   -- shift right column right
   local i
@@ -183,10 +179,18 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   rightEnd = rightEnd - count
   if rightEnd < right then right = rightEnd end
 
+  --print()
+  --print("after remove from rightEnd right="..right..", rightEnd="..rightEnd)
+  --typesetter:dumpOq()
+
   count = typesetter:removeDiscardableFromEnd(right)
   right = right - count
   rightEnd = rightEnd - count
-  
+ 
+  --print()
+  --print("after remove from right right="..right..", rightEnd="..rightEnd)
+  --typesetter:dumpOq()
+ 
   -- add negative glue to make right column start at same height as left column
   -- add positive glue to make right column as long as left column
   local leftColumnHeight = typesetter:totalHeight(left, right).length
@@ -197,6 +201,8 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
                  {height = SILE.length.new({ length = leftColumnHeight-rightColumnHeight })})
   table.insert(oq, rightEnd, positiveVglue)
   table.insert(oq, right, negativeVglue)
+
+  rightEnd = rightEnd+2
 
   SU.debug("lectionary+", 
     "      after adjustRightColumn right="..right..", rightEnd="..rightEnd)
@@ -237,10 +243,16 @@ function typesetter:outputLinesToPage2(first, last)
   if last <= first then return end
 
   local oq = self.state.outputQueue
-  SU.debug("lectionary", 
-    "   outputLinesToPage2 first="..first..", last="..last.." ("..#oq..")")
+
   assert(last > first)
   assert(last-1 <= #oq)
+
+  if SILE.debugFlags["outputLinesToPage2"] then
+    print("outputLinesToPage2")
+    for i=first,last do
+      print(i, oq[i])
+    end
+  end
 
   SU.debug("pagebuilder", "OUTPUTTING frame "..self.frame.id);
 
