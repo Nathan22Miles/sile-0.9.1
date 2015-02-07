@@ -1,12 +1,12 @@
 
--- why is twocol0 generating second page?
--- setup test files
+
 -- figure out what really needs done with parskip
 
 -- get lectionary test data
 -- create basic formatting
 -- add twocol
 -- keep together/dont start new section near bottom of page
+-- process usx to input form, test for year B
 -- page headers
 -- table of contents
 
@@ -18,6 +18,8 @@
 -- SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
+
+print("twocol loaded")
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
