@@ -1,32 +1,48 @@
 ﻿<sile class="lectionary" papersize="a4">
-<define command="ms1"><font style="italic"><process/></font></define>
 <define command="right"><hfill/><process/></define>
 <define command="plain"><indent/><font size="12pt"><process/></font></define>
 <define command="biggest"><font size="18pt"><process/></font></define>
 <define command="big"><font size="14pt"><process/></font></define>
 <define command="bold"><font weight="800"><process/></font></define>
-<define command="ms1"><center><biggest><process/></biggest></center></define>
-<define command="ms2"><center><big><process/></big></center></define>
-<define command="ms"><big><bold><process/></bold></big></define>
+<define command="ms1">
+  <center>
+    <biggest>
+      <process/>
+    </biggest>
+  </center>
+  <par/>
+</define>
+<define command="ms2"><center><big><process/></big></center><par/></define>
+
+<define command="ms">
+  <bigskip/>
+  <big>
+    <bold>
+      <process/>
+    </bold>
+  </big>
+  <par/>
+</define>
+
 <define command="rq"><hfill/><process/></define>
-<define command="mrx"><center><em><process/></em></center></define>
-<define command="s1"><bold><process/></bold></define>
-<define command="s2"><bold><right><process/></right></bold></define>
+<define command="mrx"><smallskip/><center><em><process/></em></center><par/></define>
+<define command="s1"><medskip/><bold><process/></bold><par/></define>
+<define command="s2"><bold><right><process/></right></bold><par/></define>
 <define command="titles"><eject/><vfill/><process/><vfill/></define>
-<define command="mt1"><biggest><bold><center><process/></center></bold></biggest></define>
-<define command="mt2"><big><bold><center><process/></center></bold></big></define>
-<define command="p2"><em><process/></em></define>
-<define command="p3"><plain><process/></plain></define>
-<define command="nb"><plain><process/></plain></define>
-<define command="p"><plain><process/></plain></define>
-<define command="pi"><plain><process/></plain></define>
-<define command="q"><plain><process/></plain></define>
-<define command="q1"><plain><process/></plain></define>
-<define command="q2"><plain><process/></plain></define>
-<define command="q3"><plain><process/></plain></define>
-<define command="q4"><plain><process/></plain></define>
-<define command="m"><plain><process/></plain></define>
-<define command="mi"><plain><process/></plain></define>
+<define command="mt1"><biggest><bold><center><process/></center></bold></biggest><par/></define>
+<define command="mt2"><big><bold><center><process/></center></bold></big><par/></define>
+<define command="p2"><em><process/></em><par/></define>
+<define command="p3"><plain><process/></plain><par/></define>
+<define command="nb"><plain><process/></plain><par/></define>
+<define command="p"><plain><process/></plain><par/></define>
+<define command="pi"><plain><process/></plain><par/></define>
+<define command="q"><plain><process/></plain><par/></define>
+<define command="q1"><plain><process/></plain><par/></define>
+<define command="q2"><plain><process/></plain><par/></define>
+<define command="q3"><plain><process/></plain><par/></define>
+<define command="q4"><plain><process/></plain><par/></define>
+<define command="m"><plain><process/></plain><par/></define>
+<define command="mi"><plain><process/></plain><par/></define>
 <define command="b"></define>
 <define command="c"></define>
 <define command="fig"></define>
@@ -38,7 +54,7 @@
 <define command="ip"></define>
 <define command="li1"></define>
 
-<font family="Times"/>
+<font family="Gentium" />
 <raggedright/>
 <nohyphenation/>
 
@@ -46,47 +62,47 @@
   <rem>NOTE: the header should be taken from the contents of ms1; that same header should continue until the next ms1.</rem>
   <ms>1. RIT <rq>Ais 63:16-17; 64:1, 3-8</rq></ms>
   <rem>tokpisin Hettok: Bikpela, mipela i laik yu mas brukim skai na kam daun, na of maunten bai i guria nogut tru long taim yu kam.</rem>
-  <mrx>Akar dapanim: Ekiam, nç overiam abigh izighçrasa, e ifonge, eghtç mçghsçaba nç izighiramin dughiamçn akong nçgham.</mrx>
+  <mrx>Akar dapanim: Ekiam, nɨ overiam abigh izighɨrasa, e ifonge, eghtɨ mɨghsɨaba nɨ izighiramin dughiamɨn akong nɨgham.</mrx>
   <rem>tokpisin Rit i kam long buk bilong profet Aisaia.</rem>
-  <s1>Akar kam, Godçn akam inigha izir gumazim Aisaia, an osiri.</s1>
+  <s1>Akar kam, Godɨn akam inigha izir gumazim Aisaia, an osiri.</s1>
 
   <twocol>
-  <q1>O Ikiavçra Itir God, nç bar guizbangçra en Afeziam.</q1>
+  <q1>O Ikiavɨra Itir God, nɨ bar guizbangɨra en Afeziam.</q1>
   <q2>En inazir afeziamning, Abraham ko Jekop,</q2>
-  <q2>aning ua e ko itir puvatç, egha e gçfozir puvatç.</q2>
-  <q1>Ezç nçrara, nç fomçrama e geghuva deragha en gara iza datçrçghçn tu.</q1>
-  <q1>O Ikiavçra Itir God, nç manmagh sua, e gamizç,</q1>
-  <q2>e tintinibar ghua nçn akabar gçn zuir puvatç?</q2>
-  <q1>Egha manmagh sua, en naviba ko nçghnçzibagh amizç,</q1>
-  <q2>e nçn atiatia nçn apengan itir puvatç?</q2>
-  <q1>E nçn ingangarir gumazir nç ua baghavçra inabaziba,</q1>
-  <q2>e nçn adarazira, e nç baghavçra iti.</q2>
-  <q3>Kamaghçn, nç uamategh e ko ikç.</q3>
-  <q1>O Ikiavçra Itir God, nç overiam abigh egh kagh izaghçrç!</q1>
-  <q2>Nç kamaghçn damutç, mçghsçaba nçn damazimçn atiating akongam.</q2>
-  <q1>Nç fomçra izaghira bizir igharagha garir e ganizir puvatçzibagh amizç da otifi,</q1>
-  <q2>nç dagh ami, e dar gara dçgavir kuram gami.</q2>
-  <q1>Nç izaghirir dughiar kamçn,</q1>
-  <q2>nç mçghsçabagh amizç da nçn damazimçn bar puvçram agoi.</q2>
-  <q1>Bar fomçra iza datçrçghçn, gumazitam uan damazimçn gara uan kuarim atçgha orazi, godçn nçn mçn ititam, ua itir pu. Bar puvatç.</q1>
-  <q2>Nç uabçra, gumazamizir nçghnçzir gavgavim nçn ikia nç mçzuaiba, nç me bagha pamtem ingara men akura.</q2>
-  <q1>Nçrara, nç gumazir arazir aghuibara damuasa ifuegha nçn tuavim gçnçghnçgha an gçn zuiba, nç me batogha men akurvasi.</q1>
-  <q2>E fo, nç faragha en ataravçra itima, e uan arazir kuraba ataghrazir puvatç.</q2>
-  <q1>E dughiar bar ruarim arazir ikurabar amuasa bar gavgavighavçra iti.</q1>
-  <q2>Ezç nç manmaghçrama en akuragh uam e iniam?</q2>
-  <q1>E nçn damazimçn bar arazir ikurabagh amigha, nçn damazimçn bar mçze.</q1>
-  <q2>E amir arazir kaba e ghaze, da ti derazç e dagh ami,</q2>
-  <q2>arazir kaba nçn damazimçn bar ikuvigha, mati inir avçzir bar pughpurizçm.</q2>
-  <q1>En arazir kurar kabara e gamima, e bar atam mçsçngi, mati amçnim ter afarir mçdiaribagh ivarazç da ghue.</q1>
-  <q1>Gumazitam nçn iziam dçbora nç ko mçgeir puvatç,</q1>
-  <q2>egha akurvazim bagha nçn boroghçn zuir puvatç,</q2>
-  <q1>E ghaze, nç en arazir kuraba bangçn,</q1>
-  <q2>nç bar uan guam en modogha e ataghizç, en arazir kuraba e gasçghasçghizç e bar ikuvigha iti.</q2>
-  <q1>O Ikiavçra Itir God, nç en Afeziam, nç mati mçnebar ingarir gumazimçn mçn iti.</q1>
-  <q2>Ezç e mati gumazim nguazim isa uan dafarimningçn nguazir mçnebar ingari.</q2>
-  <q2>ezç nç uan dafarimningçn en ingari.</q2>
+  <q2>aning ua e ko itir puvatɨ, egha e gɨfozir puvatɨ.</q2>
+  <q1>Ezɨ nɨrara, nɨ fomɨrama e geghuva deragha en gara iza datɨrɨghɨn tu.</q1>
+  <q1>O Ikiavɨra Itir God, nɨ manmagh sua, e gamizɨ,</q1>
+  <q2>e tintinibar ghua nɨn akabar gɨn zuir puvatɨ?</q2>
+  <q1>Egha manmagh sua, en naviba ko nɨghnɨzibagh amizɨ,</q1>
+  <q2>e nɨn atiatia nɨn apengan itir puvatɨ?</q2>
+  <q1>E nɨn ingangarir gumazir nɨ ua baghavɨra inabaziba,</q1>
+  <q2>e nɨn adarazira, e nɨ baghavɨra iti.</q2>
+  <q3>Kamaghɨn, nɨ uamategh e ko ikɨ.</q3>
+  <q1>O Ikiavɨra Itir God, nɨ overiam abigh egh kagh izaghɨrɨ!</q1>
+  <q2>Nɨ kamaghɨn damutɨ, mɨghsɨaba nɨn damazimɨn atiating akongam.</q2>
+  <q1>Nɨ fomɨra izaghira bizir igharagha garir e ganizir puvatɨzibagh amizɨ da otifi,</q1>
+  <q2>nɨ dagh ami, e dar gara dɨgavir kuram gami.</q2>
+  <q1>Nɨ izaghirir dughiar kamɨn,</q1>
+  <q2>nɨ mɨghsɨabagh amizɨ da nɨn damazimɨn bar puvɨram agoi.</q2>
+  <q1>Bar fomɨra iza datɨrɨghɨn, gumazitam uan damazimɨn gara uan kuarim atɨgha orazi, godɨn nɨn mɨn ititam, ua itir pu. Bar puvatɨ.</q1>
+  <q2>Nɨ uabɨra, gumazamizir nɨghnɨzir gavgavim nɨn ikia nɨ mɨzuaiba, nɨ me bagha pamtem ingara men akura.</q2>
+  <q1>Nɨrara, nɨ gumazir arazir aghuibara damuasa ifuegha nɨn tuavim gɨnɨghnɨgha an gɨn zuiba, nɨ me batogha men akurvasi.</q1>
+  <q2>E fo, nɨ faragha en ataravɨra itima, e uan arazir kuraba ataghrazir puvatɨ.</q2>
+  <q1>E dughiar bar ruarim arazir ikurabar amuasa bar gavgavighavɨra iti.</q1>
+  <q2>Ezɨ nɨ manmaghɨrama en akuragh uam e iniam?</q2>
+  <q1>E nɨn damazimɨn bar arazir ikurabagh amigha, nɨn damazimɨn bar mɨze.</q1>
+  <q2>E amir arazir kaba e ghaze, da ti derazɨ e dagh ami,</q2>
+  <q2>arazir kaba nɨn damazimɨn bar ikuvigha, mati inir avɨzir bar pughpurizɨm.</q2>
+  <q1>En arazir kurar kabara e gamima, e bar atam mɨsɨngi, mati amɨnim ter afarir mɨdiaribagh ivarazɨ da ghue.</q1>
+  <q1>Gumazitam nɨn iziam dɨbora nɨ ko mɨgeir puvatɨ,</q1>
+  <q2>egha akurvazim bagha nɨn boroghɨn zuir puvatɨ,</q2>
+  <q1>E ghaze, nɨ en arazir kuraba bangɨn,</q1>
+  <q2>nɨ bar uan guam en modogha e ataghizɨ, en arazir kuraba e gasɨghasɨghizɨ e bar ikuvigha iti.</q2>
+  <q1>O Ikiavɨra Itir God, nɨ en Afeziam, nɨ mati mɨnebar ingarir gumazimɨn mɨn iti.</q1>
+  <q2>Ezɨ e mati gumazim nguazim isa uan dafarimningɨn nguazir mɨnebar ingari.</q2>
+  <q2>ezɨ nɨ uan dafarimningɨn en ingari.</q2>
   <rem>tokpisin Dispela em i Tok bilong God.</rem>
-  <s2>Kar Godçn Akam.</s2>
+  <s2>Kar Godɨn Akam.</s2>
   </twocol>
   
   <ms>SAM <rq>Sam 80:2-3, 15-16, 18-19</rq></ms>
@@ -94,42 +110,42 @@
   <rem>tokpisin Bekim: Bikpela i save marimari na mipela i orait.</rem>
   <s1>Ia akam ikaragh: Ekiam en apangkuvima, e deragha iti.</s1>
   <rem>TODO only "Wasman bilong Israel, harim mipela. Yu sindaun long sia king antap long ol ensel. Bikpela, soim strong bilong yu; kam na kisim bek mipela."</rem>
-  <q1>O Israelia geghuvir gumazim, nç deravçra e barakigh. {</q1>
-  <q2>Nç Josepçn ovavir boriba sipsipbar mçn me geghuva, deragha men gari.|}</q2>
-  <q2>Nç uan atrivir dabirabim gaperaghav ikia, enselçn bar gavgaviba nç men pçn iti.</q2>
-  <q3>Nç uan angazangarim e gisiragh.</q3>
-  <q1>{Nç Efraim ko, Benjamin ko, Manase, nç men anababar ovavir boriba, uabç men akagh.|}</q1>
-  <q2>Nç uan gavgavim akagh izç en akuragh.</q2>
+  <q1>O Israelia geghuvir gumazim, nɨ deravɨra e barakigh. {</q1>
+  <q2>Nɨ Josepɨn ovavir boriba sipsipbar mɨn me geghuva, deragha men gari.|}</q2>
+  <q2>Nɨ uan atrivir dabirabim gaperaghav ikia, enselɨn bar gavgaviba nɨ men pɨn iti.</q2>
+  <q3>Nɨ uan angazangarim e gisiragh.</q3>
+  <q1>{Nɨ Efraim ko, Benjamin ko, Manase, nɨ men anababar ovavir boriba, uabɨ men akagh.|}</q1>
+  <q2>Nɨ uan gavgavim akagh izɨ en akuragh.</q2>
   <rem>after extraction, omit 2a; use 2b</rem>
   <rem>tokpisin Bekim:</rem>
   <s1>Ia akam ikaragh:</s1>
   <rem>TODO only "God I Gat Olgeta Strong, yu tingim mipela gen. Lukdaun long mipela na kam helpim mipela. Lukautim dispela rop wain yu yet i bin planim, na han bilong yu i bin mekim em i kamap bikpela."</rem>
-  <q1>O Godçn Gavgaviba Bar Itim, nç uam e gçnçghnçgh,</q1>
-  <q2>uan Nguibamçn pçn ikç vangçnan wainçn ikarzir kam deraghvçra an gan.</q2>
-  <q1>Nç uabç uan agharir guivimçn wainçn ikarzir kam akara.</q1>
-  <q2>Nç wainçn biar igiam akarazç an aghua gavgavigha gçfa.</q2>
+  <q1>O Godɨn Gavgaviba Bar Itim, nɨ uam e gɨnɨghnɨgh,</q1>
+  <q2>uan Nguibamɨn pɨn ikɨ vangɨnan wainɨn ikarzir kam deraghvɨra an gan.</q2>
+  <q1>Nɨ uabɨ uan agharir guivimɨn wainɨn ikarzir kam akara.</q1>
+  <q2>Nɨ wainɨn biar igiam akarazɨ an aghua gavgavigha gɨfa.</q2>
   <rem>tokpisin Bekim:</rem>
   <s1>Ia akam ikaragh:</s1>
   <rem>TODO only "Putim han bilong yu antap long ol manmeri yu bin makim bilong yu yet, em lain manmeri yu bin strongim. Lukautim gut laip bilong mipela, bai mipela inap litimapim nem bilong yu, na mipela i no ken lusim yu gen."</rem>
-  <q1>Nçn gumazamizir nç ua bagha inabaziba,</q1>
-  <q2>nç me gamizç me ekevegha bar gavgafi.</q2>
-  <q2>Nç men akuragh deragh men gan.</q2>
-  <q1>Nç kamagh damightç e uam akçrim ragh nç gasan kogham.</q1>
-  <q2>Nç en akuraghtç e angamra deravçra ikç, nçn ziam fam.</q2>
+  <q1>Nɨn gumazamizir nɨ ua bagha inabaziba,</q1>
+  <q2>nɨ me gamizɨ me ekevegha bar gavgafi.</q2>
+  <q2>Nɨ men akuragh deragh men gan.</q2>
+  <q1>Nɨ kamagh damightɨ e uam akɨrim ragh nɨ gasan kogham.</q1>
+  <q2>Nɨ en akuraghtɨ e angamra deravɨra ikɨ, nɨn ziam fam.</q2>
   <rem>tokpisin Bekim:</rem>
   <s1>Ia akam ikaragh:</s1>
   
   <ms>2. RIT <rq>1 Ko 1:3-9</rq></ms>
   <rem>tokpisin Hettok: Yumi wetim Bikpela bilong yumi Jisas Krais bai i kamap pIes klia.</rem>
-  <mrx>Akar dapanim: E uan Ekiam Iesus Krais azenim girasa, e a bagha gara a mçzuai iti.</mrx>
+  <mrx>Akar dapanim: E uan Ekiam Iesus Krais azenim girasa, e a bagha gara a mɨzuai iti.</mrx>
   <rem>tokpisin Rit i kam long namba wan pas Pol i raitim i go long ol Korin.</rem>
-  <s1>Akar kam, akçnafarir faragha zuim, Pol Korinçn gumazamiziba baghava an osirizimçn aven iti.</s1>
+  <s1>Akar kam, akɨnafarir faragha zuim, Pol Korinɨn gumazamiziba baghava an osirizimɨn aven iti.</s1>
   
   <twocol>
-  <p>Kç God ko mçgça ghaze, God en Afeziam ko en Ekiam Krais Iesus, aning ian apangkuv, egh navir amçrçzim ia dançng.</p>
-  <p>God, Krais Iesusçn ingangarimçn tuavimçn, ian apangkuvigha, deragha ia gami. Kamaghçn kç zurara ia gçnçghnçgha uan God mçnabi. Kç a mçnabagha ghaze, Kraisçn akar e ian mçkçnizim, a ian navibar ikia gavgafi. Ia Krais ko poroghav itima, God bizir aghiur avçrim ia gançngizç, da ia gizçfa, kar akam akurir arazir avçriba, ko fofozir guar avçriba. Kamaghçn, ia datçrçghçn en Ekiam Krais Iesus azenim giramin dughiam mçzuai, egha ia Godçn Duam ançngizir bizir aghuitam, ia an otevizir puvatç. Krais Iesus gavgavim ia dançngtç, ia gavgavigh mangç, dughiar abuananamçn otogham, eghtç bizir kuratam en Ekiam Krais Iesus Uamateghamin Dughiamçn ian ikian kogham. God uan Otarim Krais Iesus, en Ekiam a ko navir vamçra ikiasa ian dia. Eghtç God damuasa mçkemezç biziba, a bar adar amigham.</p>
+  <p>Kɨ God ko mɨgɨa ghaze, God en Afeziam ko en Ekiam Krais Iesus, aning ian apangkuv, egh navir amɨrɨzim ia danɨng.</p>
+  <p>God, Krais Iesusɨn ingangarimɨn tuavimɨn, ian apangkuvigha, deragha ia gami. Kamaghɨn kɨ zurara ia gɨnɨghnɨgha uan God mɨnabi. Kɨ a mɨnabagha ghaze, Kraisɨn akar e ian mɨkɨnizim, a ian navibar ikia gavgafi. Ia Krais ko poroghav itima, God bizir aghiur avɨrim ia ganɨngizɨ, da ia gizɨfa, kar akam akurir arazir avɨriba, ko fofozir guar avɨriba. Kamaghɨn, ia datɨrɨghɨn en Ekiam Krais Iesus azenim giramin dughiam mɨzuai, egha ia Godɨn Duam anɨngizir bizir aghuitam, ia an otevizir puvatɨ. Krais Iesus gavgavim ia danɨngtɨ, ia gavgavigh mangɨ, dughiar abuananamɨn otogham, eghtɨ bizir kuratam en Ekiam Krais Iesus Uamateghamin Dughiamɨn ian ikian kogham. God uan Otarim Krais Iesus, en Ekiam a ko navir vamɨra ikiasa ian dia. Eghtɨ God damuasa mɨkemezɨ biziba, a bar adar amigham.</p>
   <rem>tokpisin Dispela em i Tok bilong God.</rem>
-  <s2>Kar Godçn Akam.</s2>
+  <s2>Kar Godɨn Akam.</s2>
   </twocol>
 
   <rem>tokpisin WELKAMIM GUTNIUS</rem>
@@ -137,21 +153,21 @@
   <rem>tokpisin Aleluia, Aleluia.</rem>
   <p2>Aleluia, Aleluia.</p2>
   <rem>tokpisin Bikpela, soim marimari bilong yu long mipela, na kisim bek mipela.</rem>
-  <p3>Ekiam, nç uan apangkuvim en akagh, egh uam e inigh.</p3>
+  <p3>Ekiam, nɨ uan apangkuvim en akagh, egh uam e inigh.</p3>
   <rem>tokpisin Aleluia.</rem>
   <p2>Aleluia.</p2>
   
   <rem>tokpisin GUTNIUS Mk 13:33-37</rem>
   <ms>AKAR AGHUIM <rq>Mk 13:33-37</rq></ms>
   <rem>tokpisin Hettok: Yupela i mas was i stap. Yupela i no save wanem taim Bikpela bai i kam.</rem>
-  <mrx>Akar dapanim: Ia uari bagh ganigh ikç. Ia fozir puvatç, Ekiam mana dazokçn ua izam.</mrx>
+  <mrx>Akar dapanim: Ia uari bagh ganigh ikɨ. Ia fozir puvatɨ, Ekiam mana dazokɨn ua izam.</mrx>
   <rem>tokpisin Harim Gutnius bilong Jisas Krais Mak i raitim.</rem>
-  <s1>Ia, Krais Iesusçn Akar Aghuir Mak osirizim, a baragh.</s1>
+  <s1>Ia, Krais Iesusɨn Akar Aghuir Mak osirizim, a baragh.</s1>
   
   <twocol>
-    <p>"Ia dughiar kamçn izamin dughiam gçfozir puvatç. Ia deravçra uari bagh gançva mçzuam. Dughiar kam mati gumazim igharagha zui. A uan dçpenim ategha ghua uan dçpenim isa uan ingangarir gumazibar dafarim garighava dçpenimçn ingangariba me rome. A tiar akamçn itir gumazim mçgça ghaze, nç deravçra gan.</p>
-    <p>"Dçpenimçn ghuavim izamin dughiam ia a gçfozir puvatç, a bogarangra izam, o dçmagarir arçzimçn izam, o tuariba akçtç a izam, o amçnim tiraghtç a izam, o? Kamaghçn ia deravçra gan. Puvatçghtçma, a zuamçram otogh ian gantç, ia dakuvçra ikiam. Kç ia mçgeir bizir kaba, kç gumazamiziba bar me mçgei, ‘Ia deravçra gan!’ "</p>
+    <p>"Ia dughiar kamɨn izamin dughiam gɨfozir puvatɨ. Ia deravɨra uari bagh ganɨva mɨzuam. Dughiar kam mati gumazim igharagha zui. A uan dɨpenim ategha ghua uan dɨpenim isa uan ingangarir gumazibar dafarim garighava dɨpenimɨn ingangariba me rome. A tiar akamɨn itir gumazim mɨgɨa ghaze, nɨ deravɨra gan.</p>
+    <p>"Dɨpenimɨn ghuavim izamin dughiam ia a gɨfozir puvatɨ, a bogarangra izam, o dɨmagarir arɨzimɨn izam, o tuariba akɨtɨ a izam, o amɨnim tiraghtɨ a izam, o? Kamaghɨn ia deravɨra gan. Puvatɨghtɨma, a zuamɨram otogh ian gantɨ, ia dakuvɨra ikiam. Kɨ ia mɨgeir bizir kaba, kɨ gumazamiziba bar me mɨgei, ‘Ia deravɨra gan!’ "</p>
     <rem>tokpisin Dispela em i Gutnius bilong Jisas Krais.</rem>
-    <s2>Kar, Krais Iesusçn Akar Aghuim.</s2>
+    <s2>Kar, Krais Iesusɨn Akar Aghuim.</s2>
   </twocol>
 </sile>
