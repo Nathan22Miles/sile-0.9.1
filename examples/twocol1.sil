@@ -1,0 +1,33 @@
+\begin[class=lectionary,papersize=a4]{document}
+THIS is one column material that goes on and on until it finally gets tired of being so
+verbose and gives up in order to have supper. 
+And this too is one column material that goes on and on until it finally gets tired of being so
+verbose and gives up in order to have supper.
+
+\begin{twocol}
+1 now is the time for all good men to come to the aid of their country.
+2 now is the time for all good men to come to the aid of their country.
+3 now is the time for all good men to come to the aid of their country.
+4 now is the time for all good men to come to the aid of their country.
+
+\end{twocol}
+
+And this too is one column material that goes on and on until it finally gets tired of being so
+verbose and gives up in order to have supper. 
+And this too is one column material that goes on and on until it finally gets tired of being so
+verbose and gives up in order to have supper.
+
+\begin{twocol}
+1 now is the time for all good men to come to the aid of their country.
+2 now is the time for all good men to come to the aid of their country.
+3 now is the time for all good men to come to the aid of their country.
+4 now is the time for all good men to come to the aid of their country.
+
+\end{twocol}
+
+And this too is one column material that goes on and on until it finally gets tired of being so
+verbose and gives up in order to have supper. 
+And this too is one column material that goes on and on until it finally gets tired of being so
+verbose and gives up in order to have supper.
+
+\end{document}

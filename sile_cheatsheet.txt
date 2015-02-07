@@ -1,0 +1,26 @@
+*** Install sile pre-reqs
+  
+sudo apt-get update
+sudo apt-get install libharfbuzz-dev
+sudo apt-get install libfreetype6-dev
+sudo apt-get install libfontconfig1-dev
+sudo apt-get install lua5.1
+sudo apt-get install luarocks
+sudo luarocks install lpeg
+sudo luarocks install luaexpat
+./configure
+make  
+
+cd Desktop/sile-0.9.1
+./sile examples/twocol0.sil; evince examples/twocol0.pdf
+
+SILE
+
+LUA
+
+local l = SILE.length.new({ length = x, stretch = y, shrink = z})
+local glue = SILE.nodefactory.newGlue ({ width = l})
+local vglue = SILE.nodefactory.newVglue({ height = l})
+SILE.typesetter:leaveHmode()
+SILE.typesetter:pushVglue({ height = l })
+  
