@@ -20,6 +20,8 @@ book:loadPackage("tableofcontents")
 
 if not(SILE.scratch.headers) then SILE.scratch.headers = {}; end
 
+assert(SILE.scratch.masters["right"])
+
 book.pageTemplate = SILE.scratch.masters["right"]
 
 book.init = function(self)

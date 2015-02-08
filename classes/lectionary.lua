@@ -1,15 +1,14 @@
-
-
--- figure out what really needs done with parskip
-
--- get lectionary test data
--- create basic formatting
--- add twocol
+-- page margins, right/left
+-- microformats
 -- keep together/dont start new section near bottom of page
 -- process usx to input form, test for year B
 -- page headers
 -- table of contents
 
+
+-- figure out what really needs done with parskip
+
+-- get lectionary test data
 -- port to windows
 
 -- SILE.debugFlags.oy = true
@@ -19,11 +18,54 @@
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
 
-print("twocol loaded")
+-- print("twocol loaded")
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
+twocol.id = "twocol"
+
 local tcpb = SILE.require("core/twocolpagebuilder")
+
+twocol:loadPackage("masters")
+
+twocol:defineMaster({ id = "right", firstContentFrame = "content", frames = {
+  content = {
+    left = "10%", 
+    right = "82%", 
+    top = "10%", 
+    bottom = "top(footnotes)" 
+  },
+  folio = {
+    left = "left(content)", 
+    right = "right(content)", 
+    top = "bottom(footnotes)+3%",
+    bottom = "bottom(footnotes)+5%" 
+  },
+  runningHead = {
+    left = "left(content)", 
+    right = "right(content)", 
+    top = "top(content) - 7%", 
+    bottom = "top(content)-2%" 
+  },
+  footnotes = { 
+    left="left(content)", 
+    right = "right(content)", 
+    height = "0", 
+    bottom="92%"}
+}})
+
+twocol:loadPackage("twoside", { oddPageMaster = "right", evenPageMaster = "left" });
+
+twocol:mirrorMaster("right", "left")
+
+twocol.pageTemplate = SILE.scratch.masters["right"]
+
+-- see book.endPage for running headers code
+
+function twocol:newPage()
+  twocol:switchPage()
+  return plain.newPage(self)
+end
 
 --function twocol:endPage()
 --  print("twocol endPage")
@@ -54,7 +96,8 @@ end
 SILE.registerCommand("twocol", twocol_func, "Typeset content two balanced columns")
 
 function typesetter:init()
-  self.frame = SILE.frames["a"]
+  twocol:switchPage()
+  self.frame = SILE.frames["content"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
   self.gapWidth = .03 * self.frame:width()
   return ret
