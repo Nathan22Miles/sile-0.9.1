@@ -256,7 +256,14 @@ SILE.defaultTypesetter = std.object {
     self:leaveHmode();
   end,
   
-  outputLinesToPage = function (self, lines)
+  outputLinesToPage = function (self, lines)  
+    if SILE.debugFlags["nlm"] then
+      print("outputLinesToPage2")
+      for i=1,#lines do
+        print(i, lines[i])
+      end
+    end
+
     SU.debug("pagebuilder", "OUTPUTTING frame "..self.frame.id);
     local i
     for i = 1,#lines do local l = lines[i]

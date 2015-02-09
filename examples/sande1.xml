@@ -1,53 +1,31 @@
 ﻿<sile class="lectionary" papersize="a4">
 <define command="right"><hfill/><process/></define>
-<define command="plain"><indent/><font size="12pt"><process/></font></define>
+<define command="plain"><set parameter="document.lskip" value="0pt"/><indent/><font size="12pt"><process/></font></define>
 <define command="biggest"><font size="18pt"><process/></font></define>
 <define command="big"><font size="14pt"><process/></font></define>
 <define command="bold"><font weight="800"><process/></font></define>
-
-<define command="ms">
-<bigskip/>
-<noindent>
-<big>
-<bold>
-<process/>
-</bold>
-</big>
-<par/>  
-</noindent>
-</define>
-
-<define command="mrx"><smallskip/><center><em><process/></em></center><par/></define>
-
-<define command="ms1">
-<center>
-<biggest>
-<process/>
-</biggest>
-</center>
-<par/>
-</define>
-<define command="ms2"><center><big><process/></big></center><par/></define>
-
-<define command="s1"><medskip/><noindent><bold><process/></bold><par/></noindent></define>
-<define command="s2"><bold><right><process/></right></bold><par/></define>
-
+<define command="ms1"><par/><center><biggest><process/></biggest></center><bigskip/><medskip/></define>
+<define command="ms2"><par/><center><big><process/></big></center></define>
+<define command="ms"><par/><bigskip/><noindent/><big><bold><process/></bold></big></define>
+<define command="mrx"><par/><smallskip/><center><em><process/></em></center></define>
+<define command="s1"><par/><medskip/><noindent><bold><process/></bold></noindent></define>
+<define command="s2"><par/><bold><right><process/></right></bold></define>
 <define command="rq"><hfill/><hfill/><process/></define>
 <define command="titles"><eject/><vfill/><process/><vfill/></define>
-<define command="mt1"><biggest><bold><center><process/></center></bold></biggest><par/></define>
-<define command="mt2"><big><bold><center><process/></center></bold></big><par/></define>
-<define command="p2"><em><process/></em><par/></define>
-<define command="p3"><plain><process/></plain><par/></define>
-<define command="nb"><plain><process/></plain><par/></define>
-<define command="p"><plain><process/></plain><par/></define>
-<define command="pi"><plain><process/></plain><par/></define>
-<define command="q"><plain><process/></plain><par/></define>
-<define command="q1"><plain><process/></plain><par/></define>
-<define command="q2"><plain><process/></plain><par/></define>
-<define command="q3"><plain><process/></plain><par/></define>
-<define command="q4"><plain><process/></plain><par/></define>
-<define command="m"><plain><process/></plain><par/></define>
-<define command="mi"><plain><process/></plain><par/></define>
+<define command="mt1"><par/><biggest><bold><center><process/></center></bold></biggest></define>
+<define command="mt2"><par/><big><bold><center><process/></center></bold></big></define>
+<define command="p2"><par/><em><process/></em></define>
+<define command="p3"><par/><plain><process/></plain></define>
+<define command="nb"><par/><plain><process/></plain></define>
+<define command="p"><par/><plain><process/></plain></define>
+<define command="pi"><par/><plain><process/></plain></define>
+<define command="q"><par/><plain><process/></plain></define>
+<define command="q1"><par/><set parameter="document.lskip" value="30pt"/><set parameter="current.parindent" value="-20pt"/><process/></define>
+<define command="q2"><par/><set parameter="document.lskip" value="30pt"/><set parameter="current.parindent" value="-10pt"/><process/></define>
+<define command="q3"><par/><plain><process/></plain></define>
+<define command="q4"><par/><plain><process/></plain></define>
+<define command="m"><par/><plain><process/></plain></define>
+<define command="mi"><par/><plain><process/></plain></define>
 <define command="b"></define>
 <define command="c"></define>
 <define command="fig"></define>
@@ -59,6 +37,8 @@
 <define command="ip"></define>
 <define command="li1"></define>
 <font family="Gentium Book Basic" size="12pt"/>
+<set parameter="document.parskip" value="2pt"/>
+<set parameter="document.baselineskip" value="14pt"/>
 <nohyphenation/>
 <ms1>SANDE 1 BILONG ATVEN</ms1>
 <rem>NOTE: the header should be taken from the contents of ms1; that same header should continue until the next ms1.</rem>
@@ -67,7 +47,6 @@
 <mrx>Akar dapanim: Ekiam, nɨ overiam abigh izighɨrasa, e ifonge, eghtɨ mɨghsɨaba nɨ izighiramin dughiamɨn akong nɨgham.</mrx>
 <rem>tokpisin Rit i kam long buk bilong profet Aisaia.</rem>
 <s1>Akar kam, Godɨn akam inigha izir gumazim Aisaia, an osiri.</s1>
-<twocol>
 <q1>O Ikiavɨra Itir God, nɨ bar guizbangɨra en Afeziam.</q1>
 <q2>En inazir afeziamning, Abraham ko Jekop,</q2>
 <q2>aning ua e ko itir puvatɨ, egha e gɨfozir puvatɨ.</q2>
@@ -104,7 +83,6 @@
 <q2>ezɨ nɨ uan dafarimningɨn en ingari.</q2>
 <rem>tokpisin Dispela em i Tok bilong God.</rem>
 <s2>Kar Godɨn Akam.</s2>
-</twocol>
 <ms>SAM <rq>Sam 80:2-3, 15-16, 18-19</rq></ms>
 <rem>find out from Catholic leaders if they want to use the Psalms numbering that matches the Tok Pisin Lectionary, or the Tok Pisin Bible.</rem>
 <rem>tokpisin Bekim: Bikpela i save marimari na mipela i orait.</rem>

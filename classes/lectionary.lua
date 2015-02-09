@@ -1,9 +1,15 @@
--- page margins, right/left
+-- page 1 
+---- line spacing
+---- hyphenation
+---- going past bottom margin
 -- microformats
 -- keep together/dont start new section near bottom of page
+-- move formats to an included file
 -- process usx to input form, test for year B
+--     support <eject/>
 -- page headers
 -- table of contents
+-- add headings to year C, test
 
 
 -- figure out what really needs done with parskip
@@ -17,6 +23,8 @@
 -- SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
+
+SILE.debugFlags.nlm = true
 
 -- print("twocol loaded")
 
@@ -96,7 +104,7 @@ end
 SILE.registerCommand("twocol", twocol_func, "Typeset content two balanced columns")
 
 function typesetter:init()
-  twocol:switchPage()
+  twocol:switchPage()    -- make page 1 be a right hand page
   self.frame = SILE.frames["content"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
   self.gapWidth = .03 * self.frame:width()
