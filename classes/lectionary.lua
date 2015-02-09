@@ -24,7 +24,7 @@
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
 
-SILE.debugFlags.nlm = true
+-- SILE.debugFlags.nlm = true
 
 -- print("twocol loaded")
 
@@ -104,6 +104,7 @@ end
 SILE.registerCommand("twocol", twocol_func, "Typeset content two balanced columns")
 
 function typesetter:init()
+  self.left = 0
   twocol:switchPage()    -- make page 1 be a right hand page
   self.frame = SILE.frames["content"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
