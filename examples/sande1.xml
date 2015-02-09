@@ -6,15 +6,15 @@
 <define command="bold"><font weight="800"><process/></font></define>
 <define command="ms1"><par/><center><biggest><process/></biggest></center><bigskip/><medskip/></define>
 <define command="ms2"><par/><center><big><process/></big></center></define>
-<define command="ms"><par/><bigskip/><noindent/><big><bold><process/></bold></big></define>
-<define command="mrx"><par/><smallskip/><center><em><process/></em></center></define>
-<define command="s1"><par/><medskip/><noindent><bold><process/></bold></noindent></define>
-<define command="s2"><par/><bold><right><process/></right></bold></define>
+<define command="ms"><par/><set parameter="document.lskip" value="0pt"/><bigskip/><noindent/><big><bold><process/></bold></big></define>
+<define command="mrx"><par/><set parameter="document.lskip" value="0pt"/><smallskip/><center><em><process/></em></center></define>
+<define command="s1"><par/><set parameter="document.lskip" value="0pt"/><medskip/><noindent><bold><process/></bold></noindent></define>
+<define command="s2"><par/><set parameter="document.lskip" value="0pt"/><bold><right><process/></right></bold></define>
 <define command="rq"><hfill/><hfill/><process/></define>
 <define command="titles"><eject/><vfill/><process/><vfill/></define>
 <define command="mt1"><par/><biggest><bold><center><process/></center></bold></biggest></define>
 <define command="mt2"><par/><big><bold><center><process/></center></bold></big></define>
-<define command="p2"><par/><em><process/></em></define>
+<define command="p2"><par/><set parameter="document.lskip" value="0pt"/><em><process/></em></define>
 <define command="p3"><par/><plain><process/></plain></define>
 <define command="nb"><par/><plain><process/></plain></define>
 <define command="p"><par/><plain><process/></plain></define>
@@ -116,7 +116,7 @@
 <rem>tokpisin Hettok: Yumi wetim Bikpela bilong yumi Jisas Krais bai i kamap pIes klia.</rem>
 <mrx>Akar dapanim: E uan Ekiam Iesus Krais azenim girasa, e a bagha gara a mɨzuai iti.</mrx>
 <rem>tokpisin Rit i kam long namba wan pas Pol i raitim i go long ol Korin.</rem>
-<s1>Akar kam, akɨnafarir faragha zuim, Pol Korinɨn gumazamiziba baghava an osirizimɨn aven iti.</s1>
+<s1>Akar kam, akɨnafarir faragha zuim, Pol Korinɨn gumazamiziba baghava an osirizimɨn aven iti.</s1><par/>
 <twocol>
 <p>Kɨ God ko mɨgɨa ghaze, God en Afeziam ko en Ekiam Krais Iesus, aning ian apangkuv, egh navir amɨrɨzim ia danɨng.</p>
 <p>God, Krais Iesusɨn ingangarimɨn tuavimɨn, ian apangkuvigha, deragha ia gami. Kamaghɨn kɨ zurara ia gɨnɨghnɨgha uan God mɨnabi. Kɨ a mɨnabagha ghaze, Kraisɨn akar e ian mɨkɨnizim, a ian navibar ikia gavgafi. Ia Krais ko poroghav itima, God bizir aghiur avɨrim ia ganɨngizɨ, da ia gizɨfa, kar akam akurir arazir avɨriba, ko fofozir guar avɨriba. Kamaghɨn, ia datɨrɨghɨn en Ekiam Krais Iesus azenim giramin dughiam mɨzuai, egha ia Godɨn Duam anɨngizir bizir aghuitam, ia an otevizir puvatɨ. Krais Iesus gavgavim ia danɨngtɨ, ia gavgavigh mangɨ, dughiar abuananamɨn otogham, eghtɨ bizir kuratam en Ekiam Krais Iesus Uamateghamin Dughiamɨn ian ikian kogham. God uan Otarim Krais Iesus, en Ekiam a ko navir vamɨra ikiasa ian dia. Eghtɨ God damuasa mɨkemezɨ biziba, a bar adar amigham.</p>
