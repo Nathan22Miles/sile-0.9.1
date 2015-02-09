@@ -14,8 +14,8 @@
 <define command="titles"><eject/><vfill/><process/><vfill/></define>
 <define command="mt1"><par/><biggest><bold><center><process/></center></bold></biggest></define>
 <define command="mt2"><par/><big><bold><center><process/></center></bold></big></define>
-<define command="p2"><par/><set parameter="document.lskip" value="0pt"/><em><process/></em></define>
-<define command="p3"><par/><plain><process/></plain></define>
+<define command="p2"><par/><plain><noindent/><em><process/></em></plain></define>
+<define command="p3"><par/><plain><noindent/><process/></plain></define>
 <define command="nb"><par/><plain><process/></plain></define>
 <define command="p"><par/><plain><process/></plain></define>
 <define command="pi"><par/><plain><process/></plain></define>
