@@ -6,7 +6,7 @@
 -- passiveNode = { prev = nil, curBreak = nil, prevBreak = nil, serial = 0 }
 
 SILE.settings.declare({ name="linebreak.parShape", type = "string or nil", default = nil}) -- unimplemented
-SILE.settings.declare({ name="linebreak.tolerance", type = "integer or nil", default = 500})
+SILE.settings.declare({ name="linebreak.tolerance", type = "integer or nil", default = 10000})
 SILE.settings.declare({ name="linebreak.pretolerance", type = "integer or nil", default = 100})
 SILE.settings.declare({ name="linebreak.hangIndent", type = "nil", default = nil}) -- unimplemented
 SILE.settings.declare({ name="linebreak.adjdemerits", type = "integer", default = 10000,

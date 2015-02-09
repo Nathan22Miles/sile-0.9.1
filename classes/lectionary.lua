@@ -101,14 +101,39 @@ local function twocol_func(options, content)
   typesetter:endTwoCol()
 end
 
+SILE.settings.set("document.parskip", SILE.nodefactory.newVglue("2pt"))
+SILE.settings.set("document.baselineskip", SILE.nodefactory.newVglue("14pt"))
+
+SILE.registerCommand("lineskip", function ( options, content )
+    SILE.typesetter:leaveHmode();    
+    SILE.typesetter:pushVglue(SILE.settings.get("document.baselineskip"))
+  end, "Skip vertically by a line")
+
 SILE.registerCommand("twocol", twocol_func, "Typeset content two balanced columns")
+
+local plus90 = SILE.nodefactory.newVglue(
+  {height = SILE.length.new({length = 90})})
+local minus90 = SILE.nodefactory.newVglue(
+  {height = SILE.length.new({length = -90})})
+
+
+SILE.registerCommand("gdbreak", function(o,c) 
+  SILE.typesetter:leaveHmode()
+  SILE.typesetter:pushPenalty({ flagged= 1, penalty= -500 })
+  SILE.typesetter:pushVglue(plus90) 
+  SILE.typesetter:pushPenalty({ flagged= 1, penalty= -500 })
+  SILE.typesetter:pushVglue(minus90) 
+  end, "good place to break even if we need some stretch first")
+
+
+-- SILE.settings.set("linebreak.tolerance", 1000)
 
 function typesetter:init()
   self.left = 0
   twocol:switchPage()    -- make page 1 be a right hand page
   self.frame = SILE.frames["content"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
-  self.gapWidth = .03 * self.frame:width()
+  self.gapWidth = .05 * self.frame:width()
   return ret
 end
 

@@ -6,10 +6,10 @@
 <define command="bold"><font weight="800"><process/></font></define>
 <define command="ms1"><par/><center><biggest><process/></biggest></center><bigskip/><medskip/></define>
 <define command="ms2"><par/><center><big><process/></big></center></define>
-<define command="ms"><par/><set parameter="document.lskip" value="0pt"/><bigskip/><noindent/><big><bold><process/></bold></big></define>
-<define command="mrx"><par/><set parameter="document.lskip" value="0pt"/><smallskip/><center><em><process/></em></center></define>
-<define command="s1"><par/><set parameter="document.lskip" value="0pt"/><medskip/><noindent><bold><process/></bold></noindent></define>
-<define command="s2"><par/><set parameter="document.lskip" value="0pt"/><bold><right><process/></right></bold></define>
+<define command="ms"><par/><gdbreak/><set parameter="document.lskip" value="0pt"/><bigskip/><noindent/><big><bold><process/></bold></big><medskip/></define>
+<define command="mrx"><par/><set parameter="document.lskip" value="0pt"/><smallskip/><center><em><process/></em></center><b/></define>
+<define command="s1"><par/><set parameter="document.lskip" value="0pt"/><noindent><bold><process/></bold></noindent></define>
+<define command="s2"><par/><medskip/><bold><right><process/></right></bold></define>
 <define command="rq"><hfill/><hfill/><process/></define>
 <define command="titles"><eject/><vfill/><process/><vfill/></define>
 <define command="mt1"><par/><biggest><bold><center><process/></center></bold></biggest></define>
@@ -22,11 +22,12 @@
 <define command="q"><par/><plain><process/></plain></define>
 <define command="q1"><par/><set parameter="document.lskip" value="30pt"/><set parameter="current.parindent" value="-20pt"/><process/></define>
 <define command="q2"><par/><set parameter="document.lskip" value="30pt"/><set parameter="current.parindent" value="-10pt"/><process/></define>
-<define command="q3"><par/><plain><process/></plain></define>
+<define command="q3"><par/><set parameter="document.lskip" value="30pt"/><process/></define>
 <define command="q4"><par/><plain><process/></plain></define>
 <define command="m"><par/><plain><process/></plain></define>
 <define command="mi"><par/><plain><process/></plain></define>
-<define command="b"></define>
+<define command="b"><medskip/></define>
+<define command="b2"><smallskip/></define>
 <define command="c"></define>
 <define command="fig"></define>
 <define command="rem"></define>
@@ -36,17 +37,18 @@
 <define command="io2"></define>
 <define command="ip"></define>
 <define command="li1"></define>
+<define command="raggedright"><set parameter="document.rskip" value="0 plus 12em"/><set parameter="document.spaceskip" value="0.333em"/></define>
+<raggedright/>
 <font family="Gentium Book Basic" size="12pt"/>
-<set parameter="document.parskip" value="2pt"/>
-<set parameter="document.baselineskip" value="14pt"/>
 <nohyphenation/>
 <ms1>SANDE 1 BILONG ATVEN</ms1>
 <rem>NOTE: the header should be taken from the contents of ms1; that same header should continue until the next ms1.</rem>
 <ms>1. RIT <rq>Ais 63:16-17; 64:1, 3-8</rq></ms>
 <rem>tokpisin Hettok: Bikpela, mipela i laik yu mas brukim skai na kam daun, na of maunten bai i guria nogut tru long taim yu kam.</rem>
-<mrx>Akar dapanim: Ekiam, nɨ overiam abigh izighɨrasa, e ifonge, eghtɨ mɨghsɨaba nɨ izighiramin dughiamɨn akong nɨgham.</mrx>
+<mrx>Akar dapanim: Ekiam, nɨ overiam abigh izighɨrasa, e ifonge, <break/>eghtɨ mɨghsɨaba nɨ izighiramin dughiamɨn akong nɨgham.</mrx>
 <rem>tokpisin Rit i kam long buk bilong profet Aisaia.</rem>
 <s1>Akar kam, Godɨn akam inigha izir gumazim Aisaia, an osiri.</s1>
+<b2/>
 <q1>O Ikiavɨra Itir God, nɨ bar guizbangɨra en Afeziam.</q1>
 <q2>En inazir afeziamning, Abraham ko Jekop,</q2>
 <q2>aning ua e ko itir puvatɨ, egha e gɨfozir puvatɨ.</q2>
@@ -87,23 +89,26 @@
 <rem>find out from Catholic leaders if they want to use the Psalms numbering that matches the Tok Pisin Lectionary, or the Tok Pisin Bible.</rem>
 <rem>tokpisin Bekim: Bikpela i save marimari na mipela i orait.</rem>
 <s1>Ia akam ikaragh: Ekiam en apangkuvima, e deragha iti.</s1>
+<b/>
 <rem>TODO only "Wasman bilong Israel, harim mipela. Yu sindaun long sia king antap long ol ensel. Bikpela, soim strong bilong yu; kam na kisim bek mipela."</rem>
-<q1>O Israelia geghuvir gumazim, nɨ deravɨra e barakigh. {</q1>
-<q2>Nɨ Josepɨn ovavir boriba sipsipbar mɨn me geghuva, deragha men gari.|}</q2>
+<q1>O Israelia geghuvir gumazim, nɨ deravɨra e barakigh. </q1>
 <q2>Nɨ uan atrivir dabirabim gaperaghav ikia, enselɨn bar gavgaviba nɨ men pɨn iti.</q2>
 <q3>Nɨ uan angazangarim e gisiragh.</q3>
-<q1>{Nɨ Efraim ko, Benjamin ko, Manase, nɨ men anababar ovavir boriba, uabɨ men akagh.|}</q1>
 <q2>Nɨ uan gavgavim akagh izɨ en akuragh.</q2>
 <rem>after extraction, omit 2a; use 2b</rem>
 <rem>tokpisin Bekim:</rem>
+<b/>
 <s1>Ia akam ikaragh:</s1>
+<b/>
 <rem>TODO only "God I Gat Olgeta Strong, yu tingim mipela gen. Lukdaun long mipela na kam helpim mipela. Lukautim dispela rop wain yu yet i bin planim, na han bilong yu i bin mekim em i kamap bikpela."</rem>
 <q1>O Godɨn Gavgaviba Bar Itim, nɨ uam e gɨnɨghnɨgh,</q1>
 <q2>uan Nguibamɨn pɨn ikɨ vangɨnan wainɨn ikarzir kam deraghvɨra an gan.</q2>
 <q1>Nɨ uabɨ uan agharir guivimɨn wainɨn ikarzir kam akara.</q1>
 <q2>Nɨ wainɨn biar igiam akarazɨ an aghua gavgavigha gɨfa.</q2>
 <rem>tokpisin Bekim:</rem>
+<b/>
 <s1>Ia akam ikaragh:</s1>
+<b/>
 <rem>TODO only "Putim han bilong yu antap long ol manmeri yu bin makim bilong yu yet, em lain manmeri yu bin strongim. Lukautim gut laip bilong mipela, bai mipela inap litimapim nem bilong yu, na mipela i no ken lusim yu gen."</rem>
 <q1>Nɨn gumazamizir nɨ ua bagha inabaziba,</q1>
 <q2>nɨ me gamizɨ me ekevegha bar gavgafi.</q2>
@@ -111,6 +116,7 @@
 <q1>Nɨ kamagh damightɨ e uam akɨrim ragh nɨ gasan kogham.</q1>
 <q2>Nɨ en akuraghtɨ e angamra deravɨra ikɨ, nɨn ziam fam.</q2>
 <rem>tokpisin Bekim:</rem>
+<b/>
 <s1>Ia akam ikaragh:</s1>
 <ms>2. RIT <rq>1 Ko 1:3-9</rq></ms>
 <rem>tokpisin Hettok: Yumi wetim Bikpela bilong yumi Jisas Krais bai i kamap pIes klia.</rem>
