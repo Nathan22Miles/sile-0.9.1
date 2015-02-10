@@ -1,0 +1,45 @@
+<sile>
+<define command="rrcenter"><center><process/></center><raggedright/></define>
+<define command="right"><hfill/><process/></define>
+<define command="plain"><set parameter="document.lskip" value="0pt"/><indent/><font size="12pt"><process/></font></define>
+<define command="biggest"><font size="18pt"><process/></font></define>
+<define command="big"><font size="14pt"><process/></font></define>
+<define command="bold"><font weight="800"><process/></font></define>
+<define command="ms1"><par/><rrcenter><biggest><process/></biggest></rrcenter><bigskip/><medskip/></define>
+<define command="ms2"><par/><rrcenter><big><process/></big></rrcenter></define>
+<define command="ms"><par/><gdbreak/><set parameter="document.lskip" value="0pt"/><bigskip/><noindent/><big><bold><process/></bold></big><medskip/></define>
+<define command="mrx"><par/><set parameter="document.lskip" value="0pt"/><smallskip/><rrcenter><em><process/></em></rrcenter><b/></define>
+<define command="s1"><par/><set parameter="document.lskip" value="0pt"/><noindent><bold><process/></bold></noindent></define>
+<define command="s2"><par/><medskip/><bold><right><process/></right></bold></define>
+<define command="rq"><hfill/><hfill/><process/></define>
+<define command="titles"><eject/><vfill/><process/><vfill/></define>
+<define command="mt1"><par/><biggest><bold><rrcenter><process/></rrcenter></bold></biggest></define>
+<define command="mt2"><par/><big><bold><rrcenter><process/></rrcenter></bold></big></define>
+<define command="p2"><par/><plain><noindent/><em><process/></em></plain></define>
+<define command="p3"><par/><plain><noindent/><process/></plain></define>
+<define command="nb"><par/><plain><process/></plain></define>
+<define command="p"><par/><plain><process/></plain></define>
+<define command="pi"><par/><plain><process/></plain></define>
+<define command="q"><par/><plain><process/></plain></define>
+<define command="q1"><par/><set parameter="document.lskip" value="30pt"/><set parameter="current.parindent" value="-20pt"/><process/></define>
+<define command="q2"><par/><set parameter="document.lskip" value="30pt"/><set parameter="current.parindent" value="-10pt"/><process/></define>
+<define command="q3"><par/><set parameter="document.lskip" value="30pt"/><process/></define>
+<define command="q4"><par/><plain><process/></plain></define>
+<define command="m"><par/><plain><process/></plain></define>
+<define command="mi"><par/><plain><process/></plain></define>
+<define command="b"><medskip/></define>
+<define command="b2"><smallskip/></define>
+<define command="c"></define>
+<define command="fig"></define>
+<define command="rem"></define>
+<define command="ib"></define>
+<define command="id"></define>
+<define command="io1"></define>
+<define command="io2"></define>
+<define command="ip"></define>
+<define command="li1"></define>
+<define command="raggedright"><set parameter="document.rskip" value="0 plus 12em"/><set parameter="document.spaceskip" value="0.333em"/></define>
+<raggedright/>
+<font family="Gentium Book Basic" size="12pt"/>
+<nohyphenation/>
+</sile>
