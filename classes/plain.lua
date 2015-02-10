@@ -23,7 +23,8 @@ end, "Do add an indent to the start of this paragraph, even if previously told o
 
 local skips = { small= "3pt plus 1pt minus 1pt", 
       med = "6pt plus 2pt minus 2pt",
-      big = "12pt plus 4pt minus 4pt"}
+      big = "12pt plus 4pt minus 4pt",
+      neg = "-12pt"}
 
 for k,v in pairs(skips) do
   SILE.settings.declare({ 
