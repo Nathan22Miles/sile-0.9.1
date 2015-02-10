@@ -240,6 +240,11 @@ local _vbox = _box {
       ", ht/dp="..self.height.."/"..self.depth)
 
     typesetter.frame:moveY(self.height)  
+
+    print("oy Vbox("..#self.nodes..") "..
+      "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY.. 
+      ", ht/dp="..self.height.."/"..self.depth)
+
     local initial = true
     for i,node in pairs(self.nodes) do
       if initial and (node:isGlue() or node:isPenalty()) then

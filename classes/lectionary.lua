@@ -25,7 +25,7 @@
 -- SILE.debugFlags["break"] = true
 
 --SILE.debugFlags["lectionary+"] = true
---SILE.debugFlags.leading = true
+-- SILE.debugFlags.columns = true
 
 
 -- print("twocol loaded")
@@ -143,7 +143,9 @@ function typesetter:startTwoCol()
   SILE.typesetter:leaveHmode()
   self.columnWidth = (self.frame:width() - self.gapWidth)  / 2
   SILE.settings.set("typesetter.breakwidth", SILE.length.new({ length = self.columnWidth }))
-  self.left = #self.state.outputQueue + 1
+
+  local oq = self.state.outputQueue
+  self.left = #oq + 1
   self.allTwoColMaterialProcessed = false
 end
 
@@ -164,7 +166,20 @@ function typesetter:pageBuilder(independent)
   if not self.allTwoColMaterialProcessed then return false end
 
   local oq = self.state.outputQueue
-  SU.debug("lectionary", "pageBuilder left="..self.left..", #oq="..#oq)
+
+  while self.left <= #oq do
+    local box = oq[self.left]
+    if box:isVbox() and box.height and box.height.length > 0 then break end
+    self.left = self.left+1
+  end
+
+  if self.left > #oq then 
+    SU.debug("columns", "   pageBuilder RETURN empty oq / false")
+    self:endTwoCol()
+    return false 
+  end
+
+  SU.debug("columns", "pageBuilder left="..self.left..", #oq="..#oq)
 
   -- remove all variability from 2col material
   for i=self.left,#oq do
@@ -173,13 +188,6 @@ function typesetter:pageBuilder(independent)
       box.height.shrink = 0
       box.height.stretch = 0
     end
-  end
-
-  typesetter:removeDiscardable(self.left)
-  if #oq == 0 then 
-    SU.debug("lectionary", "   pageBuilder RETURN empty oq / false")
-    self:endTwoCol()
-    return false 
   end
 
   local currentHeight = typesetter:totalHeight(1, self.left)
@@ -202,7 +210,7 @@ function typesetter:pageBuilder(independent)
     assert(self.left > 1)
     self:outputLinesToPage2(1, self.left)  
     self.left = 1
-    SU.debug("lectionary", 
+    SU.debug("columns", 
        "   pageBuilder RETURN can't fit 2c material on page / true")
     return true
   end
@@ -213,7 +221,7 @@ function typesetter:pageBuilder(independent)
   -- exit two column mode but do not output page because more
   -- material may still fit.
   if rightEnd == #oq+1 then 
-    SU.debug("lectionary", 
+    SU.debug("columns", 
        "   pageBuilder RETURN end 2c, page not full / false")
     self:endTwoCol()
     return false 
@@ -227,13 +235,13 @@ function typesetter:pageBuilder(independent)
   self:outputLinesToPage2(1, rightEnd);
   
   self.left = 1
-  SU.debug("lectionary", 
+  SU.debug("columns", 
      "pageBuilder RETURN produced 2c page, more 2c material to process / true")
   return true
 end
 
 function typesetter:dumpOq()
-  if SILE.debugFlags["lectionary+"] then
+  if SILE.debugFlags["lectionary+"] or SILE.debugFlags["columns"] then
     local oq = self.state.outputQueue
     for i=1,#oq do
       print(i, oq[i])
@@ -241,13 +249,39 @@ function typesetter:dumpOq()
   end
 end
 
-function typesetter:adjustRightColumn(left, right, rightEnd)
-  local oq = self.state.outputQueue
-  SU.debug("lectionary+", 
-    "   adjustRightColumn left="..left.. 
-    ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
-  typesetter:dumpOq()
+function setupSaveColumnTop(vbox)
+  local saveColumnTop = function(vbox2, typesetter, line)
+    typesetter.columnTopBaseline = typesetter.frame.state.cursorY + vbox2.height
+    SU.debug("columns", "SaveColumnTop="..typesetter.columnTopBaseline)
+    vbox2.origOutputYourself(vbox2, typesetter, line)
+    end
+  vbox.origOutputYourself = vbox.outputYourself
+  vbox.outputYourself = saveColumnTop
+end
 
+function setupSaveColumnBottomAndGotoTop(vbox)
+  local saveColumnBottomAndGotoTop = function(vbox2, typesetter, line)
+    typesetter.columnBottomY = typesetter.frame.state.cursorY
+    SU.debug("columns", "SaveColumnBottomAndGotoTop="..typesetter.columnBottomY)
+    typesetter.frame.state.cursorY = typesetter.columnTopBaseline - vbox2.height
+    vbox2.origOutputYourself(vbox2, typesetter, line)
+    end
+  vbox.origOutputYourself = vbox.outputYourself
+  vbox.outputYourself = saveColumnBottomAndGotoTop
+end
+
+function setupGotoColumnBottom(vbox)
+  local gotoColumnBottom = function(vbox2, typesetter, line)
+    typesetter.frame.state.cursorY = typesetter.columnBottomY
+    SU.debug("columns", "GotoColumnBottom"..typesetter.columnBottomY)
+    vbox2.origOutputYourself(vbox2, typesetter, line)
+    end
+  vbox.origOutputYourself = vbox.outputYourself
+  vbox.outputYourself = gotoColumnBottom
+end
+
+function typesetter:shiftColumnRight(right, rightEnd)
+  local oq = self.state.outputQueue
   local rightColumnOffset = self.columnWidth + self.gapWidth
   local offsetGlue = SILE.nodefactory.newGlue(
                  {width = SILE.length.new({ length = rightColumnOffset })})
@@ -265,7 +299,9 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
       table.insert(box.nodes, 1, emptyHbox)
     end
   end
+end
 
+function typesetter:removeDiscardableFromColumn(right, rightEnd)
   local count = typesetter:removeDiscardableFromEnd(rightEnd)
   rightEnd = rightEnd - count
   if rightEnd < right then right = rightEnd end
@@ -281,24 +317,34 @@ function typesetter:adjustRightColumn(left, right, rightEnd)
   --print()
   --print("after remove from right right="..right..", rightEnd="..rightEnd)
   --typesetter:dumpOq()
- 
-  -- add negative glue to make right column start at same height as left column
-  -- add positive glue to make right column as long as left column
-  local leftColumnHeight = typesetter:totalHeight(left, right).length
-  SU.debug("lectionary+", "leftColumnHeight="..leftColumnHeight)
-  local rightColumnHeight = typesetter:totalHeight(right, rightEnd).length
-  local negativeVglue = SILE.nodefactory.newVglue(
-                 {height = SILE.length.new({ length = -leftColumnHeight })})
-  local positiveVglue = SILE.nodefactory.newVglue(
-                 {height = SILE.length.new({ length = leftColumnHeight-rightColumnHeight })})
-  table.insert(oq, rightEnd, positiveVglue)
-  table.insert(oq, right, negativeVglue)
 
-  rightEnd = rightEnd+2
+  return right, rightEnd
+end
 
-  SU.debug("lectionary+", 
-    "      after adjustRightColumn right="..right..", rightEnd="..rightEnd)
+function typesetter:adjustRightColumn(left, right, rightEnd)
+  local oq = self.state.outputQueue
+  SU.debug("columns", 
+    "   adjustRightColumn left="..left.. 
+    ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
   typesetter:dumpOq()
+
+  if right > #oq then return end
+
+  typesetter:shiftColumnRight(right, rightEnd)
+  right, rightEnd = typesetter:removeDiscardableFromColumn(right, rightEnd)
+  SU.debug("columns", 
+    "   adjustRightColumn after discards left="..left.. 
+    ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
+  typesetter:dumpOq()
+ 
+  setupSaveColumnTop(oq[left])
+  setupSaveColumnBottomAndGotoTop(oq[right])
+
+  local vbox = SILE.nodefactory.newVbox({})
+  table.insert(oq, rightEnd, vbox)
+  setupGotoColumnBottom(oq[rightEnd])
+  rightEnd = rightEnd + 1
+
   return right, rightEnd
 end
 
