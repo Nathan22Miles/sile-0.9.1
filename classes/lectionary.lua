@@ -20,10 +20,13 @@
 -- SILE.debugFlags.oy = true
 -- SILE.debugFlags.twocol = true
 -- SILE.debugFlags["lectionary"] = true
--- SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
 -- SILE.debugFlags["break"] = true
+
+--SILE.debugFlags["lectionary+"] = true
+--SILE.debugFlags.leading = true
+
 
 -- print("twocol loaded")
 

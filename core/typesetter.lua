@@ -291,19 +291,22 @@ SILE.defaultTypesetter = std.object {
   
   leadingFor = function(self, v, previous)
     -- Insert leading
-    SU.debug("typesetter", "   Considering leading between self two lines");
+    SU.debug("leading", "   Considering leading between self two lines");
     local prevDepth = 0
     if previous then prevDepth = previous.depth end
-    SU.debug("typesetter", "   Depth of previous line was "..tostring(prevDepth));
+    SU.debug("leading", "   Depth of previous line was "..tostring(prevDepth));
+    
     local bls = SILE.settings.get("document.baselineskip")
     local d = bls.height - v.height - prevDepth;
     d = d.length
-    SU.debug("typesetter", "   Leading height = " .. tostring(bls.height) .. " - " .. tostring(v.height) .. " - " .. tostring(prevDepth) .. " = "..d) ;
+    SU.debug("leading", "   Leading height = " .. tostring(bls.height) .. " - " .. tostring(v.height) .. " - " .. tostring(prevDepth) .. " = "..d) ;
 
     if (d > SILE.settings.get("document.lineskip").height.length) then
       len = SILE.length.new({ length = d, stretch = bls.height.stretch, shrink = bls.height.shrink })
+      SU.debug("leading", "d="..d.."\n")
       return SILE.nodefactory.newVglue({height = len});
     else
+      SU.debug("leading", "lineskip="..SILE.settings.get("document.lineskip").."\n")
       return SILE.nodefactory.newVglue(SILE.settings.get("document.lineskip"));
     end
   end,
