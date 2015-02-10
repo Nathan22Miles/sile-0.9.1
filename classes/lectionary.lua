@@ -138,6 +138,7 @@ function typesetter:init()
 end
 
 function typesetter:startTwoCol()
+  SILE.typesetter:leaveHmode()
   self.columnWidth = (self.frame:width() - self.gapWidth)  / 2
   SILE.settings.set("typesetter.breakwidth", SILE.length.new({ length = self.columnWidth }))
   self.left = #self.state.outputQueue + 1
