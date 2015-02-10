@@ -23,8 +23,7 @@
 -- SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.typesetter = true
 -- SILE.debugFlags.outputLinesToPage2 = true
-
--- SILE.debugFlags.nlm = true
+-- SILE.debugFlags["break"] = true
 
 -- print("twocol loaded")
 
