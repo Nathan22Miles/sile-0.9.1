@@ -241,9 +241,9 @@ local _vbox = _box {
 
     typesetter.frame:moveY(self.height)  
 
-    print("oy Vbox("..#self.nodes..") "..
-      "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY.. 
-      ", ht/dp="..self.height.."/"..self.depth)
+    --print("oy Vbox("..#self.nodes..") "..
+    --  "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY.. 
+    --  ", ht/dp="..self.height.."/"..self.depth)
 
     local initial = true
     for i,node in pairs(self.nodes) do

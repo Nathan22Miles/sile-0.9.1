@@ -1,19 +1,11 @@
--- page 1 
----- line spacing
----- hyphenation
----- going past bottom margin
+
 -- microformats
--- keep together/dont start new section near bottom of page
--- move formats to an included file
 -- process usx to input form, test for year B
 --     support <eject/>
 -- page headers
--- table of contents
 -- add headings to year C, test
 
-
--- figure out what really needs done with parskip
-
+-- table of contents
 -- get lectionary test data
 -- port to windows
 
