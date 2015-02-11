@@ -159,7 +159,7 @@ function typesetter:pageBuilder(independent)
 
   local oq = self.state.outputQueue
 
-  -- make 2col material start at first vbox
+  -- make 2col material start at first non-zero height vbox
   while self.left <= #oq do
     local box = oq[self.left]
     if box:isVbox() and box.height and box.height.length > 0 then break end
@@ -180,11 +180,12 @@ function typesetter:pageBuilder(independent)
   self.right, self.rightEnd, p = tcpb.findBestTwoColBreak(
          oq, self.left, targetHeight)
 
-  assert(not self.right or 
-    (self.right > self.left and 
-    self.rightEnd and 
-    self.rightEnd >= self.right and 
-    self.rightEnd <= #oq+1))
+  if self.right then 
+    assert(self.right > self.left)
+    assert(self.rightEnd)
+    assert(self.rightEnd >= self.right)
+    assert(self.rightEnd <= #oq+1)
+  end
   
   -- if can't fit any two column content on page then
   -- output all the one column content and eject
@@ -197,6 +198,8 @@ function typesetter:pageBuilder(independent)
     return true
   end
 
+  -- gather all the two column material between [self.left,self.rightEnd) that
+  -- will fit on current page and place it in a single box at self.left
   typesetter:createTwoColVbox()
   self.rightEnd = self.left + 1
 
@@ -226,7 +229,7 @@ end
 function typesetter:createTwoColVbox()
   local oq = self.state.outputQueue
 
-  local vbox = SILE.nodefactory.newVbox(spec)
+  local vbox = SILE.nodefactory.newVbox({})
   vbox.outputYourself = twoColBoxOutputYourself
 
   while self.rightEnd > self.right and isDiscardable(oq[self.rightEnd-1]) do
@@ -247,6 +250,15 @@ function typesetter:createTwoColVbox()
   vbox.depth.shrink = 0
 
   table.insert(oq, self.left, vbox)
+end
+
+function typesetter:extract(first, last)
+  local col, i = {}, nil
+  for i=first,last-1 do
+    col[#col+1] = oq[first]
+    table.remove(oq, first)
+  end
+  return col
 end
 
 function typesetter:removeDiscardable(col)
