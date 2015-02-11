@@ -1,6 +1,5 @@
 
--- create 2col vbox
--- can we reuse base typesetter code?
+-- change lectionary_styles to .sil
 -- import tcpb
 
 -- microformats
@@ -42,7 +41,7 @@ twocol:defineMaster({ id = "right", firstContentFrame = "content", frames = {
   runningHead = {
     left = "left(content)", 
     right = "right(content)", 
-    top = "top(content) - 7%", 
+    top = "top(content) - 5%", 
     bottom = "top(content)-2%" 
   },
   footnotes = { 
@@ -68,6 +67,7 @@ end
 
 SILE.scratch.headers = {}
 SILE.scratch.headers.newHeader = false
+SILE.scratch.headers.pageno = 0
 
 SILE.registerCommand("h", 
   function(options, content)
@@ -75,16 +75,15 @@ SILE.registerCommand("h",
     SILE.scratch.headers.newHeader = true
   end, "Text to appear on the top of the left page");
 
--- suppress first page header
--- make header big bold
 -- increment page no
 -- lower header position
 -- remove folio code
 
+
 function twocol:endPage()
   --twocol:newPageInfo()
   local frame = SILE.getFrame("runningHead")
-  print("endPage odd="..twocol:oddPage())
+  SILE.scratch.headers.pageno = SILE.scratch.headers.pageno + 1
 
   if (twocol:oddPage() and SILE.scratch.headers.top) then
     SILE.typesetNaturally(frame, 
@@ -93,11 +92,17 @@ function twocol:endPage()
         SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
         SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
         SILE.call("hss")
-        if not SILE.scratch.headers.newHeader then
-          SILE.process(SILE.scratch.headers.top)
-        end
+        SILE.Commands["hfont"]({}, function()
+          if not SILE.scratch.headers.newHeader then
+            SILE.process(SILE.scratch.headers.top)
+          end
+        end)
         SILE.call("hss")
-        SILE.typesetter:typeset("1")
+        SILE.Commands["bodyfont"]({}, function()
+          if not SILE.scratch.headers.newHeader then
+            SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
+          end
+        end)
       end)
   elseif (not(twocol:oddPage()) and SILE.scratch.headers.top) then
     SILE.typesetNaturally(frame, 
@@ -105,11 +110,17 @@ function twocol:endPage()
         -- pageno, hss, header, hss
         SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
         SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
-        SILE.typesetter:typeset("2")
+        SILE.Commands["bodyfont"]({}, function()
+          if not SILE.scratch.headers.newHeader then
+            SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
+          end
+        end)
         SILE.call("hss")
-        if not SILE.scratch.headers.newHeader then
-          SILE.process(SILE.scratch.headers.top)
-        end
+        SILE.Commands["hfont"]({}, function()
+          if not SILE.scratch.headers.newHeader then
+            SILE.process(SILE.scratch.headers.top)
+          end
+        end)
         SILE.call("hss")
       end)
   end
