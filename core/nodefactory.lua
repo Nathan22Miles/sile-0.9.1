@@ -168,14 +168,14 @@ local _vglue = _box {
   end,
 
   setGlue = function (self,adjustment)  
-    -- XXX
+    --print("setGlue="..adjustment..", height.length="..self.height.length)
     self.height.length = self.height.length + adjustment
     self.height.stretch = 0
     -- self.shrink = 0
   end,
 
   outputYourself = function (self,typesetter, line)
-    SU.debug("oy", "oy vglue="..(line.depth + line.height))
+    SU.debug("oy", "oy vglue="..line.depth.."+"..line.height)
     typesetter.frame:moveY(line.depth + line.height)
   end
 }
@@ -235,7 +235,7 @@ local _vbox = _box {
   end,
 
   outputYourself = function(self, typesetter, line)
-    SU.debug("oy", "oy Vbox("..#self.nodes..") "..
+    SU.debug("oyv", "oy Vbox("..#self.nodes..") "..
       "@"..typesetter.frame.state.cursorX.."/"..typesetter.frame.state.cursorY.. 
       ", ht/dp="..self.height.."/"..self.depth)
 

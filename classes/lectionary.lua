@@ -14,7 +14,9 @@
 -- port to windows
 
 -- SILE.debugFlags["break"] = true
-SILE.debugFlags.dump = true
+--SILE.debugFlags.oyv = true
+--SILE.debugFlags.oy = true
+--SILE.debugFlags.dump = true
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
@@ -230,14 +232,14 @@ function typesetter:createTwoColVbox()
   end
   vbox.rightCol = typesetter:extract(self.right, self.rightEnd)
   typesetter:removeDiscardable(vbox.rightCol)
-  typesetter:dump("rightCol", vbox.rightCol)
+  --typesetter:dump("rightCol", vbox.rightCol)
 
   while self.left <= #oq and isDiscardable(oq[self.left]) do 
     self.left = self.left + 1 
   end
   vbox.leftCol = typesetter:extract(self.left, self.right)
   typesetter:removeDiscardable(vbox.leftCol)
-  typesetter:dump("rightCol", vbox.leftCol)
+  --typesetter:dump("rightCol", vbox.leftCol)
 
   vbox.height = 0
   vbox.depth = tcpb.columnHeight(vbox.leftCol, 1, #vbox.leftCol)
@@ -252,6 +254,7 @@ function typesetter:extract(first, last)
   local col, i = {}, nil
   for i=first,last-1 do
     col[#col+1] = oq[first]
+    -- if col[#col]:isVglue() then col[#col]:setGlue(0) end
     table.remove(oq, first)
   end
   return col
@@ -265,7 +268,8 @@ end
 function isDiscardable(box) return box:isPenalty() or box:isVglue() end
 
 function twoColBoxOutputYourself(vbox, typesetter, line)
-  local y0 = typesetter.state.cursorY
+  local y0 = typesetter.frame.state.cursorY
+  SU.debug("oyv", "y0="..y0)
 
   -- line up right column baseline with left column baseline
   typesetter.frame:moveY(vbox.leftCol[1].height.length)
@@ -274,19 +278,21 @@ function twoColBoxOutputYourself(vbox, typesetter, line)
   end
 
   local horizOffset = typesetter.columnWidth + typesetter.gapWidth
-  columnOutputYourself(vbox.rightCol, typesetter, horizOffset, line)
+  columnOutputYourself(vbox.rightCol, typesetter, horizOffset, line, "right")
   
-  typesetter.state.cursorY = y0
-  columnOutputYourself(vbox.leftCol, typesetter, 0, line)
+  typesetter.frame.state.cursorY = y0
+  columnOutputYourself(vbox.leftCol, typesetter, 0, line, "left")
 end  
 
 -- output one column of a custom two column vbox
-function columnOutputYourself(col, typesetter, horizOffset, line)
+function columnOutputYourself(col, typesetter, horizOffset, line, side)
+  SU.debug("oyv", "output "..side.." column")
   local i
   for i=1,#col do
+    typesetter.frame:newLine()
     typesetter.frame:moveX(horizOffset)
     local box = col[i]
-    box:outputYourself(typesetter, line)
+    box:outputYourself(typesetter, box)
   end
 end  
 
