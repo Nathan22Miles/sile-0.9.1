@@ -13,15 +13,8 @@
 -- get lectionary test data
 -- port to windows
 
--- SILE.debugFlags.oy = true
--- SILE.debugFlags.twocol = true
--- SILE.debugFlags["lectionary"] = true
--- SILE.debugFlags.typesetter = true
--- SILE.debugFlags.outputLinesToPage2 = true
 -- SILE.debugFlags["break"] = true
-
---SILE.debugFlags["lectionary+"] = true
--- SILE.debugFlags.columns = true
+SILE.debugFlags.dump = true
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
@@ -237,12 +230,14 @@ function typesetter:createTwoColVbox()
   end
   vbox.rightCol = typesetter:extract(self.right, self.rightEnd)
   typesetter:removeDiscardable(vbox.rightCol)
+  typesetter:dump("rightCol", vbox.rightCol)
 
   while self.left <= #oq and isDiscardable(oq[self.left]) do 
     self.left = self.left + 1 
   end
   vbox.leftCol = typesetter:extract(self.left, self.right)
   typesetter:removeDiscardable(vbox.leftCol)
+  typesetter:dump("rightCol", vbox.leftCol)
 
   vbox.height = 0
   vbox.depth = tcpb.columnHeight(vbox.leftCol, 1, #vbox.leftCol)
@@ -253,6 +248,7 @@ function typesetter:createTwoColVbox()
 end
 
 function typesetter:extract(first, last)
+  local oq = self.state.outputQueue
   local col, i = {}, nil
   for i=first,last-1 do
     col[#col+1] = oq[first]
@@ -272,47 +268,35 @@ function twoColBoxOutputYourself(vbox, typesetter, line)
   local y0 = typesetter.state.cursorY
 
   -- line up right column baseline with left column baseline
-  typesetter.frame:moveY(vbox.leftCol[1].height)
+  typesetter.frame:moveY(vbox.leftCol[1].height.length)
   if #vbox.rightCol > 0 then
-    typesetter.frame:moveY(-vbox.rightCol[1].height)
+    typesetter.frame:moveY(-vbox.rightCol[1].height.length)
   end
 
-  local horizOffset = (typesetter.columnWidth.length 
-                        + typesetter.gapWidth.length)
-  columnOutputYourself(vbox.rightCol, typesetter, horizOffset)
+  local horizOffset = typesetter.columnWidth + typesetter.gapWidth
+  columnOutputYourself(vbox.rightCol, typesetter, horizOffset, line)
   
   typesetter.state.cursorY = y0
-  columnOutputYourself(vbox.leftCol, typesetter, 0)
+  columnOutputYourself(vbox.leftCol, typesetter, 0, line)
 end  
 
 -- output one column of a custom two column vbox
-function columnOutputYourself(col, typesetter, horizOffset)
+function columnOutputYourself(col, typesetter, horizOffset, line)
   local i
   for i=1,#col do
     typesetter.frame:moveX(horizOffset)
     local box = col[i]
-    typesetter.frame:moveY(box.height)  
-
-    local initial = true
-    for i,node in pairs(box.nodes) do
-      if initial and (node:isGlue() or node:isPenalty()) then
-        -- do nothing
-      else
-        initial = false
-        node:outputYourself(typesetter, self)
-      end
-    end
-    typesetter.frame:moveY(box.depth)
-    typesetter.frame:newLine()   -- reset X to margin
+    box:outputYourself(typesetter, line)
   end
 end  
 
-function typesetter:dumpOq()
-  if SILE.debugFlags["lectionary+"] or SILE.debugFlags["columns"] then
-    local oq = self.state.outputQueue
+function typesetter:dump(heading, oq)
+  if SILE.debugFlags["dump"] then
+    print(heading)
     for i=1,#oq do
       print(i, oq[i])
     end
+    print()
   end
 end
 
