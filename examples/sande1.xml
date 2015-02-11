@@ -1,5 +1,6 @@
 ﻿<sile class="lectionary" papersize="a4">
 <include src="examples/lectionary_styles.xml" />
+<h>Sande 1 Bilong Atven</h>
 <ms1>SANDE 1 BILONG ATVEN</ms1>
 <rem>NOTE: the header should be taken from the contents of ms1; that same header should continue until the next ms1.</rem>
 <ms>1. RIT <rq>Ais 63:16-17; 64:1, 3-8</rq></ms>

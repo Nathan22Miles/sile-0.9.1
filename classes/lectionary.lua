@@ -58,17 +58,67 @@ twocol:mirrorMaster("right", "left")
 
 twocol.pageTemplate = SILE.scratch.masters["right"]
 
--- see book.endPage for running headers code
+local firstPage = true
 
 function twocol:newPage()
-  twocol:switchPage()
+  if not firstPage then twocol:switchPage() end
+  firstPage = false
   return plain.newPage(self)
 end
 
---function twocol:endPage()
---  print("twocol endPage")
---  plain:endPage()
---end
+SILE.scratch.headers = {}
+SILE.scratch.headers.newHeader = false
+
+SILE.registerCommand("h", 
+  function(options, content)
+    SILE.scratch.headers.top = content
+    SILE.scratch.headers.newHeader = true
+  end, "Text to appear on the top of the left page");
+
+-- suppress first page header
+-- make header big bold
+-- increment page no
+-- lower header position
+-- remove folio code
+
+function twocol:endPage()
+  --twocol:newPageInfo()
+  local frame = SILE.getFrame("runningHead")
+  print("endPage odd="..twocol:oddPage())
+
+  if (twocol:oddPage() and SILE.scratch.headers.top) then
+    SILE.typesetNaturally(frame, 
+      function()
+        -- hss, header, hss, pageno
+        SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
+        SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
+        SILE.call("hss")
+        if not SILE.scratch.headers.newHeader then
+          SILE.process(SILE.scratch.headers.top)
+        end
+        SILE.call("hss")
+        SILE.typesetter:typeset("1")
+      end)
+  elseif (not(twocol:oddPage()) and SILE.scratch.headers.top) then
+    SILE.typesetNaturally(frame, 
+      function()
+        -- pageno, hss, header, hss
+        SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
+        SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
+        SILE.typesetter:typeset("2")
+        SILE.call("hss")
+        if not SILE.scratch.headers.newHeader then
+          SILE.process(SILE.scratch.headers.top)
+        end
+        SILE.call("hss")
+      end)
+  end
+
+  SILE.scratch.headers.newHeader = false
+
+  return plain.endPage(twocol);
+end;
+
 
 SILE.require("packages/counters");
 SILE.scratch.counters.folio = { value = 1, display = "arabic" };
@@ -119,7 +169,6 @@ SILE.registerCommand("gdbreak", function(o,c)
 
 function typesetter:init()
   self.left = 0
-  twocol:switchPage()    -- make page 1 be a right hand page
   self.frame = SILE.frames["content"]
   local ret = SILE.defaultTypesetter.init(self, self.frame)
   self.gapWidth = .05 * self.frame:width()
