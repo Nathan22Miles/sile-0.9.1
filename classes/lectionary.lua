@@ -1,4 +1,8 @@
 
+-- create 2col vbox
+-- can we reuse base typesetter code?
+-- import tcpb
+
 -- microformats
 -- process usx to input form, test for year B
 --     support <eject/>
@@ -18,9 +22,6 @@
 
 --SILE.debugFlags["lectionary+"] = true
 -- SILE.debugFlags.columns = true
-
-
--- print("twocol loaded")
 
 local plain = SILE.require("classes/plain");
 local twocol = std.tree.clone(plain);
@@ -95,6 +96,8 @@ local function twocol_func(options, content)
   typesetter:endTwoCol()
 end
 
+-- in order to not have extra space between paragraphs, make
+-- font size + parskip = baselineskip
 SILE.settings.set("document.parskip", SILE.nodefactory.newVglue("2pt"))
 SILE.settings.set("document.baselineskip", SILE.nodefactory.newVglue("14pt"))
 
@@ -103,24 +106,21 @@ SILE.registerCommand("lineskip", function ( options, content )
     SILE.typesetter:pushVglue(SILE.settings.get("document.baselineskip"))
   end, "Skip vertically by a line")
 
-SILE.registerCommand("twocol", twocol_func, "Typeset content two balanced columns")
+SILE.registerCommand("twocol", twocol_func, 
+  "Temporarily switch to two balanced columns")
 
+-- If we are near the end of a page this is a good place to break
 local plus90 = SILE.nodefactory.newVglue(
   {height = SILE.length.new({length = 90})})
 local minus90 = SILE.nodefactory.newVglue(
   {height = SILE.length.new({length = -90})})
-
-
 SILE.registerCommand("gdbreak", function(o,c) 
   SILE.typesetter:leaveHmode()
   SILE.typesetter:pushPenalty({ flagged= 1, penalty= -500 })
   SILE.typesetter:pushVglue(plus90) 
   SILE.typesetter:pushPenalty({ flagged= 1, penalty= -500 })
   SILE.typesetter:pushVglue(minus90) 
-  end, "good place to break even if we need some stretch first")
-
-
--- SILE.settings.set("linebreak.tolerance", 1000)
+  end, "good place to break")
 
 function typesetter:init()
   self.left = 0
@@ -159,60 +159,51 @@ function typesetter:pageBuilder(independent)
 
   local oq = self.state.outputQueue
 
+  -- make 2col material start at first vbox
   while self.left <= #oq do
     local box = oq[self.left]
     if box:isVbox() and box.height and box.height.length > 0 then break end
     self.left = self.left+1
   end
-
   if self.left > #oq then 
     SU.debug("columns", "   pageBuilder RETURN empty oq / false")
     self:endTwoCol()
     return false 
   end
-
   SU.debug("columns", "pageBuilder left="..self.left..", #oq="..#oq)
-
-  -- remove all variability from 2col material
-  for i=self.left,#oq do
-    local box = oq[i]
-    if box:isVglue() then
-      box.height.shrink = 0
-      box.height.stretch = 0
-    end
-  end
 
   local currentHeight = typesetter:totalHeight(1, self.left)
   local targetHeight = SILE.length.new({ length = self.frame:height() }) 
   targetHeight = targetHeight - currentHeight
 
-  local right, rightEnd, p = tcpb.findBestTwoColBreak(
+  local p
+  self.right, self.rightEnd, p = tcpb.findBestTwoColBreak(
          oq, self.left, targetHeight)
 
-  if right then
-    assert(right > self.left) 
-    assert(rightEnd) 
-    assert(rightEnd >= right)
-    assert(rightEnd <= #oq+1)
-  end
+  assert(not self.right or 
+    (self.right > self.left and 
+    self.rightEnd and 
+    self.rightEnd >= self.right and 
+    self.rightEnd <= #oq+1))
   
   -- if can't fit any two column content on page then
   -- output all the one column content and eject
-  if not right then
+  if not self.right then
     assert(self.left > 1)
     self:outputLinesToPage2(1, self.left)  
     self.left = 1
     SU.debug("columns", 
-       "   pageBuilder RETURN can't fit 2c material on page / true")
+       "   pageBuilder RETURN can't fit 2col material on page / true")
     return true
   end
 
-  right, rightEnd = self:adjustRightColumn(self.left, right, rightEnd)
+  typesetter:createTwoColVbox()
+  self.rightEnd = self.left + 1
 
   -- if we have processed all the two column material then
   -- exit two column mode but do not output page because more
   -- material may still fit.
-  if rightEnd == #oq+1 then 
+  if self.rightEnd == #oq+1 then 
     SU.debug("columns", 
        "   pageBuilder RETURN end 2c, page not full / false")
     self:endTwoCol()
@@ -221,16 +212,88 @@ function typesetter:pageBuilder(independent)
 
   -- page is full, output it.
   -- stay in two col mode to output the rest
-  local totalHeight = typesetter:totalHeight(1, rightEnd)
-  local glues, gTotal = self:accumulateGlues(1, rightEnd)
+  local totalHeight = typesetter:totalHeight(1, self.rightEnd)
+  local glues, gTotal = self:accumulateGlues(1, self.rightEnd)
   self:adjustGlues(targetHeight, totalHeight, glues, gTotal)
-  self:outputLinesToPage2(1, rightEnd);
+  self:outputLinesToPage2(1, self.rightEnd);
   
   self.left = 1
   SU.debug("columns", 
      "pageBuilder RETURN produced 2c page, more 2c material to process / true")
   return true
 end
+
+function typesetter:createTwoColVbox()
+  local oq = self.state.outputQueue
+
+  local vbox = SILE.nodefactory.newVbox(spec)
+  vbox.outputYourself = twoColBoxOutputYourself
+
+  while self.rightEnd > self.right and isDiscardable(oq[self.rightEnd-1]) do
+    self.rightEnd = self.rightEnd - 1
+  end
+  vbox.rightCol = typesetter:extract(self.right, self.rightEnd)
+  typesetter:removeDiscardable(vbox.rightCol)
+
+  while self.left <= #oq and isDiscardable(oq[self.left]) do 
+    self.left = self.left + 1 
+  end
+  vbox.leftCol = typesetter:extract(self.left, self.right)
+  typesetter:removeDiscardable(vbox.leftCol)
+
+  vbox.height = 0
+  vbox.depth = tcpb.columnHeight(vbox.leftCol, 1, #vbox.leftCol)
+  vbox.depth.stretch = 0
+  vbox.depth.shrink = 0
+
+  table.insert(oq, self.left, vbox)
+end
+
+function typesetter:removeDiscardable(col)
+  while #col > 0 and isDiscardable(col[1]) do table.remove(col, 1) end
+  while #col > 0 and isDiscardable(col[#col]) do table.remove(col, #col) end
+end
+
+function isDiscardable(box) return box:isPenalty() or box:isVglue() end
+
+function twoColBoxOutputYourself(vbox, typesetter, line)
+  local y0 = typesetter.state.cursorY
+
+  -- line up right column baseline with left column baseline
+  typesetter.frame:moveY(vbox.leftCol[1].height)
+  if #vbox.rightCol > 0 then
+    typesetter.frame:moveY(-vbox.rightCol[1].height)
+  end
+
+  local horizOffset = (typesetter.columnWidth.length 
+                        + typesetter.gapWidth.length)
+  columnOutputYourself(vbox.rightCol, typesetter, horizOffset)
+  
+  typesetter.state.cursorY = y0
+  columnOutputYourself(vbox.leftCol, typesetter, 0)
+end  
+
+-- output one column of a custom two column vbox
+function columnOutputYourself(col, typesetter, horizOffset)
+  local i
+  for i=1,#col do
+    typesetter.frame:moveX(horizOffset)
+    local box = col[i]
+    typesetter.frame:moveY(box.height)  
+
+    local initial = true
+    for i,node in pairs(box.nodes) do
+      if initial and (node:isGlue() or node:isPenalty()) then
+        -- do nothing
+      else
+        initial = false
+        node:outputYourself(typesetter, self)
+      end
+    end
+    typesetter.frame:moveY(box.depth)
+    typesetter.frame:newLine()   -- reset X to margin
+  end
+end  
 
 function typesetter:dumpOq()
   if SILE.debugFlags["lectionary+"] or SILE.debugFlags["columns"] then
@@ -239,128 +302,6 @@ function typesetter:dumpOq()
       print(i, oq[i])
     end
   end
-end
-
-function setupSaveColumnTop(vbox)
-  local saveColumnTop = function(vbox2, typesetter, line)
-    typesetter.columnTopBaseline = typesetter.frame.state.cursorY + vbox2.height
-    SU.debug("columns", "SaveColumnTop="..typesetter.columnTopBaseline)
-    vbox2.origOutputYourself(vbox2, typesetter, line)
-    end
-  vbox.origOutputYourself = vbox.outputYourself
-  vbox.outputYourself = saveColumnTop
-end
-
-function setupSaveColumnBottomAndGotoTop(vbox)
-  local saveColumnBottomAndGotoTop = function(vbox2, typesetter, line)
-    typesetter.columnBottomY = typesetter.frame.state.cursorY
-    SU.debug("columns", "SaveColumnBottomAndGotoTop="..typesetter.columnBottomY)
-    typesetter.frame.state.cursorY = typesetter.columnTopBaseline - vbox2.height
-    vbox2.origOutputYourself(vbox2, typesetter, line)
-    end
-  vbox.origOutputYourself = vbox.outputYourself
-  vbox.outputYourself = saveColumnBottomAndGotoTop
-end
-
-function setupGotoColumnBottom(vbox)
-  local gotoColumnBottom = function(vbox2, typesetter, line)
-    typesetter.frame.state.cursorY = typesetter.columnBottomY
-    SU.debug("columns", "GotoColumnBottom"..typesetter.columnBottomY)
-    vbox2.origOutputYourself(vbox2, typesetter, line)
-    end
-  vbox.origOutputYourself = vbox.outputYourself
-  vbox.outputYourself = gotoColumnBottom
-end
-
-function typesetter:shiftColumnRight(right, rightEnd)
-  local oq = self.state.outputQueue
-  local rightColumnOffset = self.columnWidth + self.gapWidth
-  local offsetGlue = SILE.nodefactory.newGlue(
-                 {width = SILE.length.new({ length = rightColumnOffset })})
-  
-  -- we need an empty hbox because leading glue is ignored
-  local emptyHbox = SILE.nodefactory.newHbox(
-    {height = 0, width = 0, depth = 0, value = {glyphString = nil} })
-
-  -- shift right column right
-  local i
-  for i = right,rightEnd-1 do
-    local box = oq[i]
-    if box:isVbox() then
-      table.insert(box.nodes, 1, offsetGlue)
-      table.insert(box.nodes, 1, emptyHbox)
-    end
-  end
-end
-
-function typesetter:removeDiscardableFromColumn(right, rightEnd)
-  local count = typesetter:removeDiscardableFromEnd(rightEnd)
-  rightEnd = rightEnd - count
-  if rightEnd < right then right = rightEnd end
-
-  --print()
-  --print("after remove from rightEnd right="..right..", rightEnd="..rightEnd)
-  --typesetter:dumpOq()
-
-  count = typesetter:removeDiscardableFromEnd(right)
-  right = right - count
-  rightEnd = rightEnd - count
- 
-  --print()
-  --print("after remove from right right="..right..", rightEnd="..rightEnd)
-  --typesetter:dumpOq()
-
-  return right, rightEnd
-end
-
-function typesetter:adjustRightColumn(left, right, rightEnd)
-  local oq = self.state.outputQueue
-  SU.debug("columns", 
-    "   adjustRightColumn left="..left.. 
-    ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
-  typesetter:dumpOq()
-
-  if right > #oq then return end
-
-  typesetter:shiftColumnRight(right, rightEnd)
-  right, rightEnd = typesetter:removeDiscardableFromColumn(right, rightEnd)
-  SU.debug("columns", 
-    "   adjustRightColumn after discards left="..left.. 
-    ", right="..right.." ,rightEnd="..rightEnd.." ("..#oq..")")
-  typesetter:dumpOq()
- 
-  setupSaveColumnTop(oq[left])
-  setupSaveColumnBottomAndGotoTop(oq[right])
-
-  local vbox = SILE.nodefactory.newVbox({})
-  table.insert(oq, rightEnd, vbox)
-  setupGotoColumnBottom(oq[rightEnd])
-  rightEnd = rightEnd + 1
-
-  return right, rightEnd
-end
-
-function typesetter:removeDiscardable(first)
-  local oq = self.state.outputQueue
-  local discarded = 0
-  while first > 0 and first <= #oq and (oq[first]:isPenalty() or oq[first]:isVglue()) do
-    table.remove(oq, first)
-    discarded = discarded+1
-  end
-
-  return discarded
-end
-
-function typesetter:removeDiscardableFromEnd(last)
-  local oq = self.state.outputQueue
-  local discarded = 0
-  last = last-1
-  while last > 0 and last <= #oq and (oq[last]:isPenalty() or oq[last]:isVglue()) do
-    table.remove(oq, last)
-    discarded = discarded+1
-  end
-
-  return discarded
 end
 
 function typesetter:totalHeight(left, right)
