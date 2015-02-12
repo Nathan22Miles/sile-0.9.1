@@ -9,6 +9,7 @@ end
 
 function utilities.error(message)
   print("\n! "..message.. " in "..SILE.currentlyProcessingFile)
+  assert(false, "ERROR")
   os.exit(1)
 end
 

@@ -32,12 +32,6 @@ twocol:defineMaster({ id = "right", firstContentFrame = "content", frames = {
     top = "10%", 
     bottom = "top(footnotes)" 
   },
-  folio = {
-    left = "left(content)", 
-    right = "right(content)", 
-    top = "bottom(footnotes)+3%",
-    bottom = "bottom(footnotes)+5%" 
-  },
   runningHead = {
     left = "left(content)", 
     right = "right(content)", 
@@ -75,15 +69,11 @@ SILE.registerCommand("h",
     SILE.scratch.headers.newHeader = true
   end, "Text to appear on the top of the left page");
 
--- increment page no
--- lower header position
--- remove folio code
-
-
 function twocol:endPage()
   --twocol:newPageInfo()
   local frame = SILE.getFrame("runningHead")
   SILE.scratch.headers.pageno = SILE.scratch.headers.pageno + 1
+  io.write("["..SILE.scratch.headers.pageno.."] ")
 
   if (twocol:oddPage() and SILE.scratch.headers.top) then
     SILE.typesetNaturally(frame, 
@@ -127,13 +117,8 @@ function twocol:endPage()
 
   SILE.scratch.headers.newHeader = false
 
-  return plain.endPage(twocol);
+  --return plain.endPage(twocol);
 end;
-
-
-SILE.require("packages/counters");
-SILE.scratch.counters.folio = { value = 1, display = "arabic" };
---SILE.scratch.twocol = {}
 
 local typesetter = SILE.defaultTypesetter {};
 SILE.typesetter = typesetter
