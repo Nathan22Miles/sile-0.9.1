@@ -65,63 +65,50 @@ SILE.registerCommand("h",
   function(options, content)
     SILE.scratch.headers.top = content
     SILE.scratch.headers.newHeader = true
-  end, "Text to appear on the top of the left page");
-
--- page 1, no pageno
--- page 1, shifted left
--- page 3, bold pageno
+  end, "Text to appear on the top of the left page")
 
 function twocol:endPage()
-  assert(SILE.scratch.headers.top)
-
-  local frame = SILE.getFrame("runningHead")
   SILE.scratch.headers.pageno = SILE.scratch.headers.pageno + 1
   io.write("["..SILE.scratch.headers.pageno.."] ")
 
-  if (twocol:oddPage() and SILE.scratch.headers.top) then
-    SILE.typesetNaturally(frame, 
-      function()
-        -- hss, header, hss, pageno
-        print("endPage oddPage="..twocol:oddPage())
-        SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
-        SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
-        SILE.call("hss")
-        SILE.Commands["hfont"]({}, function()
-          if not SILE.scratch.headers.newHeader then
+  SILE.typesetNaturally(
+    SILE.getFrame("runningHead"),
+    -- running header is centered, ommitted on first page of section
+    -- page number is at outside margin 
+    function()
+      SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
+      SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
+      if not twocol:oddPage() then
+        SILE.Commands["bodyfont"](
+            {}, 
+            function()
+              SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
+            end)
+      end
+
+      SILE.call("hss")
+
+      if not SILE.scratch.headers.newHeader and SILE.scratch.headers.top then
+        SILE.Commands["hfont"](
+          {}, 
+          function()
             SILE.process(SILE.scratch.headers.top)
-          end
-        end)
-        SILE.call("hss")
-        SILE.Commands["bodyfont"]({}, function()
-          SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
-        end)
-      end)
-  elseif (not(twocol:oddPage()) and SILE.scratch.headers.top) then
-    SILE.typesetNaturally(frame, 
-      function()
-        -- pageno, hss, header, hss
-        print("endPage oddPage="..twocol:oddPage())
-        SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
-        SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
-        SILE.Commands["bodyfont"]({}, function()
-          if not SILE.scratch.headers.newHeader then
+          end)
+      end
+      
+      SILE.call("hss")
+
+      if twocol:oddPage() then
+        SILE.Commands["bodyfont"](
+          {}, 
+          function()
             SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
-          end
-        end)
-        SILE.call("hss")
-        SILE.Commands["hfont"]({}, function()
-          if not SILE.scratch.headers.newHeader then
-            SILE.process(SILE.scratch.headers.top)
-          end
-        end)
-        SILE.call("hss")
-      end)
-  end
+          end)
+      end
+    end)
 
   SILE.scratch.headers.newHeader = false
-
-  --return plain.endPage(twocol);
-end;
+end
 
 local typesetter = SILE.defaultTypesetter {};
 SILE.typesetter = typesetter
