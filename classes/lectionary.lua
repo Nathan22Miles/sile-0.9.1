@@ -1,6 +1,5 @@
 
 -- change lectionary_styles to .sil
--- import tcpb
 -- switch to new project and latest sile
 
 -- process usx to input form, test for year B
@@ -414,8 +413,6 @@ end
 tcpb = {}
 
 local overfull = 1073741820
-
---! is something special needed for eject penalty?
 
 -- Look at all the material left..#oq.
 -- Find 'best' place into two columns that fit on current page.
