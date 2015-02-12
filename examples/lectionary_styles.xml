@@ -42,6 +42,6 @@
 <raggedright/>
 <font family="Gentium Book Basic" size="12pt"/>
 <define command="hfont"><font family="Gentium Book Basic" weight="800" size="14pt"/><process/></define>
-<define command="bodyfont"><font family="Gentium Book Basic" size="12pt"/><process/></define>
+<define command="bodyfont"><font family="Gentium Book Basic" weight="100" size="12pt"/><process/></define>
 <nohyphenation/>
 </sile>

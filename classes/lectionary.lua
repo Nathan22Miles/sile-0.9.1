@@ -27,8 +27,8 @@ twocol:loadPackage("masters")
 
 twocol:defineMaster({ id = "right", firstContentFrame = "content", frames = {
   content = {
-    left = "10%", 
-    right = "82%", 
+    left = "18%", 
+    right = "90%", 
     top = "10%", 
     bottom = "top(footnotes)" 
   },
@@ -51,11 +51,9 @@ twocol:mirrorMaster("right", "left")
 
 twocol.pageTemplate = SILE.scratch.masters["right"]
 
-local firstPage = true
-
 function twocol:newPage()
-  if not firstPage then twocol:switchPage() end
-  firstPage = false
+  twocol:switchPage()
+  -- print("newPage oddPage="..twocol:oddPage())
   return plain.newPage(self)
 end
 
@@ -69,8 +67,13 @@ SILE.registerCommand("h",
     SILE.scratch.headers.newHeader = true
   end, "Text to appear on the top of the left page");
 
+-- page 1, no pageno
+-- page 1, shifted left
+-- page 3, bold pageno
+
 function twocol:endPage()
-  --twocol:newPageInfo()
+  assert(SILE.scratch.headers.top)
+
   local frame = SILE.getFrame("runningHead")
   SILE.scratch.headers.pageno = SILE.scratch.headers.pageno + 1
   io.write("["..SILE.scratch.headers.pageno.."] ")
@@ -79,6 +82,7 @@ function twocol:endPage()
     SILE.typesetNaturally(frame, 
       function()
         -- hss, header, hss, pageno
+        print("endPage oddPage="..twocol:oddPage())
         SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
         SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
         SILE.call("hss")
@@ -89,15 +93,14 @@ function twocol:endPage()
         end)
         SILE.call("hss")
         SILE.Commands["bodyfont"]({}, function()
-          if not SILE.scratch.headers.newHeader then
-            SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
-          end
+          SILE.typesetter:typeset(SILE.scratch.headers.pageno.."")
         end)
       end)
   elseif (not(twocol:oddPage()) and SILE.scratch.headers.top) then
     SILE.typesetNaturally(frame, 
       function()
         -- pageno, hss, header, hss
+        print("endPage oddPage="..twocol:oddPage())
         SILE.settings.set("current.parindent", SILE.nodefactory.zeroGlue)
         SILE.settings.set("typesetter.parfillskip", SILE.nodefactory.zeroGlue)
         SILE.Commands["bodyfont"]({}, function()
